@@ -19,7 +19,7 @@ public class InventoryPanelModel : MonoBehaviour
     public List<InventoryItem> ReadJson(string jsFileName)
     {
         List<InventoryItem> list = new List<InventoryItem>();
-        string jsStr = Resources.Load<TextAsset>("Inventory/" + jsFileName).text;
+        string jsStr = Resources.Load<TextAsset>("JsonData/" + jsFileName).text;
         JsonData jsData = JsonMapper.ToObject(jsStr);
 
         for (int i = 0; i < jsData.Count; i++)
