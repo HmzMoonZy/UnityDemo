@@ -5,10 +5,10 @@
     },
     {
         "ItemName": "Torch",
-        "ItemNum": 1
+        "ItemNum": 5
     },
     {
         "ItemName": "Axe",
-        "ItemNum": 1
+        "ItemNum": 2
     }
 ]
