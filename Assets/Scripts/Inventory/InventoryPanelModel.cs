@@ -26,9 +26,7 @@ public class InventoryPanelModel : MonoBehaviour
         {
            
             InventoryItem ii = JsonMapper.ToObject<InventoryItem>(jsData[i].ToJson());
-            
             list.Add(ii);
-            Debug.Log(ii.ItemName);
         }
 
         return list;

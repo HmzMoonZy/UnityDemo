@@ -17,8 +17,8 @@ public class InventoryPanelView : MonoBehaviour {
 
 	void Awake () {
         m_transofom = gameObject.GetComponent<Transform>();
-        item_Prefab = Resources.Load<GameObject>("InventoryItem");
-        slot_Prefab = Resources.Load<GameObject>("InventorySlot");
+        item_Prefab = Resources.Load<GameObject>("Inventory/InventoryItem");
+        slot_Prefab = Resources.Load<GameObject>("Inventory/InventorySlot");
         grid_Transform = m_transofom.Find("BackGround/Grid").GetComponent<Transform>();
     }
 	
