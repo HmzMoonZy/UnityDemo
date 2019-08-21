@@ -12,15 +12,18 @@ public class SynthesisPanelContorller : MonoBehaviour
     private SynthesisPanelView m_SynthesisPanelView;
 
     private int tabCount = 2;
+    private int slotsCount = 25;
 
     private List<GameObject> tabList;
     private List<GameObject> contentList;
+    private List<GameObject> slotList;
     void Start()
     {
         Init();
 
         CreateAllTabs();
         CreateAllContens();
+        CreateAllSlots();
         SwitchTabAndContents(0);
     }
 
@@ -32,6 +35,7 @@ public class SynthesisPanelContorller : MonoBehaviour
 
         tabList = new List<GameObject>();
         contentList = new List<GameObject>();
+        slotList = new List<GameObject>();
     }
     /// <summary>
     /// 生成所有Tab
@@ -55,8 +59,20 @@ public class SynthesisPanelContorller : MonoBehaviour
         {
             List<List<string>> temp = m_SynthesisPanelModel.GetJsonDataByName("SynthesisContentsJsonData");
             GameObject go = Instantiate<GameObject>(m_SynthesisPanelView.Content_Prefab, m_SynthesisPanelView.Content_Transform);
-            go.GetComponent<SynthesisContentContorller>().Init(i,m_SynthesisPanelView.ContentItem_Prefab, temp[i]);
+            go.GetComponent<SynthesisContentContorller>().Init(i, m_SynthesisPanelView.ContentItem_Prefab, temp[i]);
             contentList.Add(go);
+        }
+    }
+    /// <summary>
+    /// 生成所有图谱槽
+    /// </summary>
+    private void CreateAllSlots()
+    {
+        for (int i = 0; i < slotsCount; i++)
+        {
+            GameObject slotObj = Instantiate(m_SynthesisPanelView.ContentSlot_Prefab, m_SynthesisPanelView.Center_Transform);
+            slotObj.name = "slot" + i;
+            slotList.Add(slotObj);
         }
     }
     /// <summary>
@@ -69,7 +85,7 @@ public class SynthesisPanelContorller : MonoBehaviour
             tabList[i].GetComponent<SynthesisTabContorller>().SetDefault();
             contentList[i].SetActive(false);
         }
-        tabList[index].GetComponent<SynthesisTabContorller>().SetActive();
+        tabList[index].GetComponent<SynthesisTabContorller>().SetSelect();
         contentList[index].SetActive(true);
     }
 

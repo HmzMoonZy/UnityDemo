@@ -12,18 +12,24 @@ public class SynthesisPanelView : MonoBehaviour
     private GameObject tabItemType_Prefab;
     private GameObject content_Prefab;
     private GameObject contentItem_Prefab;
+    private GameObject contentSlot_Prefab;
 
     private Transform m_transform;
     private Transform content_Transform;
     private Transform tab_Transform;
+    private Transform center_Transform;
 
     private Dictionary<string, Sprite> tabIconDic;
 
     public GameObject TabItemType_Prefab { get { return tabItemType_Prefab; } }
     public GameObject Content_Prefab { get { return content_Prefab; } }
     public GameObject ContentItem_Prefab { get { return contentItem_Prefab; } }
+    public GameObject ContentSlot_Prefab { get { return contentSlot_Prefab; } }
+
     public Transform Content_Transform { get { return content_Transform; } }
     public Transform Tab_Transform { get { return tab_Transform; } }
+    public Transform Center_Transform { get { return center_Transform; } }
+
     void Awake()
     {
         Init();
@@ -36,10 +42,12 @@ public class SynthesisPanelView : MonoBehaviour
         tabItemType_Prefab = Resources.Load<GameObject>("Synthesis/TabItemType");
         content_Prefab = Resources.Load<GameObject>("Synthesis/Content");
         contentItem_Prefab = Resources.Load<GameObject>("Synthesis/ContentItem");
+        contentSlot_Prefab = Resources.Load<GameObject>("Synthesis/SynthesisSlot");
 
         m_transform = gameObject.GetComponent<Transform>();
         content_Transform = m_transform.Find("Left/Contents").GetComponent<Transform>();
         tab_Transform = m_transform.Find("Left/Tabs").GetComponent<Transform>();
+        center_Transform = m_transform.Find("Center").GetComponent<Transform>();
 
         tabIconDic = new Dictionary<string, Sprite>();
     }

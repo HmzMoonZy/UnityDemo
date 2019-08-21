@@ -43,7 +43,7 @@ public class SynthesisTabContorller : MonoBehaviour
     /// <summary>
     /// tab选中状态
     /// </summary>
-    public void SetActive()
+    public void SetSelect()
     {
         m_buttonBG.color = new Color(255, 255, 255, 0);
     }

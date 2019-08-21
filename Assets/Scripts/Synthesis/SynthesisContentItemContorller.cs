@@ -13,16 +13,30 @@ public class SynthesisContentItemContorller : MonoBehaviour {
 	void Awake () {
         m_transform = gameObject.GetComponent<Transform>();
 
-        m_Text = gameObject.GetComponent<Text>();
+        m_Text = m_transform.Find("Name").GetComponent<Text>();
         m_Button = gameObject.GetComponent<Button>();
-        m_bg = m_transform.Find("Item").gameObject;
+        m_bg = m_transform.Find("bg").gameObject;
+
+        m_Button.onClick.AddListener(OnClick);
     }
     public void Init(string name) 
     {
         m_Text.text = name;
-        m_bg.SetActive(false);
+        SetDefault();
     }
 
+    public void SetDefault()
+    {
+        m_bg.SetActive(false);
+    }
+    public void SetSelect()
+    {
+        m_bg.SetActive(true);
+    }
+    public void OnClick()
+    {
+        SendMessageUpwards("SelectItem", this);
+    }
 
 
 }
