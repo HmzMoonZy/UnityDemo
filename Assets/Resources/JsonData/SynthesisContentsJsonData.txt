@@ -2,15 +2,19 @@
     {
         "Type": [
             {
+				"ItemID":1,
                 "ItemName": "地基"
             },
             {
+				"ItemID":2,
                 "ItemName": "墙壁"
             },
             {
+				"ItemID":3,
                 "ItemName": "门"
             },
             {
+				"ItemID":4,
                 "ItemName": "窗户"
             }
         ]
@@ -18,9 +22,11 @@
 	{
         "Type": [
             {
+				"ItemID":11,
                 "ItemName": "弓箭"
             },
             {
+				"ItemID":12,
                 "ItemName": "长矛"
             }
         ]

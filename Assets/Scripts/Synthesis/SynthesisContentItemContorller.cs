@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class SynthesisContentItemContorller : MonoBehaviour {
     private Transform m_transform;
 
+    private string name;
+    private int id;
+
     private Text m_Text;
     private GameObject m_bg;
     private Button m_Button;
@@ -19,8 +22,10 @@ public class SynthesisContentItemContorller : MonoBehaviour {
 
         m_Button.onClick.AddListener(OnClick);
     }
-    public void Init(string name) 
+    public void Init(ContentItem item) 
     {
+        this.name = item.ItemName;
+        this.id = item.ItemID;
         m_Text.text = name;
         SetDefault();
     }

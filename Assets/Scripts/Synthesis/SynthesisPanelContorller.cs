@@ -11,6 +11,7 @@ public class SynthesisPanelContorller : MonoBehaviour
     private SynthesisPanelModel m_SynthesisPanelModel;
     private SynthesisPanelView m_SynthesisPanelView;
 
+    private int currentIndex = -1;
     private int tabCount = 2;
     private int slotsCount = 25;
 
@@ -45,6 +46,7 @@ public class SynthesisPanelContorller : MonoBehaviour
         for (int i = 0; i < tabCount; i++)
         {
             GameObject go = Instantiate<GameObject>(m_SynthesisPanelView.TabItemType_Prefab, m_SynthesisPanelView.Tab_Transform);
+            Debug.Log(m_SynthesisPanelModel.TabIconName[i]);
             Sprite temp = m_SynthesisPanelView.LoadSpriteByName(m_SynthesisPanelModel.TabIconName[i]);
             go.GetComponent<SynthesisTabContorller>().Init(i, temp);
             tabList.Add(go);
@@ -57,7 +59,7 @@ public class SynthesisPanelContorller : MonoBehaviour
     {
         for (int i = 0; i < tabCount; i++)
         {
-            List<List<string>> temp = m_SynthesisPanelModel.GetJsonDataByName("SynthesisContentsJsonData");
+            List<List<ContentItem>> temp = m_SynthesisPanelModel.GetJsonDataByName("SynthesisContentsJsonData");
             GameObject go = Instantiate<GameObject>(m_SynthesisPanelView.Content_Prefab, m_SynthesisPanelView.Content_Transform);
             go.GetComponent<SynthesisContentContorller>().Init(i, m_SynthesisPanelView.ContentItem_Prefab, temp[i]);
             contentList.Add(go);
@@ -80,13 +82,17 @@ public class SynthesisPanelContorller : MonoBehaviour
     /// </summary>
     public void SwitchTabAndContents(int index)
     {
+        if (index == currentIndex) return;
+        
         for (int i = 0; i < tabCount; i++)
         {
+            Debug.Log("switch!");
             tabList[i].GetComponent<SynthesisTabContorller>().SetDefault();
             contentList[i].SetActive(false);
         }
         tabList[index].GetComponent<SynthesisTabContorller>().SetSelect();
         contentList[index].SetActive(true);
+        this.currentIndex = index;
     }
 
 }
