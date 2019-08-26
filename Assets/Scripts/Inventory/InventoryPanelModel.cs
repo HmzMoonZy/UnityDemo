@@ -5,31 +5,12 @@ using LitJson;
 
 public class InventoryPanelModel : MonoBehaviour
 {
-
-    void Start()
-    {
-
-    }
-
     /// <summary>
     /// 读取Json文件数据为Item实体类,存储在List中并返回
     /// </summary>
-    /// <param name="jsFileName">json数据文件名</param>
-    /// <returns></returns>
-    public List<InventoryItem> ReadJson(string jsFileName)
+    public List<InventoryItem> ReadJson(string fileName)
     {
-        List<InventoryItem> list = new List<InventoryItem>();
-        string jsStr = Resources.Load<TextAsset>("JsonData/" + jsFileName).text;
-        JsonData jsData = JsonMapper.ToObject(jsStr);
-
-        for (int i = 0; i < jsData.Count; i++)
-        {
-           
-            InventoryItem ii = JsonMapper.ToObject<InventoryItem>(jsData[i].ToJson());
-            list.Add(ii);
-        }
-
-        return list;
+        return JsonTools.LoadJsonToList<InventoryItem>(fileName);
     }
 
 }
