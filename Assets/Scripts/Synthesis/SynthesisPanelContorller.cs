@@ -83,19 +83,16 @@ public class SynthesisPanelContorller : MonoBehaviour
     /// </summary>
     private void CreateSlotsContent(int id)
     {
-        List<SynthesisMapItem> temp = m_SynthesisPanelModel.GetMapContents("SynthesisMapJsonData");
+        SynthesisMapItem temp = m_SynthesisPanelModel.GetMapItemByID(id);
         ClearSlots();
-        for (int i = 0; i < temp.Count; i++)
+        if (temp != null)
         {
-            if (temp[i].MapID == id)
+            for (int i = 0; i < temp.MapContents.Length; i++)
             {
-                for (int j = 0; j < temp[i].MapContents.Length; j++)
+                if (temp.MapContents[i] != "0")
                 {
-                    if (temp[i].MapContents[j] != "0")
-                    {
-                        Sprite sp = m_SynthesisPanelView.GetSpritByID(temp[i].MapContents[j]);
-                        slotList[j].GetComponent<SynthesisSlotContorller>().Init(sp);
-                    }
+                    Sprite sp = m_SynthesisPanelView.GetSpritByID(temp.MapContents[i]);
+                    slotList[i].GetComponent<SynthesisSlotContorller>().Init(sp);
                 }
             }
         }
@@ -116,7 +113,7 @@ public class SynthesisPanelContorller : MonoBehaviour
     public void SwitchTabAndContents(int index)
     {
         if (index == currentIndex) return;
-        
+
         for (int i = 0; i < tabCount; i++)
         {
             tabList[i].GetComponent<SynthesisTabContorller>().SetDefault();

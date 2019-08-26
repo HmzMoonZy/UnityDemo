@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
-
+/// <summary>
+/// 合成面板数据处理层(M层)
+/// </summary>
 public class SynthesisPanelModel : MonoBehaviour
 {
+    private Dictionary<int, SynthesisMapItem> mapItemDic = null;
+
     private string[] tabCIconName = new string[] { "Icon_House", "Icon_Weapon" };
 
     public string[] TabIconName { get { return tabCIconName; } }
+
+    private void Awake()
+    {
+        mapItemDic = GetMapContents("SynthesisMapJsonData");
+    }
 
     /// <summary>
     /// 获取JsonData数据
@@ -17,7 +26,7 @@ public class SynthesisPanelModel : MonoBehaviour
         //获取数据文本
         List<List<ContentItem>> temp = new List<List<ContentItem>>();
         string jsStr = Resources.Load<TextAsset>("JsonData/" + filename).text;
-    
+
         //解析
         JsonData jsdata = JsonMapper.ToObject(jsStr);
         //Debug.Log(jsdata.Count);      //2
@@ -38,9 +47,9 @@ public class SynthesisPanelModel : MonoBehaviour
     /// <summary>
     /// 获取合成图谱JSON数据.
     /// </summary>
-    public List<SynthesisMapItem> GetMapContents(string jsonName)
+    private Dictionary<int, SynthesisMapItem> GetMapContents(string jsonName)
     {
-        List<SynthesisMapItem> temp = new List<SynthesisMapItem>();
+        Dictionary<int, SynthesisMapItem> temp = new Dictionary<int, SynthesisMapItem>();
         string jsonStr = Resources.Load<TextAsset>("JsonData/" + jsonName).text;
 
         JsonData jsonData = JsonMapper.ToObject(jsonStr);
@@ -53,8 +62,17 @@ public class SynthesisPanelModel : MonoBehaviour
             string mapName = jsonData[i]["MapName"].ToString();
             //构造对象.
             SynthesisMapItem item = new SynthesisMapItem(mapId, mapContents, mapName);
-            temp.Add(item);
+            temp.Add(mapId, item);
         }
+        return temp;
+    }
+    /// <summary>
+    /// 通过id获取图谱元素
+    /// </summary>
+    public SynthesisMapItem GetMapItemByID(int id)
+    {
+        SynthesisMapItem temp = null;
+        mapItemDic.TryGetValue(id, out temp);
         return temp;
     }
 }
