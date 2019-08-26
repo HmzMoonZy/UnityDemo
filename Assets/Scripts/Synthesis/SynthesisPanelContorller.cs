@@ -10,6 +10,7 @@ public class SynthesisPanelContorller : MonoBehaviour
     private Transform m_Transform;
     private SynthesisPanelModel m_SynthesisPanelModel;
     private SynthesisPanelView m_SynthesisPanelView;
+    private SynthesisController m_SynthesisController;
 
     private int currentIndex = -1;
     private int tabCount = 2;
@@ -35,6 +36,7 @@ public class SynthesisPanelContorller : MonoBehaviour
         m_Transform = gameObject.GetComponent<Transform>();
         m_SynthesisPanelView = gameObject.GetComponent<SynthesisPanelView>();
         m_SynthesisPanelModel = gameObject.GetComponent<SynthesisPanelModel>();
+        m_SynthesisController = m_Transform.Find("Right").GetComponent<SynthesisController>();
 
         tabList = new List<GameObject>();
         contentList = new List<GameObject>();
@@ -95,7 +97,9 @@ public class SynthesisPanelContorller : MonoBehaviour
                     slotList[i].GetComponent<SynthesisSlotContorller>().Init(sp);
                 }
             }
+            m_SynthesisController.Init(temp.MapName);
         }
+        else m_SynthesisController.Init(null);  //清空合成物品图标
     }
     /// <summary>
     /// 清空合成图谱槽

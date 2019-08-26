@@ -20,12 +20,9 @@ public class InventoryItemController : MonoBehaviour {
     /// <summary>
     /// 创建Item预制体
     /// </summary>
-    /// <param name="fileName">图标文件名</param>
-    /// <param name="count">物品数量</param>
     public void SetItem(string fileName, int count)
     {
-        
-        this.m_Img.sprite = Resources.Load<Sprite>("Inventory/" + fileName);
+        this.m_Img.sprite = Resources.Load<Sprite>("Item/" + fileName);
         this.m_Text.text = count.ToString();
     }
 
