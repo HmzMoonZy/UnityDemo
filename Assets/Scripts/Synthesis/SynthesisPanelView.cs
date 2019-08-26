@@ -20,6 +20,7 @@ public class SynthesisPanelView : MonoBehaviour
     private Transform center_Transform;
 
     private Dictionary<string, Sprite> tabIconDic;
+    private Dictionary<string, Sprite> materialDic;
 
     public GameObject TabItemType_Prefab { get { return tabItemType_Prefab; } }
     public GameObject Content_Prefab { get { return content_Prefab; } }
@@ -35,6 +36,7 @@ public class SynthesisPanelView : MonoBehaviour
         Init();
 
         LoadAllTabIcon();
+        LoadAllMaterialSprit();
     }
 
     private void Init()
@@ -50,6 +52,7 @@ public class SynthesisPanelView : MonoBehaviour
         center_Transform = m_transform.Find("Center").GetComponent<Transform>();
 
         tabIconDic = new Dictionary<string, Sprite>();
+        materialDic = new Dictionary<string, Sprite>();
     }
     /// <summary>
     /// 加载所有TabIcon并添加进tabIconDic
@@ -64,10 +67,30 @@ public class SynthesisPanelView : MonoBehaviour
     /// <summary>
     /// 根据Icon文件名返回icon图标
     /// </summary>
-    public Sprite LoadSpriteByName(string key)
+    public Sprite GetSpriteByName(string key)
     {
         Sprite temp = null;
         tabIconDic.TryGetValue(key, out temp);
+        return temp;
+    }
+    /// <summary>
+    /// 加载所有图谱槽图片
+    /// </summary>
+    private void LoadAllMaterialSprit()
+    {
+        Sprite[] temp = Resources.LoadAll<Sprite>("Material");
+        for (int i = 0; i < temp.Length; i++)
+        {
+            materialDic.Add(temp[i].name, temp[i]);
+        }
+    }
+    /// <summary>
+    /// 通过文件名返回图谱槽图片
+    /// </summary>
+    public Sprite GetSpritByID(string name)
+    {
+        Sprite temp = null;
+        materialDic.TryGetValue(name, out temp);
         return temp;
     }
 }

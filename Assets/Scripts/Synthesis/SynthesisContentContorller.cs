@@ -29,11 +29,17 @@ public class SynthesisContentContorller : MonoBehaviour
             go.GetComponent<SynthesisContentItemContorller>().Init(item[i]);
         }
     }
+    /// <summary>
+    /// 选择(点击)ContentItem
+    /// </summary>
     public void SelectItem(SynthesisContentItemContorller item)
     {
         if (currentItem == item) return;
+        Debug.Log(item.ID);
         if (currentItem != null) currentItem.SetDefault();
+
         item.SetSelect();
         currentItem = item;
+        SendMessageUpwards("CreateSlotsContent", item.ID);
     }
 }

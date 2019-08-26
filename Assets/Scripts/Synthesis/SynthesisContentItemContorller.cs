@@ -13,6 +13,8 @@ public class SynthesisContentItemContorller : MonoBehaviour {
     private GameObject m_bg;
     private Button m_Button;
 
+    public int ID { get { return id; } }
+
 	void Awake () {
         m_transform = gameObject.GetComponent<Transform>();
 

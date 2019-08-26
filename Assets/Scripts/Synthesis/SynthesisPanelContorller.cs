@@ -25,7 +25,9 @@ public class SynthesisPanelContorller : MonoBehaviour
         CreateAllTabs();
         CreateAllContens();
         CreateAllSlots();
+        //CreateSlotsContent();
         SwitchTabAndContents(0);
+
     }
 
     private void Init()
@@ -46,8 +48,7 @@ public class SynthesisPanelContorller : MonoBehaviour
         for (int i = 0; i < tabCount; i++)
         {
             GameObject go = Instantiate<GameObject>(m_SynthesisPanelView.TabItemType_Prefab, m_SynthesisPanelView.Tab_Transform);
-            Debug.Log(m_SynthesisPanelModel.TabIconName[i]);
-            Sprite temp = m_SynthesisPanelView.LoadSpriteByName(m_SynthesisPanelModel.TabIconName[i]);
+            Sprite temp = m_SynthesisPanelView.GetSpriteByName(m_SynthesisPanelModel.TabIconName[i]);
             go.GetComponent<SynthesisTabContorller>().Init(i, temp);
             tabList.Add(go);
         }
@@ -78,6 +79,38 @@ public class SynthesisPanelContorller : MonoBehaviour
         }
     }
     /// <summary>
+    /// 图谱槽数据填充
+    /// </summary>
+    private void CreateSlotsContent(int id)
+    {
+        List<SynthesisMapItem> temp = m_SynthesisPanelModel.GetMapContents("SynthesisMapJsonData");
+        ClearSlots();
+        for (int i = 0; i < temp.Count; i++)
+        {
+            if (temp[i].MapID == id)
+            {
+                for (int j = 0; j < temp[i].MapContents.Length; j++)
+                {
+                    if (temp[i].MapContents[j] != "0")
+                    {
+                        Sprite sp = m_SynthesisPanelView.GetSpritByID(temp[i].MapContents[j]);
+                        slotList[j].GetComponent<SynthesisSlotContorller>().Init(sp);
+                    }
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// 清空合成图谱槽
+    /// </summary>
+    private void ClearSlots()
+    {
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            slotList[i].GetComponent<SynthesisSlotContorller>().Reset();
+        }
+    }
+    /// <summary>
     /// 切换tab和显示内容
     /// </summary>
     public void SwitchTabAndContents(int index)
@@ -86,7 +119,6 @@ public class SynthesisPanelContorller : MonoBehaviour
         
         for (int i = 0; i < tabCount; i++)
         {
-            Debug.Log("switch!");
             tabList[i].GetComponent<SynthesisTabContorller>().SetDefault();
             contentList[i].SetActive(false);
         }
