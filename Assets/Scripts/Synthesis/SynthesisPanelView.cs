@@ -35,8 +35,9 @@ public class SynthesisPanelView : MonoBehaviour
     {
         Init();
 
-        LoadAllTabIcon();
-        LoadAllMaterialSprit();
+        //加载对应文件夹下的资源并添加进对应的字典中
+        tabIconDic = ResourcesTools.LoadFolderAssets("TabIcon", tabIconDic);
+        materialDic = ResourcesTools.LoadFolderAssets("Material", materialDic);
     }
 
     private void Init()
@@ -54,43 +55,19 @@ public class SynthesisPanelView : MonoBehaviour
         tabIconDic = new Dictionary<string, Sprite>();
         materialDic = new Dictionary<string, Sprite>();
     }
-    /// <summary>
-    /// 加载所有TabIcon并添加进tabIconDic
-    private void LoadAllTabIcon()
-    {
-        Sprite[] sprites = Resources.LoadAll<Sprite>("TabIcon");
-        for (int i = 0; i < sprites.Length; i++)
-        {
-            tabIconDic.Add(sprites[i].name, sprites[i]);
-        }
-    }
+
     /// <summary>
     /// 根据Icon文件名返回icon图标
     /// </summary>
-    public Sprite GetSpriteByName(string key)
+    public Sprite GetSpriteByName(string name)
     {
-        Sprite temp = null;
-        tabIconDic.TryGetValue(key, out temp);
-        return temp;
-    }
-    /// <summary>
-    /// 加载所有图谱槽图片
-    /// </summary>
-    private void LoadAllMaterialSprit()
-    {
-        Sprite[] temp = Resources.LoadAll<Sprite>("Material");
-        for (int i = 0; i < temp.Length; i++)
-        {
-            materialDic.Add(temp[i].name, temp[i]);
-        }
+        return ResourcesTools.GetSpriteFormDic(name, tabIconDic);
     }
     /// <summary>
     /// 通过文件名返回图谱槽图片
     /// </summary>
     public Sprite GetSpritByID(string name)
     {
-        Sprite temp = null;
-        materialDic.TryGetValue(name, out temp);
-        return temp;
+        return ResourcesTools.GetSpriteFormDic(name, materialDic); ;
     }
 }
