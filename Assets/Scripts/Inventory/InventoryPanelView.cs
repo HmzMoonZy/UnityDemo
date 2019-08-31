@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 库存面板 视图脚本
+/// 库存(背包)面板视图层
 /// </summary>
 public class InventoryPanelView : MonoBehaviour {
     private Transform m_transofom; 

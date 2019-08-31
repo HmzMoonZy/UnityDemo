@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
-
+/// <summary>
+/// 库存(背包)面板数据层
+/// </summary>
 public class InventoryPanelModel : MonoBehaviour
 {
     /// <summary>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 库存面板控制器
+/// 库存(背包)面板控制器
 /// </summary>
 public class InventoryPanelController : MonoBehaviour
 {
@@ -33,6 +33,7 @@ public class InventoryPanelController : MonoBehaviour
         for (int i = 0; i < inventoryCount; i++)
         {
             GameObject go = Instantiate<GameObject>(m_inventoryView.Slot_Prefab, m_inventoryView.Grid_Transform);
+            go.name = "InventorySlot_" + i;
             slotList.Add(go);
         }
     }
@@ -46,9 +47,8 @@ public class InventoryPanelController : MonoBehaviour
         for (int i = 0; i < list.Count; i++)
         {
             GameObject item = Instantiate<GameObject>(m_inventoryView.Item_Prefab, slotList[i].GetComponent<Transform>());
+            item.name = "InventoryItem_" + i;
             item.GetComponent<InventoryItemController>().SetItem(list[i].ItemName,list[i].ItemNum);
         }
-
-
     }
 }

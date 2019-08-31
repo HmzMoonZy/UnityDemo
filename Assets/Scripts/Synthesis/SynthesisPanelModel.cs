@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
 /// <summary>
-/// 合成面板数据处理层(M层)
+/// 合成面板数据处理层
 /// </summary>
 public class SynthesisPanelModel : MonoBehaviour
 {

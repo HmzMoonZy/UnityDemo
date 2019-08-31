@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+/// <summary>
+/// 合成面板物品槽控制器
+/// </summary>
 public class SynthesisSlotContorller : MonoBehaviour
 {
-
     private Transform m_transform;
     private Image m_Image;
     void Awake()

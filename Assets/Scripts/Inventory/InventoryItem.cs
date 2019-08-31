@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// 库存数据实体类
+/// 库存(背包)Item数据实体类
 /// </summary>
 public class InventoryItem
 {

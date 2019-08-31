@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 内容面板Item自身控制脚本
+/// </summary>
 public class SynthesisContentItemContorller : MonoBehaviour {
     private Transform m_transform;
 

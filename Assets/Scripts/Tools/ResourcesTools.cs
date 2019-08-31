@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public sealed class ResourcesTools{
     /// <summary>
-    /// 加载文件夹中的资源
+    /// 将文件夹中的所有资源添加进字典中并返回
     /// </summary>
     public static Dictionary<string, Sprite> LoadFolderAssets(string folderName, Dictionary<string, Sprite> dic)
     {
@@ -21,8 +21,6 @@ public sealed class ResourcesTools{
     /// <summary>
     /// 从对应字典中获取图片
     /// </summary>
-    /// <param name="key"></param>
-    /// <returns></returns>
     public static Sprite GetSpriteFormDic(string key, Dictionary<string, Sprite> dic)
     {
         Sprite temp = null;

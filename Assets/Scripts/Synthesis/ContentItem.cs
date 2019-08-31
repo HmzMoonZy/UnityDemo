@@ -19,7 +19,7 @@ public class ContentItem
         get { return itemID; }
         set { itemID = value; }
     }
-    public ContentItem() { }//如果不加这一行,默认会把此条构造函数私有化,导致LitJson解析失败
+    public ContentItem() { }//默认会把此条构造函数私有化,导致LitJson解析失败
     public ContentItem(string name, int id)
     {
         this.itemName = name;
