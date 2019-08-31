@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class SynthesisContentItemContorller : MonoBehaviour {
     private Transform m_transform;
 
-    private string name;
+    new private string name;
     private int id;
 
     private Text m_Text;
