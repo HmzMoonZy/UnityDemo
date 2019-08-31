@@ -7,9 +7,11 @@ using UnityEngine.EventSystems; //实现拖拽功能的命名空间
 /// <summary>
 /// 库存(背包)Item自身控制脚本
 /// </summary>
-public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler{
+public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+{
     private RectTransform m_RectTransform;
     private Transform parent_Transform;
+    private Transform last_Transform;
 
     private CanvasGroup m_CanvasGroup;
 
@@ -39,6 +41,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     {
         //关闭射线检测,用于寻找拖拽目的物体。
         m_CanvasGroup.blocksRaycasts = false;
+        last_Transform = m_RectTransform.parent.GetComponentInParent<Transform>();
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
@@ -51,8 +54,30 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
-        //Debug.Log(eventData.pointerEnter.name);
-        m_RectTransform.SetParent(eventData.pointerEnter.GetComponent<Transform>());
+        GameObject target = eventData.pointerEnter;
+        if (target != null)
+        {
+            if (target.tag == "InventorySlot")
+            {
+                m_RectTransform.SetParent(target.transform);
+            }
+            else if (target.tag == "InventoryItem")
+            {
+                //SetParent()效率高于parent = **;
+                Transform tempTransform = target.GetComponent<Transform>();
+                m_RectTransform.SetParent(tempTransform.parent);
+                tempTransform.SetParent(last_Transform);
+                tempTransform.localPosition = Vector3.zero;
+            }
+            else
+            {
+                m_RectTransform.SetParent(last_Transform);
+            }
+        }
+        else
+        {
+            m_RectTransform.SetParent(last_Transform);
+        }
         m_RectTransform.localPosition = Vector3.zero;
         m_CanvasGroup.blocksRaycasts = true;
     }
