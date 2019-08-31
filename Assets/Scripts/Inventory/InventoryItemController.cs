@@ -15,6 +15,8 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
 
     private CanvasGroup m_CanvasGroup;
 
+    private int id = -1;
+
     private Image m_Img;
     private Text m_Text;
 
@@ -31,8 +33,9 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     /// <summary>
     /// 创建Item预制体
     /// </summary>
-    public void SetItem(string fileName, int count)
+    public void SetItem(int id, string fileName, int count)
     {
+        this.id = id;
         this.m_Img.sprite = Resources.Load<Sprite>("Item/" + fileName);
         this.m_Text.text = count.ToString();
     }
@@ -57,28 +60,49 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
         GameObject target = eventData.pointerEnter;
         if (target != null)
         {
+            //背包物品槽
             if (target.tag == "InventorySlot")
             {
                 m_RectTransform.SetParent(target.transform);
+                SetSlefImageSize(100, 100);
             }
+            //交换位置
             else if (target.tag == "InventoryItem")
             {
-                //SetParent()效率高于parent = **;
+                //SetParent()效率高于parent = **.
                 Transform tempTransform = target.GetComponent<Transform>();
                 m_RectTransform.SetParent(tempTransform.parent);
                 tempTransform.SetParent(last_Transform);
                 tempTransform.localPosition = Vector3.zero;
             }
-            else
+            //合成图谱槽
+            else if (target.tag == "SynthesisSlot")
             {
-                m_RectTransform.SetParent(last_Transform);
+                //合成图谱非空区域
+                if (target.GetComponent<SynthesisSlotContorller>().IsTarget == true)
+                {
+                    //合成图谱指定道具
+                    if (int.Parse(target.GetComponent<SynthesisSlotContorller>().ID) == this.id)
+                    {
+                        m_RectTransform.SetParent(target.transform);
+                        SetSlefImageSize(120, 95);
+                    }
+                    else { m_RectTransform.SetParent(last_Transform); }
+                }
+                else { m_RectTransform.SetParent(last_Transform); }
             }
+            else { m_RectTransform.SetParent(last_Transform); }
         }
-        else
-        {
-            m_RectTransform.SetParent(last_Transform);
-        }
+        else { m_RectTransform.SetParent(last_Transform); }
         m_RectTransform.localPosition = Vector3.zero;
         m_CanvasGroup.blocksRaycasts = true;
+    }
+    /// <summary>
+    /// 设置图片的高度和宽度
+    /// </summary>
+    private void SetSlefImageSize(float width, float height)
+    {
+        m_RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+        m_RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
     }
 }

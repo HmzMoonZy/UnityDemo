@@ -42,10 +42,10 @@ public class SynthesisPanelView : MonoBehaviour
 
     private void Init()
     {
-        tabItemType_Prefab = Resources.Load<GameObject>("Synthesis/TabItemType");
-        content_Prefab = Resources.Load<GameObject>("Synthesis/Content");
-        contentItem_Prefab = Resources.Load<GameObject>("Synthesis/ContentItem");
-        contentSlot_Prefab = Resources.Load<GameObject>("Synthesis/SynthesisSlot");
+        tabItemType_Prefab = Resources.Load<GameObject>("TabItemType");
+        content_Prefab = Resources.Load<GameObject>("Content");
+        contentItem_Prefab = Resources.Load<GameObject>("ContentItem");
+        contentSlot_Prefab = Resources.Load<GameObject>("SynthesisSlot");
 
         m_transform = gameObject.GetComponent<Transform>();
         content_Transform = m_transform.Find("Left/Contents").GetComponent<Transform>();

@@ -1,14 +1,47 @@
 [
     {
-        "ItemName": "Arrow",
-        "ItemNum": 64
+		"ItemID": 11,
+		"ItemName": "Arrow",
+		"ItemNum": 64
     },
     {
-        "ItemName": "Torch",
-        "ItemNum": 5
+		"ItemID": 12,
+		"ItemName": "Torch",
+		"ItemNum": 1
     },
     {
-        "ItemName": "Axe",
-        "ItemNum": 2
-    }
+		"ItemID": 13,
+		"ItemName": "Axe",
+		"ItemNum": 1
+    },
+    {
+		"ItemID": 14,
+		"ItemName": "Assault Rifle",
+		"ItemNum": 1
+    },
+    {
+		"ItemID": 15,
+		"ItemName": "Hunting Rifle",
+		"ItemNum": 1
+    },	
+    {
+		"ItemID": 16,
+		"ItemName": "Revolver",
+		"ItemNum": 1
+    },
+    {
+		"ItemID": 17,
+		"ItemName": "Shotgun",
+		"ItemNum": 1
+    },
+    {
+		"ItemID": 1,
+		"ItemName": "1",
+		"ItemNum": 64
+    },
+    {
+		"ItemID": 2,
+		"ItemName": "2",
+		"ItemNum": 64
+    }	
 ]

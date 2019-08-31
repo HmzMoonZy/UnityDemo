@@ -26,7 +26,6 @@ public class SynthesisPanelContorller : MonoBehaviour
         CreateAllTabs();
         CreateAllContens();
         CreateAllSlots();
-        //CreateSlotsContent();
         SwitchTabAndContents(0);
 
     }
@@ -94,12 +93,12 @@ public class SynthesisPanelContorller : MonoBehaviour
                 if (temp.MapContents[i] != "0")
                 {
                     Sprite sp = m_SynthesisPanelView.GetSpritByID(temp.MapContents[i]);
-                    slotList[i].GetComponent<SynthesisSlotContorller>().Init(sp);
+                    slotList[i].GetComponent<SynthesisSlotContorller>().Init(temp.MapContents[i], sp);
                 }
             }
             m_SynthesisController.Init(temp.MapName);
         }
-        else m_SynthesisController.Init(null);  //清空合成物品图标
+        else { m_SynthesisController.Init(null); } //清空合成物品图标
     }
     /// <summary>
     /// 清空合成图谱槽

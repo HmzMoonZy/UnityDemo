@@ -8,6 +8,7 @@ public class InventoryItem
 {
     private string itemName;
     private int itemNum;
+    private int itemID;
 
     public string ItemName
     {
@@ -19,15 +20,21 @@ public class InventoryItem
         get { return itemNum; }
         set { itemNum = value; }
     }
+    public int ItemID
+    {
+        get { return itemID; }
+        set { itemID = value; }
+    }
 
     public InventoryItem() { }
-    public InventoryItem(string itemName, int itemNum)
+    public InventoryItem(string itemName, int itemNum, int itemID)
     {
         this.itemName = itemName;
         this.itemNum = itemNum;
+        this.itemID = itemID;
     }
     public override string ToString()
     {
-        return string.Format("物品名称:{0}|物品数量:{1}", this.itemName, this.itemNum);
+        return string.Format("物品名称:{0}|物品数量:{1}|物品ID:{2}", this.itemName, this.itemNum,this.itemID);
     }
 }
