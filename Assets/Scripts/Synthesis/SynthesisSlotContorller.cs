@@ -11,7 +11,10 @@ public class SynthesisSlotContorller : MonoBehaviour
     private Image m_Image;
 
     private bool isTarget = false;      //能否成为拖拽的目标
-    public bool IsTarget { get { return isTarget; } }
+    public bool IsTarget {
+        get { return isTarget; }
+        set { IsTarget = value; }
+    }
 
     private string id;
     public string ID { get { return id; } }
