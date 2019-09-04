@@ -12,16 +12,16 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     private RectTransform m_RectTransform;
     private Transform parent_Transform;
     private Transform last_Transform;
+
     private Image m_Img;                //道具图标
     private Text m_Text;                //道具数量文本
+    private CanvasGroup m_CanvasGroup;  //用于控制射线检测
 
-    private CanvasGroup m_CanvasGroup;  //控制射线检测
-
-    private int id = -1;
-
+    private int id = -1;                //自身ID
     private int num;                    //道具数量
-    private bool isDrag = false;        //拖拽状态判断
+    private bool isDrag = false;        //拖拽状态
     private bool isInInventory = true;  //是否处于背包中
+    public int ID { get { return id; } set { id = value; } }
     public int Num
     {
         get { return num; }
@@ -31,15 +31,11 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
             m_Text.text = num.ToString();
         }
     }
-    public int ID
-    {
-        get { return id; }
-        set { id = value; }
-    }
     public bool IsInInventory
     {
         get { return isInInventory; }
-        set {
+        set
+        {
             isInInventory = value;
             if (isInInventory)
             {
@@ -47,8 +43,18 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
             }
         }
     }
-
     private void Awake()
+    {
+        FindInit();
+    }
+    private void Update()
+    {
+        SplitItem();
+    }
+    /// <summary>
+    /// 查找组件
+    /// </summary>
+    private void FindInit()
     {
         m_RectTransform = gameObject.GetComponent<RectTransform>();
         parent_Transform = GameObject.Find("InventoryPanel").GetComponent<Transform>();
@@ -57,11 +63,6 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
 
         m_Img = gameObject.GetComponent<Image>();
         m_Text = m_RectTransform.Find("Num").GetComponent<Text>();
-    }
-
-    private void Update()
-    {
-        SplitItem();
     }
     /// <summary>
     /// 初始化Item预制体
@@ -78,6 +79,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     /// </summary>
     private void SplitItem()
     {
+        //拖拽状态中点击鼠标右键且物体数量大于一时,拆分.
         if (Input.GetMouseButtonDown(1) && isDrag == true && num > 1)
         {
             //物体拆分操作
@@ -103,6 +105,14 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     {
         target.Num += this.num;
         Destroy(gameObject);
+    }
+    /// <summary>
+    /// 设置图片的高度和宽度
+    /// </summary>
+    private void SetSlefImageSize(float width, float height)
+    {
+        m_RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+        m_RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
     }
     #region 拖拽事件
     /// <summary>
@@ -135,52 +145,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
         GameObject target = eventData.pointerEnter; //目标物体
         if (target != null) //若有
         {
-            //背包物品槽
-            if (target.tag == "InventorySlot")
-            {
-                m_RectTransform.SetParent(target.transform);
-                SetSlefImageSize(100, 100);
-                isInInventory = true;
-            }
-            //两个物品交换位置
-            else if (target.tag == "InventoryItem")
-            {
-                //若是相同物品
-                if (ID == target.GetComponent<InventoryItemController>().ID)
-                {
-                    MergeItem(target.GetComponent<InventoryItemController>());
-                }
-                //禁止在合成面板中交换位置
-                else if (isInInventory && target.GetComponent<InventoryItemController>().isInInventory)
-                {
-                    Debug.Log(isInInventory && target.GetComponent<InventoryItemController>().isInInventory);
-                    //两个物品交换位置
-                    Transform tempTransform = target.GetComponent<Transform>();
-                    m_RectTransform.SetParent(tempTransform.parent);
-                    tempTransform.SetParent(last_Transform);
-                    tempTransform.localPosition = Vector3.zero;
-                }
-                else { m_RectTransform.SetParent(last_Transform); }
-            }
-            //合成图谱槽
-            else if (target.tag == "SynthesisSlot")
-            {
-                //合成图谱非空区域
-                if (target.GetComponent<SynthesisSlotContorller>().IsTarget == true)
-                {
-                    //合成图谱指定道具
-                    if (int.Parse(target.GetComponent<SynthesisSlotContorller>().ID) == this.id)
-                    {
-                        isInInventory = false;
-                        //target.GetComponent<SynthesisSlotContorller>().IsTarget = false;
-                        m_RectTransform.SetParent(target.transform);
-                        SetSlefImageSize(120, 95);
-                    }
-                    else { m_RectTransform.SetParent(last_Transform); }
-                }
-                else { m_RectTransform.SetParent(last_Transform); }
-            }
-            else { m_RectTransform.SetParent(last_Transform); }
+            DragLogic(target);
         }
         else { m_RectTransform.SetParent(last_Transform); }
 
@@ -188,13 +153,53 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
         m_CanvasGroup.blocksRaycasts = true;
         isDrag = false;
     }
-    #endregion
     /// <summary>
-    /// 设置图片的高度和宽度
+    /// 拖拽功能交互逻辑
     /// </summary>
-    private void SetSlefImageSize(float width, float height)
+    private void DragLogic(GameObject target)
     {
-        m_RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
-        m_RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+        InventoryItemController iic = target.GetComponent<InventoryItemController>();
+        SynthesisSlotContorller ssc = target.GetComponent<SynthesisSlotContorller>();
+        #region 背包物品槽
+        if (target.tag == "InventorySlot")
+        {
+            m_RectTransform.SetParent(target.transform);
+            SetSlefImageSize(100, 100);
+            isInInventory = true;
+        }
+        #endregion
+        #region 物品交换位置
+        else if (target.tag == "InventoryItem")
+        {
+            //若是相同物品
+            if (ID == iic.ID)
+            {
+                MergeItem(iic);
+            }
+            //禁止在合成面板中交换位置
+            else if (isInInventory && iic.isInInventory)
+            {
+                Debug.Log(isInInventory && iic.isInInventory);
+                //两个物品交换位置
+                Transform tempTransform = target.GetComponent<Transform>();
+                m_RectTransform.SetParent(tempTransform.parent);
+                tempTransform.SetParent(last_Transform);
+                tempTransform.localPosition = Vector3.zero;
+            }
+            else { m_RectTransform.SetParent(last_Transform); }
+        }
+        #endregion
+        #region 合成图谱槽非空且道具对应
+        else if (target.tag == "SynthesisSlot" && ssc.IsTarget == true && int.Parse(ssc.ID) == this.id)
+        {
+            isInInventory = false;
+            //target.GetComponent<SynthesisSlotContorller>().IsTarget = false;
+            m_RectTransform.SetParent(target.transform);
+            SetSlefImageSize(120, 95);
+        }
+        else { m_RectTransform.SetParent(last_Transform); }
     }
+        #endregion
+    #endregion
+
 }
