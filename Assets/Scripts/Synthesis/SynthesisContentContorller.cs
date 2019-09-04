@@ -38,7 +38,7 @@ public class SynthesisContentContorller : MonoBehaviour
     public void SelectItem(SynthesisContentItemContorller item)
     {
         if (currentItem == item) return;
-        Debug.Log(item.ID);
+        //Debug.Log(item.ID);
         if (currentItem != null) currentItem.SetDefault();
 
         item.SetSelect();

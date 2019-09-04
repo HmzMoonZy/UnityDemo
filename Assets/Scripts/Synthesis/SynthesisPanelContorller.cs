@@ -80,12 +80,15 @@ public class SynthesisPanelContorller : MonoBehaviour
         }
     }
     /// <summary>
-    /// 图谱槽数据填充
+    /// 图谱槽数据填充所需材料
     /// </summary>
     private void CreateSlotsContent(int id)
     {
         SynthesisMapItem temp = m_SynthesisPanelModel.GetMapItemByID(id);
+
         ClearSlots();
+        BackMaterials();
+
         if (temp != null)
         {
             for (int i = 0; i < temp.MapContents.Length; i++)
@@ -126,5 +129,22 @@ public class SynthesisPanelContorller : MonoBehaviour
         contentList[index].SetActive(true);
         this.currentIndex = index;
     }
+    /// <summary>
+    /// 将合成面板中的材料返回背包
+    /// </summary>
+    private void BackMaterials()
+    {
+        List<GameObject> itemList = new List<GameObject>();
 
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            Transform itemTransform = slotList[i].GetComponent<Transform>().Find("InventoryItem");
+            if (itemTransform != null)
+            {
+                itemList.Add(itemTransform.gameObject);
+            }
+        }
+        Debug.Log("合成图谱中添加的材料数" + itemList.Count);
+        if (itemList.Count > 0) InventoryPanelController._Instance.AddItem(itemList);
+    }
 }

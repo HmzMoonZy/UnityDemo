@@ -7,12 +7,19 @@ using UnityEngine;
 /// </summary>
 public class InventoryPanelController : MonoBehaviour
 {
+    //单例模式自身脚本
+    public static InventoryPanelController _Instance;
     //持有自身M V脚本
     private InventoryPanelModel m_inventoryModel;
     private InventoryPanelView m_inventoryView;
 
     List<GameObject> slotList = null;   //物品槽数组
     private int inventoryCount = 24;
+
+    void Awake()
+    {
+        _Instance = this;
+    }
     void Start()
     {
         m_inventoryModel = gameObject.GetComponent<InventoryPanelModel>();
@@ -43,12 +50,33 @@ public class InventoryPanelController : MonoBehaviour
     private void CreateAllItem()
     {
         List<InventoryItem> list = m_inventoryModel.ReadJson("InventoryJsonData");
-        
+
         for (int i = 0; i < list.Count; i++)
         {
             GameObject item = Instantiate<GameObject>(m_inventoryView.Item_Prefab, slotList[i].GetComponent<Transform>());
-            item.name = "InventoryItem_" + i;
-            item.GetComponent<InventoryItemController>().SetItem(list[i].ItemID ,list[i].ItemName,list[i].ItemNum);
+            item.name = "InventoryItem";
+            item.GetComponent<InventoryItemController>().SetItem(list[i].ItemID, list[i].ItemName, list[i].ItemNum);
         }
     }
+    /// <summary>
+    /// 将物品添加进背包物品槽
+    /// </summary>
+    public void AddItem(List<GameObject> itemList)
+    {
+        int index = 0;
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            Transform slotTransform = slotList[i].GetComponent<Transform>();
+            if (slotTransform.Find("InventoryItem") == null && index < itemList.Count)
+            {
+                itemList[index].GetComponent<Transform>().SetParent(slotTransform);
+                itemList[index].GetComponent<Transform>().localPosition = Vector3.zero;
+                itemList[index].GetComponent<InventoryItemController>().IsInInventory = true;
+                index++;
+            }
+        }
+    }
+
+
+    //end
 }

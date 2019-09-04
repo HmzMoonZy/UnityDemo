@@ -20,7 +20,6 @@ public class SynthesisSlotContorller : MonoBehaviour
     public string ID { get { return id; } }
     void Awake()
     {
-
         m_transform = gameObject.GetComponent<Transform>();
         m_Image = m_transform.Find("Image").GetComponent<Image>();
         m_Image.color = new Color(1, 1, 1, 0.23f);

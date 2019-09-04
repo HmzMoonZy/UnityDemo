@@ -39,7 +39,13 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     public bool IsInInventory
     {
         get { return isInInventory; }
-        set { isInInventory = value; }
+        set {
+            isInInventory = value;
+            if (isInInventory)
+            {
+                SetSlefImageSize(100, 100);
+            }
+        }
     }
 
     private void Awake()
@@ -77,6 +83,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
             //物体拆分操作
             GameObject tempgo = Instantiate(gameObject);
             RectTransform temptransform = tempgo.GetComponent<RectTransform>();
+            tempgo.name = "InventoryItem";
             temptransform.SetParent(last_Transform);
             temptransform.localPosition = Vector3.zero;
             temptransform.localScale = Vector3.one;
