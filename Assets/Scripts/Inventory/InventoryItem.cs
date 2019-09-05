@@ -10,21 +10,9 @@ public class InventoryItem
     private int itemNum;
     private int itemID;
 
-    public string ItemName
-    {
-        get { return itemName; }
-        set { itemName = value; }
-    }
-    public int ItemNum
-    {
-        get { return itemNum; }
-        set { itemNum = value; }
-    }
-    public int ItemID
-    {
-        get { return itemID; }
-        set { itemID = value; }
-    }
+    public string ItemName { get { return itemName; } set { itemName = value; } }
+    public int ItemNum { get { return itemNum; } set { itemNum = value; } }
+    public int ItemID { get { return itemID; } set { itemID = value; } }
 
     public InventoryItem() { }
     public InventoryItem(string itemName, int itemNum, int itemID)

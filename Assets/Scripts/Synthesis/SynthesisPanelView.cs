@@ -13,6 +13,7 @@ public class SynthesisPanelView : MonoBehaviour
     private GameObject content_Prefab;
     private GameObject contentItem_Prefab;
     private GameObject contentSlot_Prefab;
+    private GameObject inventoryItem_Prefab;
 
     private Transform m_transform;
     private Transform content_Transform;
@@ -26,6 +27,7 @@ public class SynthesisPanelView : MonoBehaviour
     public GameObject Content_Prefab { get { return content_Prefab; } }
     public GameObject ContentItem_Prefab { get { return contentItem_Prefab; } }
     public GameObject ContentSlot_Prefab { get { return contentSlot_Prefab; } }
+    public GameObject InventoryItem_Prefab { get { return inventoryItem_Prefab; } }
 
     public Transform Content_Transform { get { return content_Transform; } }
     public Transform Tab_Transform { get { return tab_Transform; } }
@@ -46,6 +48,7 @@ public class SynthesisPanelView : MonoBehaviour
         content_Prefab = Resources.Load<GameObject>("Content");
         contentItem_Prefab = Resources.Load<GameObject>("ContentItem");
         contentSlot_Prefab = Resources.Load<GameObject>("SynthesisSlot");
+        inventoryItem_Prefab = Resources.Load<GameObject>("InventoryItem");
 
         m_transform = gameObject.GetComponent<Transform>();
         content_Transform = m_transform.Find("Left/Contents").GetComponent<Transform>();

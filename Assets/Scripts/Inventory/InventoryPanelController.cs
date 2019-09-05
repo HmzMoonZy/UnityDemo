@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class InventoryPanelController : MonoBehaviour
 {
-    //单例模式自身脚本
+    //单例
     public static InventoryPanelController _Instance;
     //持有自身M V脚本
     private InventoryPanelModel m_inventoryModel;
@@ -26,7 +26,6 @@ public class InventoryPanelController : MonoBehaviour
         m_inventoryView = gameObject.GetComponent<InventoryPanelView>();
 
         slotList = new List<GameObject>();
-
 
         CreateAllSlot();
         CreateAllItem();
@@ -55,7 +54,7 @@ public class InventoryPanelController : MonoBehaviour
         {
             GameObject item = Instantiate<GameObject>(m_inventoryView.Item_Prefab, slotList[i].GetComponent<Transform>());
             item.name = "InventoryItem";
-            item.GetComponent<InventoryItemController>().SetItem(list[i].ItemID, list[i].ItemName, list[i].ItemNum);
+            item.GetComponent<InventoryItemController>().Init(list[i].ItemID, list[i].ItemName, list[i].ItemNum);
         }
     }
     /// <summary>
@@ -76,7 +75,10 @@ public class InventoryPanelController : MonoBehaviour
             }
         }
     }
-
+    public void SendAddItemToSynthesisPanel(GameObject temp)
+    {
+        SynthesisPanelContorller._Instance.AddItemToSynthesisPanel(temp);
+    }
 
     //end
 }

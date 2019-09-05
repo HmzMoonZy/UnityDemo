@@ -7,18 +7,29 @@ using UnityEngine;
 /// </summary>
 public class SynthesisPanelContorller : MonoBehaviour
 {
+    //单例
+    public static SynthesisPanelContorller _Instance;
+
     private Transform m_Transform;
     private SynthesisPanelModel m_SynthesisPanelModel;
     private SynthesisPanelView m_SynthesisPanelView;
     private SynthesisController m_SynthesisController;
 
-    private int currentIndex = -1;
-    private int tabCount = 2;
-    private int slotsCount = 25;
+    private int tabCount = 2;       //tab个数
+    private int currentIndex = -1;  //当前索引
+    private int slotsCount = 25;    //物品槽数量
+    private int demand;             //合成需求量
+    private int added;              //已添加素材数量
 
     private List<GameObject> tabList;
     private List<GameObject> contentList;
     private List<GameObject> slotList;
+    private List<GameObject> addedList;
+    void Awake()
+    {
+        _Instance = this;
+    }
+
     void Start()
     {
         Init();
@@ -26,8 +37,8 @@ public class SynthesisPanelContorller : MonoBehaviour
         CreateAllTabs();
         CreateAllContens();
         CreateAllSlots();
-        SwitchTabAndContents(0);
 
+        SwitchTabAndContents(0);
     }
 
     private void Init()
@@ -40,6 +51,9 @@ public class SynthesisPanelContorller : MonoBehaviour
         tabList = new List<GameObject>();
         contentList = new List<GameObject>();
         slotList = new List<GameObject>();
+        addedList = new List<GameObject>();
+
+        m_SynthesisController.InventoryItem_Prefab = m_SynthesisPanelView.InventoryItem_Prefab;
     }
     /// <summary>
     /// 生成所有Tab
@@ -99,9 +113,11 @@ public class SynthesisPanelContorller : MonoBehaviour
                     slotList[i].GetComponent<SynthesisSlotContorller>().Init(temp.MapContents[i], sp);
                 }
             }
-            m_SynthesisController.Init(temp.MapName);
+            demand = temp.Count;
+            m_SynthesisController.Init(temp.MapID, temp.MapName, temp.MapName);
         }
-        else { m_SynthesisController.Init(null); } //清空合成物品图标
+        //清空合成物品图标
+        else m_SynthesisController.ClearIcon();
     }
     /// <summary>
     /// 清空合成图谱槽
@@ -144,7 +160,40 @@ public class SynthesisPanelContorller : MonoBehaviour
                 itemList.Add(itemTransform.gameObject);
             }
         }
-        Debug.Log("合成图谱中添加的材料数" + itemList.Count);
+        //Debug.Log("合成图谱中添加的材料数" + itemList.Count);
         if (itemList.Count > 0) InventoryPanelController._Instance.AddItem(itemList);
+    }
+    /// <summary>
+    /// 将Item添加进合成面板 
+    /// </summary>
+    public void AddItemToSynthesisPanel(GameObject temp)
+    {
+        addedList.Add(temp);
+        added++;
+        Debug.Log(string.Format("合成物品{0}/{1}", added, demand));
+        if (added == demand)
+            m_SynthesisController.ButtonActive();
+    }
+    /// <summary>
+    /// 制作完成后对物品数量操作
+    /// </summary>
+    private void MakeFinish()
+    {
+        Debug.Log(addedList.Count);
+        for (int i = 0; i < addedList.Count; i++)
+        {
+            InventoryItemController iic = addedList[i].GetComponent<InventoryItemController>();
+            iic.Num -= 1;
+            if (iic.Num == 0) Destroy(iic.gameObject);
+        }
+        added = 0;
+        addedList.Clear();
+        StartCoroutine("BackToInventory");
+    }
+    private IEnumerator BackToInventory()
+    {
+        yield return new WaitForSeconds(1.5f);
+        //m_SynthesisController.ClearIcon();
+        BackMaterials();
     }
 }

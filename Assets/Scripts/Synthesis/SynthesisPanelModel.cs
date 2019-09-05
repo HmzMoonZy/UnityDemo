@@ -55,11 +55,12 @@ public class SynthesisPanelModel : MonoBehaviour
         {
             //取临时数据.
             int mapId = int.Parse(jsonData[i]["MapID"].ToString());
+            int count = int.Parse(jsonData[i]["Count"].ToString());
             string tempStr = jsonData[i]["MapContents"].ToString();
             string[] mapContents = tempStr.Split(',');
             string mapName = jsonData[i]["MapName"].ToString();
             //构造对象.
-            SynthesisMapItem item = new SynthesisMapItem(mapId, mapContents, mapName);
+            SynthesisMapItem item = new SynthesisMapItem(mapId, mapContents, count, mapName);
             temp.Add(mapId, item);
         }
         return temp;

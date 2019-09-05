@@ -21,6 +21,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     private int num;                    //道具数量
     private bool isDrag = false;        //拖拽状态
     private bool isInInventory = true;  //是否处于背包中
+
     public int ID { get { return id; } set { id = value; } }
     public int Num
     {
@@ -67,7 +68,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     /// <summary>
     /// 初始化Item预制体
     /// </summary>
-    public void SetItem(int id, string fileName, int count)
+    public void Init(int id, string fileName, int count)
     {
         this.id = id;
         this.m_Img.sprite = Resources.Load<Sprite>("Item/" + fileName);
@@ -196,6 +197,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
             //target.GetComponent<SynthesisSlotContorller>().IsTarget = false;
             m_RectTransform.SetParent(target.transform);
             SetSlefImageSize(120, 95);
+            InventoryPanelController._Instance.SendAddItemToSynthesisPanel(gameObject);
         }
         else { m_RectTransform.SetParent(last_Transform); }
     }

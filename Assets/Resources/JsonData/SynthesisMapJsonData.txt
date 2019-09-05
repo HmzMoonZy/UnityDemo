@@ -2,11 +2,13 @@
     {
         "MapID": 11,
         "MapContents":"0,1,1,1,2,0,0,1,2,1,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0",
+		"Count": 10,
 		"MapName":"Wooden Bow"
     },
     {
         "MapID": 12,
         "MapContents":"0,0,0,1,2,0,0,0,1,1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0",
+		"Count": 7,
 		"MapName":"Wooden Spear"
     }
 ]
