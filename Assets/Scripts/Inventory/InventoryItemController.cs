@@ -58,7 +58,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     private void FindInit()
     {
         m_RectTransform = gameObject.GetComponent<RectTransform>();
-        parent_Transform = GameObject.Find("InventoryPanel").GetComponent<Transform>();
+        parent_Transform = GameObject.Find("Canvas").GetComponent<Transform>();
 
         m_CanvasGroup = gameObject.GetComponent<CanvasGroup>();
 

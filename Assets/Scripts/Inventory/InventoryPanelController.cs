@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 库存(背包)面板控制器
 /// </summary>
-public class InventoryPanelController : MonoBehaviour
+public class InventoryPanelController : MonoBehaviour, IUIPanelShowHide
 {
     //单例
     public static InventoryPanelController _Instance;
@@ -14,7 +14,7 @@ public class InventoryPanelController : MonoBehaviour
     private InventoryPanelView m_inventoryView;
 
     List<GameObject> slotList = null;   //物品槽数组
-    private int inventoryCount = 24;
+    private int inventoryCount = 27;
 
     void Awake()
     {
@@ -80,5 +80,14 @@ public class InventoryPanelController : MonoBehaviour
         SynthesisPanelContorller._Instance.AddItemToSynthesisPanel(temp);
     }
 
-    //end
+    public void ShowPanel()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void HidePanel()
+    {
+        gameObject.SetActive(false);
+    }
+
 }

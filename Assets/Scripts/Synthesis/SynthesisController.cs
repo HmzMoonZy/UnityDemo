@@ -36,10 +36,10 @@ public class SynthesisController : MonoBehaviour
     public void Init(int id, string name, string iconName)
     {
         icon_Image.gameObject.SetActive(true);
+        icon_Image.enabled = true;
         icon_Image.sprite = Resources.Load<Sprite>("Item/" + iconName);
         this.tempID = id;
         this.tempName = name;
-
     }
     public void ClearIcon()
     {

@@ -13,7 +13,7 @@ public class SynthesisSlotContorller : MonoBehaviour
     private bool isTarget = false;      //能否成为拖拽的目标
     public bool IsTarget {
         get { return isTarget; }
-        set { IsTarget = value; }
+        set { isTarget = value; }
     }
 
     private string id;
