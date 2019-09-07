@@ -10,7 +10,6 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         InventoryPanelController._Instance.HidePanel();
-
     }
 
     void Update()

@@ -10,43 +10,57 @@ public class PlayerTest : MonoBehaviour
     private Transform _transform;
 
     private GameObject buildingPlan;
+    private GameObject woodenSpear;
     private Animator buildingPlan_Animator;
-    
-    private bool buildState = true;
+    private Animator woodenSpear_Animator;
+
+    private GameObject currentEquip;
+    private GameObject targetEquip;
 
     void Start()
     {
+        //组件查找
         _transform = gameObject.GetComponent<Transform>();
 
-        buildingPlan = _transform.Find("FirstPersonCharacter/Building Plan").gameObject;
+        buildingPlan = _transform.Find("PlayerCamera/Building Plan").gameObject;
+        woodenSpear = _transform.Find("PlayerCamera/Wooden Spear").gameObject;
         buildingPlan_Animator = buildingPlan.GetComponent<Animator>();
+        woodenSpear_Animator = woodenSpear.GetComponent<Animator>();
+
+        //值初始化
+        currentEquip = buildingPlan;
+        targetEquip = null;
     }
 
     void Update()
     {
-        BuildSwitch();
+        ChangeState();
     }
 
-    private void BuildSwitch()
+    private void ChangeState()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B))    //建造模式
         {
-            if (buildState)
-            {
-                buildingPlan_Animator.SetTrigger("Holster");
-                StartCoroutine("HolsterWait");
-                buildState = false;
-            }
-            else
-            {
-                buildingPlan.SetActive(true);
-                buildState = true;
-            }
+            targetEquip = buildingPlan;
+            ChangeModel();
         }
+        if (Input.GetKeyDown(KeyCode.M))    //战斗模式(长矛模型)
+        {
+            targetEquip = woodenSpear;
+            ChangeModel();
+        }
+    }
+    private void ChangeModel()
+    {
+        currentEquip.GetComponent<Animator>().SetTrigger("Holster");
+        StartCoroutine("HolsterWait");
+
     }
     private IEnumerator HolsterWait()
     {
-        yield return new WaitForSeconds(0.5f);
-        buildingPlan.SetActive(false);
+        yield return new WaitForSeconds(1);
+        currentEquip.SetActive(false);
+        targetEquip.SetActive(true);
+        currentEquip = targetEquip;
     }
 }
