@@ -5,56 +5,111 @@ using DG.Tweening;
 
 public class AssaultRifle : MonoBehaviour
 {
-    private Transform _transform;
-    private Animator _animator;
+    private AssaultRifleView _assaultRifleView;
 
-    private Vector3 originPosition;     //初始坐标
-    private Vector3 originRotate;       //初始旋转
-    private Vector3 aimPosition;        //瞄准坐标
-    private Vector3 aimRotate;          //瞄准旋转
+    private Ray ray;        //射击射线
+    private RaycastHit hit; //射线碰撞点
 
-    private Camera env_Camera;          //环境摄像机
 
+    //武器类字段属性
+    private int id;
+    private int damage;
+    private int durable;
+    private WeaponType type;
+
+    #region 属性
+    public int ID { get { return id; } set { id = value; } }
+    public int Damege { get { return damage; } set { damage = value; } }
+    public int Durable { get { return durable; } set { durable = value; } }
+    public WeaponType Type { get { return type; } set { type = value; } }
+    #endregion
     void Start()
     {
-        _transform = gameObject.GetComponent<Transform>();
-        _animator = gameObject.GetComponent<Animator>();
-
-        originPosition = _transform.localPosition;
-        originRotate = _transform.localRotation.eulerAngles;
-        aimPosition = new Vector3(-0.025f, -1.834f, 0.135f);
-        aimRotate = new Vector3(-0.67f, 1.31f, 1.4f);
-
-        env_Camera = GameObject.Find("EnvCamera").GetComponent<Camera>();
+        Init();
     }
-
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))    //腰射
+        ShootDetection();
+        MouseCtrl();
+    }
+
+    private void Init()
+    {
+        _assaultRifleView = gameObject.GetComponent<AssaultRifleView>();
+    }
+    /// <summary>
+    /// 射击检测
+    /// </summary>
+    private void ShootDetection()
+    {
+        //Debug.DrawRay(_assaultRifleView.FireEffectPos.position, _assaultRifleView.FireEffectPos.forward * 300, Color.red);
+        ray = new Ray(_assaultRifleView.FireEffectPos.position, _assaultRifleView.FireEffectPos.forward * 300);
+        if (Physics.Raycast(ray, out hit))
         {
-            _animator.SetTrigger("Fire");
+            //准星定位(辅助瞄准?)
+            Vector2 sightPos = RectTransformUtility.WorldToScreenPoint(_assaultRifleView.Env_Camera, hit.point);
+            _assaultRifleView.Sight_Transform.position = sightPos;
         }
-        if (Input.GetMouseButton(1))        //开镜
+        else
         {
-            _animator.SetBool("HoldPose", true);
-            AimAction();
+            hit.point = Vector3.zero;
         }
+    }
+    /// <summary>
+    /// 鼠标控制
+    /// </summary>
+    private void MouseCtrl()
+    {
+        //左键 -> 开火
+        if (Input.GetMouseButtonDown(0))
+        {
+            _assaultRifleView._Animator.SetTrigger("Fire");
+            Shoot();
+        }
+        //按住右键 -> 瞄准
+        if (Input.GetMouseButton(1))
+        {
+            _assaultRifleView._Animator.SetBool("HoldPose", true);
+            _assaultRifleView.AimAction();
+            _assaultRifleView.Sight_Transform.gameObject.SetActive(false);  //准星显示
+        }
+        //松开右键 -> 取消瞄准
         if (Input.GetMouseButtonUp(1))
         {
-            _animator.SetBool("HoldPose", false);   //取消开镜
-            CancelAimAction();
+            _assaultRifleView._Animator.SetBool("HoldPose", false);
+            _assaultRifleView.CancelAimAction();
+            _assaultRifleView.Sight_Transform.gameObject.SetActive(true);   //准星隐藏
         }
     }
-    private void AimAction()
+    /// <summary>
+    /// 射击
+    /// </summary>
+    private void Shoot()
     {
-        env_Camera.DOFieldOfView(40, 0.2f);
-        _transform.DOLocalMove(aimPosition, 0.2f);
-        _transform.DOLocalRotate(aimRotate,0.2f);
+        Instantiate<GameObject>(_assaultRifleView.Bullet_Prefab, hit.point, Quaternion.identity);
+        PlayAudio();
+        PlayEffect();
+
     }
-    private void CancelAimAction()
+    /// <summary>
+    /// 音效播放
+    /// </summary>
+    private void PlayAudio()
     {
-        env_Camera.DOFieldOfView(60, 0.2f);
-        _transform.DOLocalMove(originPosition, 0.2f);
-        _transform.DOLocalRotate(originRotate, 0.2f);
+        //在某点播放音源片段
+        AudioSource.PlayClipAtPoint(_assaultRifleView.Fire_AudioClip, _assaultRifleView.FireEffectPos.position);
+    }
+    /// <summary>
+    /// 特效播放
+    /// </summary>
+    private void PlayEffect()
+    {
+        //枪口特效
+        Instantiate(_assaultRifleView.FireEffct, _assaultRifleView.FireEffectPos.position
+            , Quaternion.identity).GetComponent<ParticleSystem>().Play();
+        //弹壳出仓动画
+        GameObject shell = Instantiate(_assaultRifleView.Shell_Prefab, _assaultRifleView.ShellEffctPos.position
+             , Quaternion.identity);
+        shell.GetComponent<Rigidbody>().AddForce(_assaultRifleView.ShellEffctPos.up * Random.Range(45f, 60f));
     }
 }
