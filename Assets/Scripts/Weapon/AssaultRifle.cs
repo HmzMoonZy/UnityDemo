@@ -64,6 +64,8 @@ public class AssaultRifle : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             _assaultRifleView._Animator.SetTrigger("Fire");
+            PlayAudio();
+            PlayEffect();
             Shoot();
         }
         //按住右键 -> 瞄准
@@ -86,9 +88,12 @@ public class AssaultRifle : MonoBehaviour
     /// </summary>
     private void Shoot()
     {
-        Instantiate<GameObject>(_assaultRifleView.Bullet_Prefab, hit.point, Quaternion.identity);
-        PlayAudio();
-        PlayEffect();
+        if (hit.point != Vector3.zero)
+        {
+            //Instantiate<GameObject>(_assaultRifleView.Bullet_Prefab, hit.point, Quaternion.identity);
+            hit.collider.GetComponent<BulletMark>().CreateBulletMark(hit);
+        }
+
 
     }
     /// <summary>
