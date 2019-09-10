@@ -117,11 +117,14 @@ public class AssaultRifle : MonoBehaviour
     private void PlayEffect()
     {
         //枪口特效
-        Instantiate(_assaultRifleView.FireEffct, _assaultRifleView.FireEffectPos.position
-            , Quaternion.identity).GetComponent<ParticleSystem>().Play();
+        GameObject eff = Instantiate(_assaultRifleView.FireEffect, _assaultRifleView.FireEffectPos.position
+            , Quaternion.identity, _assaultRifleView.AllFireEffect_Parent);
+        eff.name = "FireEffect";
+        eff.GetComponent<ParticleSystem>().Play();
         //弹壳出仓动画
         GameObject shell = Instantiate(_assaultRifleView.Shell_Prefab, _assaultRifleView.ShellEffctPos.position
-             , Quaternion.identity);
+             , Quaternion.identity, _assaultRifleView.AllShell_Parent);
+        shell.name = "shell";
         shell.GetComponent<Rigidbody>().AddForce(_assaultRifleView.ShellEffctPos.up * Random.Range(45f, 60f));
     }
 }

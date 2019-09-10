@@ -24,7 +24,13 @@ public class AssaultRifleView : MonoBehaviour
     private GameObject bullet_Prefab;   //子弹模型
     private GameObject fireEffct;       //射击枪口特效
     private GameObject shell_Prefab;    //射击弹壳弹出模型
-    private AudioClip fire_audioClip;
+    private AudioClip fire_audioClip;   //射击音效
+
+    private Transform allShell_Parent;          //弹壳资源父物体
+    private Transform allFireEffect_Parent;     //开火特效父物体
+
+
+    
 
     #region 属性
     public Transform _Transform { get { return _transform; } }
@@ -37,10 +43,12 @@ public class AssaultRifleView : MonoBehaviour
     public Transform Sight_Transform { get { return sight_Transform; } }
 
     public GameObject Bullet_Prefab { get { return bullet_Prefab; } }
-    public GameObject FireEffct { get { return fireEffct; } }
+    public GameObject FireEffect { get { return fireEffct; } }
     public GameObject Shell_Prefab { get { return shell_Prefab; } }
     public AudioClip Fire_AudioClip { get { return fire_audioClip; } }
-    
+
+    public Transform AllShell_Parent { get { return allShell_Parent; } set { allShell_Parent = value; } }
+    public Transform AllFireEffect_Parent { get { return allFireEffect_Parent; } set { allFireEffect_Parent = value; } }  
     #endregion
 
     void Awake()
@@ -64,6 +72,8 @@ public class AssaultRifleView : MonoBehaviour
         shell_Prefab = Resources.Load<GameObject>("Weapon/Shell");
         fire_audioClip = Resources.Load<AudioClip>("Audio/Weapon/AssaultRifle_Fire");
 
+        allShell_Parent = GameObject.Find("TempManager/AllShell").GetComponent<Transform>();
+        allFireEffect_Parent = GameObject.Find("TempManager/AllFireEffect").GetComponent<Transform>();
     }
     //瞄准动画
     public void AimAction()

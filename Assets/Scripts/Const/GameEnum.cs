@@ -7,3 +7,9 @@
     WoodenBow,      //木弓
     WoodenSpear     //木矛
 }
+public enum TextureType
+{
+    Metal,
+    Stone,
+    Wood
+}
