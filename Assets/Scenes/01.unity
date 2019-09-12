@@ -1254,6 +1254,17 @@ GameObject:
   m_PrefabParentObject: {fileID: 1769857435840748, guid: 696b52146cee3ad44aad757360ff8e63,
     type: 2}
   m_PrefabInternal: {fileID: 1063601319}
+--- !u!114 &804648434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 804648433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd88fd30c14282840aa5b860f206ad69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &804648435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1263,6 +1274,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60bc035272229da4db4bc3257ffcc708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 1
+  damage: 25
+  durable: 20
+  type: 0
+--- !u!114 &804648436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 804648433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd88fd30c14282840aa5b860f206ad69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &804648437
@@ -2084,6 +2110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureType: 1
+  hp: 150
 --- !u!33 &1383308395
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2350,6 +2377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureType: 2
+  hp: 150
 --- !u!33 &1573023029
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3006,8 +3034,9 @@ GameObject:
   - component: {fileID: 1916191698}
   - component: {fileID: 1916191697}
   - component: {fileID: 1916191695}
-  - component: {fileID: 1916191699}
   - component: {fileID: 1916191696}
+  - component: {fileID: 1916191700}
+  - component: {fileID: 1916191699}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -3093,6 +3122,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureType: 0
+  hp: 150
+--- !u!114 &1916191700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1916191694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd88fd30c14282840aa5b860f206ad69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1920810557
 GameObject:
   m_ObjectHideFlags: 0
@@ -3224,6 +3265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureType: 1
+  hp: 100
 --- !u!1 &2131269764
 GameObject:
   m_ObjectHideFlags: 0

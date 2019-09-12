@@ -10,17 +10,30 @@ public class AssaultRifle : MonoBehaviour
     private Ray ray;        //射击射线
     private RaycastHit hit; //射线碰撞点
 
+    private ObjectPool[] pools;  //对象池数组.0:枪口特效.1:弹壳模型
 
-    //武器类字段属性
-    private int id;
-    private int damage;
-    private int durable;
-    private WeaponType type;
+    //武器类字段
+    [SerializeField] private int id;
+    [SerializeField] private int damage;
+    [SerializeField] private int durable;
+    [SerializeField] private WeaponType type;
 
     #region 属性
     public int ID { get { return id; } set { id = value; } }
     public int Damege { get { return damage; } set { damage = value; } }
-    public int Durable { get { return durable; } set { durable = value; } }
+    public int Durable
+    {
+        get { return durable; }
+        set
+        {
+            durable = value;
+            if (durable <= 0)
+            {
+                Destroy(gameObject);
+                Destroy(_assaultRifleView.Sight_Transform);
+            }
+        }
+    }
     public WeaponType Type { get { return type; } set { type = value; } }
     #endregion
     void Start()
@@ -36,6 +49,7 @@ public class AssaultRifle : MonoBehaviour
     private void Init()
     {
         _assaultRifleView = gameObject.GetComponent<AssaultRifleView>();
+        pools = gameObject.GetComponents<ObjectPool>();
     }
     /// <summary>
     /// 射击检测
@@ -93,15 +107,14 @@ public class AssaultRifle : MonoBehaviour
             if (hit.collider.GetComponent<BulletMark>() != null)
             {
                 hit.collider.GetComponent<BulletMark>().CreateBulletMark(hit);
+                hit.collider.GetComponent<BulletMark>().HP -= damage;
             }
             else
             {
                 Instantiate<GameObject>(_assaultRifleView.Bullet_Prefab, hit.point, Quaternion.identity);
-
             }
         }
-
-
+        Durable--;
     }
     /// <summary>
     /// 音效播放
@@ -116,15 +129,49 @@ public class AssaultRifle : MonoBehaviour
     /// </summary>
     private void PlayEffect()
     {
+        GameObject effect = null;
+        GameObject shell = null;
         //枪口特效
-        GameObject eff = Instantiate(_assaultRifleView.FireEffect, _assaultRifleView.FireEffectPos.position
-            , Quaternion.identity, _assaultRifleView.AllFireEffect_Parent);
-        eff.name = "FireEffect";
-        eff.GetComponent<ParticleSystem>().Play();
+        if (pools[0].IsTemp())
+        {
+            effect = Instantiate(_assaultRifleView.FireEffect, _assaultRifleView.FireEffectPos.position
+                , Quaternion.identity, _assaultRifleView.AllFireEffect_Parent);
+        }
+        else
+        {
+            effect = pools[0].GetObject();
+            effect.SetActive(true);
+            effect.GetComponent<Transform>().position = _assaultRifleView.FireEffectPos.position;
+        }
+        effect.GetComponent<ParticleSystem>().Play();
+        effect.name = "FireEffect";
+
+
         //弹壳出仓动画
-        GameObject shell = Instantiate(_assaultRifleView.Shell_Prefab, _assaultRifleView.ShellEffctPos.position
-             , Quaternion.identity, _assaultRifleView.AllShell_Parent);
+        if (pools[1].IsTemp())
+        {
+            shell = Instantiate(_assaultRifleView.Shell_Prefab, _assaultRifleView.ShellEffctPos.position
+                 , Quaternion.identity, _assaultRifleView.AllShell_Parent);
+        }
+        else
+        {
+            shell = pools[1].GetObject();
+            shell.SetActive(true);
+            shell.GetComponent<Rigidbody>().isKinematic = true;
+            shell.GetComponent<Transform>().position = _assaultRifleView.ShellEffctPos.position;
+            shell.GetComponent<Rigidbody>().isKinematic = false;
+        }
         shell.name = "shell";
         shell.GetComponent<Rigidbody>().AddForce(_assaultRifleView.ShellEffctPos.up * Random.Range(45f, 60f));
+
+        StartCoroutine(DelayIntoPool(effect, pools[0]));
+        StartCoroutine(DelayIntoPool(shell, pools[1]));
+    }
+
+    private IEnumerator DelayIntoPool(GameObject go, ObjectPool pool)
+    {
+        yield return new WaitForSeconds(2);
+        go.SetActive(false);
+        pool.AddObject(go);
     }
 }

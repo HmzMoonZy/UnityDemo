@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(ObjectPool))]
 public class BulletMark : MonoBehaviour
 {
     private Transform parent;       //资源管理父物体
+    private ObjectPool pool;       //对象池,管理设计特效
 
     private Texture2D _texture;                                 //主贴图
     private Texture2D backup_texture;                           //主贴图备份
@@ -13,9 +14,29 @@ public class BulletMark : MonoBehaviour
     private Queue<Vector2> markQueue = new Queue<Vector2>();    //弹痕队列
 
     [SerializeField] private TextureType textureType;            //[序列化字段]贴图属性
+    [SerializeField] private int hp;                        //临时测试hp
 
+    public int HP
+    {
+        get { return hp; }
+        set
+        {
+            hp = value;
+            if (hp <= 0)
+                Destroy(gameObject);
+        }
+    }
     void Awake()
     {
+        FindInit();
+    }
+
+    /// <summary>
+    /// 初始化查找组件
+    /// </summary>
+    private void FindInit()
+    {
+        //初始化弹痕贴图/设计特效/父物体
         switch (textureType)
         {
             case TextureType.Metal:
@@ -29,10 +50,26 @@ public class BulletMark : MonoBehaviour
                 break;
         }
 
-        _texture = (Texture2D)gameObject.GetComponent<MeshRenderer>().material.mainTexture;
         //主贴图备份通过实例化存储，不能直接赋值。
+        _texture = (Texture2D)gameObject.GetComponent<MeshRenderer>().material.mainTexture;
         backup_texture = Instantiate<Texture2D>(_texture);
 
+        //添加对象池
+        if (gameObject.GetComponent<ObjectPool>() != null)
+            pool = gameObject.GetComponent<ObjectPool>();
+        else
+            pool = gameObject.AddComponent<ObjectPool>();
+
+    }
+
+    /// <summary>
+    /// 初始化弹痕贴图及特效
+    /// </summary>
+    private void InitTexture(string markFile, string effectFile, string parent)
+    {
+        mark_Texture = Resources.Load<Texture2D>("Weapon/BulletMarks/" + markFile);
+        effect = Resources.Load<GameObject>("Effects/Weapon/" + effectFile);
+        this.parent = GameObject.Find("TempManager/" + parent).GetComponent<Transform>();
     }
     //弹痕生成(融合)逻辑
     public void CreateBulletMark(RaycastHit hit)
@@ -64,11 +101,37 @@ public class BulletMark : MonoBehaviour
         _texture.Apply();
         Invoke("RemoveBulletMark", 6f);
     }
+    /// <summary>
+    /// 生成特效
+    /// </summary>
     private void CreateEffect(RaycastHit hit)
     {
-        GameObject temp = Instantiate<GameObject>(effect, hit.point, Quaternion.LookRotation(hit.normal), parent);
+        GameObject temp = null;
+        if (pool.IsTemp())
+        {
+            temp = Instantiate(effect, hit.point, Quaternion.LookRotation(hit.normal), parent);
+        }
+        else    //从池中初始化
+        {
+            temp = pool.GetObject();
+            temp.SetActive(true);
+            temp.GetComponent<Transform>().position = hit.point;
+            temp.GetComponent<Transform>().rotation = Quaternion.LookRotation(hit.normal);
+        }
         temp.name = "bulletMarkEffect";
+        StartCoroutine("DelayIntoPool", temp);
+
+
         //temp.GetComponent<ParticleSystem>().Play();
+    }
+    /// <summary>
+    /// 特效延迟入池
+    /// </summary>
+    private IEnumerator DelayIntoPool(GameObject go)
+    {
+        yield return new WaitForSeconds(2);
+        pool.AddObject(go);
+        go.SetActive(false);
     }
     /// <summary>
     /// 消除弹痕贴图
@@ -91,13 +154,5 @@ public class BulletMark : MonoBehaviour
         }
         _texture.Apply();
     }
-    /// <summary>
-    /// 初始化弹痕贴图及特效
-    /// </summary>
-    private void InitTexture(string markFile, string effectFile, string parent)
-    {
-        mark_Texture = Resources.Load<Texture2D>("Weapon/BulletMarks/" + markFile);
-        effect = Resources.Load<GameObject>("Effects/Weapon/" + effectFile);
-        this.parent = GameObject.Find("TempManager/" + parent).GetComponent<Transform>();
-    }
+
 }
