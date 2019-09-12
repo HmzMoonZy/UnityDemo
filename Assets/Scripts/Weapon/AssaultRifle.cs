@@ -30,7 +30,7 @@ public class AssaultRifle : MonoBehaviour
             if (durable <= 0)
             {
                 Destroy(gameObject);
-                Destroy(_assaultRifleView.Sight_Transform);
+                Destroy(_assaultRifleView.M_SightPos.gameObject);
             }
         }
     }
@@ -57,12 +57,12 @@ public class AssaultRifle : MonoBehaviour
     private void ShootDetection()
     {
         //Debug.DrawRay(_assaultRifleView.FireEffectPos.position, _assaultRifleView.FireEffectPos.forward * 300, Color.red);
-        ray = new Ray(_assaultRifleView.FireEffectPos.position, _assaultRifleView.FireEffectPos.forward * 300);
+        ray = new Ray(_assaultRifleView.M_FireEffectPos.position, _assaultRifleView.M_FireEffectPos.forward * 300);
         if (Physics.Raycast(ray, out hit))
         {
             //准星定位(辅助瞄准?)
-            Vector2 sightPos = RectTransformUtility.WorldToScreenPoint(_assaultRifleView.Env_Camera, hit.point);
-            _assaultRifleView.Sight_Transform.position = sightPos;
+            Vector2 sightPos = RectTransformUtility.WorldToScreenPoint(_assaultRifleView.M_EnvCamera, hit.point);
+            _assaultRifleView.M_SightPos.position = sightPos;
         }
         else
         {
@@ -77,7 +77,7 @@ public class AssaultRifle : MonoBehaviour
         //左键 -> 开火
         if (Input.GetMouseButtonDown(0))
         {
-            _assaultRifleView._Animator.SetTrigger("Fire");
+            _assaultRifleView.M_Animator.SetTrigger("Fire");
             PlayAudio();
             PlayEffect();
             Shoot();
@@ -85,16 +85,16 @@ public class AssaultRifle : MonoBehaviour
         //按住右键 -> 瞄准
         if (Input.GetMouseButton(1))
         {
-            _assaultRifleView._Animator.SetBool("HoldPose", true);
+            _assaultRifleView.M_Animator.SetBool("HoldPose", true);
             _assaultRifleView.AimAction();
-            _assaultRifleView.Sight_Transform.gameObject.SetActive(false);  //准星显示
+            _assaultRifleView.M_SightPos.gameObject.SetActive(false);  //准星显示
         }
         //松开右键 -> 取消瞄准
         if (Input.GetMouseButtonUp(1))
         {
-            _assaultRifleView._Animator.SetBool("HoldPose", false);
+            _assaultRifleView.M_Animator.SetBool("HoldPose", false);
             _assaultRifleView.CancelAimAction();
-            _assaultRifleView.Sight_Transform.gameObject.SetActive(true);   //准星隐藏
+            _assaultRifleView.M_SightPos.gameObject.SetActive(true);   //准星隐藏
         }
     }
     /// <summary>
@@ -122,7 +122,7 @@ public class AssaultRifle : MonoBehaviour
     private void PlayAudio()
     {
         //在某点播放音源片段
-        AudioSource.PlayClipAtPoint(_assaultRifleView.Fire_AudioClip, _assaultRifleView.FireEffectPos.position);
+        AudioSource.PlayClipAtPoint(_assaultRifleView.Fire_AudioClip, _assaultRifleView.M_FireEffectPos.position);
     }
     /// <summary>
     /// 特效播放
@@ -134,14 +134,14 @@ public class AssaultRifle : MonoBehaviour
         //枪口特效
         if (pools[0].IsTemp())
         {
-            effect = Instantiate(_assaultRifleView.FireEffect, _assaultRifleView.FireEffectPos.position
+            effect = Instantiate(_assaultRifleView.FireEffect, _assaultRifleView.M_FireEffectPos.position
                 , Quaternion.identity, _assaultRifleView.AllFireEffect_Parent);
         }
         else
         {
             effect = pools[0].GetObject();
             effect.SetActive(true);
-            effect.GetComponent<Transform>().position = _assaultRifleView.FireEffectPos.position;
+            effect.GetComponent<Transform>().position = _assaultRifleView.M_FireEffectPos.position;
         }
         effect.GetComponent<ParticleSystem>().Play();
         effect.name = "FireEffect";
@@ -150,7 +150,7 @@ public class AssaultRifle : MonoBehaviour
         //弹壳出仓动画
         if (pools[1].IsTemp())
         {
-            shell = Instantiate(_assaultRifleView.Shell_Prefab, _assaultRifleView.ShellEffctPos.position
+            shell = Instantiate(_assaultRifleView.Shell_Prefab, _assaultRifleView.M_ShellEffectPos.position
                  , Quaternion.identity, _assaultRifleView.AllShell_Parent);
         }
         else
@@ -158,11 +158,11 @@ public class AssaultRifle : MonoBehaviour
             shell = pools[1].GetObject();
             shell.SetActive(true);
             shell.GetComponent<Rigidbody>().isKinematic = true;
-            shell.GetComponent<Transform>().position = _assaultRifleView.ShellEffctPos.position;
+            shell.GetComponent<Transform>().position = _assaultRifleView.M_ShellEffectPos.position;
             shell.GetComponent<Rigidbody>().isKinematic = false;
         }
         shell.name = "shell";
-        shell.GetComponent<Rigidbody>().AddForce(_assaultRifleView.ShellEffctPos.up * Random.Range(45f, 60f));
+        shell.GetComponent<Rigidbody>().AddForce(_assaultRifleView.M_ShellEffectPos.up * Random.Range(45f, 60f));
 
         StartCoroutine(DelayIntoPool(effect, pools[0]));
         StartCoroutine(DelayIntoPool(shell, pools[1]));

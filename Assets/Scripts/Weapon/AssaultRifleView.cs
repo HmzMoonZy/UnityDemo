@@ -1,26 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
-public class AssaultRifleView : MonoBehaviour
+
+public class AssaultRifleView : GunViewBase
 {
-    //自身基本组件
-    private Transform _transform;
-    private Animator _animator;
-
-    //动画相关变量
-    private Vector3 originPosition;     //初始坐标
-    private Vector3 originRotate;       //初始旋转
-    private Vector3 aimPosition;        //瞄准坐标
-    private Vector3 aimRotate;          //瞄准旋转
-
-    private Camera env_Camera;          //环境摄像机
-
-    private Transform fireEffctPos;     //开火特效坐标
-    private Transform shellEffctPos;    //弹壳弹出特效坐标
-    private Transform sight_Transform;  //准星坐标
-
     private GameObject bullet_Prefab;   //子弹模型
     private GameObject fireEffct;       //射击枪口特效
     private GameObject shell_Prefab;    //射击弹壳弹出模型
@@ -29,43 +13,19 @@ public class AssaultRifleView : MonoBehaviour
     private Transform allShell_Parent;          //弹壳资源父物体
     private Transform allFireEffect_Parent;     //开火特效父物体
 
-
-    
-
     #region 属性
-    public Transform _Transform { get { return _transform; } }
-    public Animator _Animator { get { return _animator; } }
-
-    public Camera Env_Camera { get { return env_Camera; } }
-
-    public Transform FireEffectPos { get { return fireEffctPos; } }
-    public Transform ShellEffctPos { get { return shellEffctPos; } }
-    public Transform Sight_Transform { get { return sight_Transform; } }
-
     public GameObject Bullet_Prefab { get { return bullet_Prefab; } }
     public GameObject FireEffect { get { return fireEffct; } }
     public GameObject Shell_Prefab { get { return shell_Prefab; } }
     public AudioClip Fire_AudioClip { get { return fire_audioClip; } }
 
     public Transform AllShell_Parent { get { return allShell_Parent; } set { allShell_Parent = value; } }
-    public Transform AllFireEffect_Parent { get { return allFireEffect_Parent; } set { allFireEffect_Parent = value; } }  
+    public Transform AllFireEffect_Parent { get { return allFireEffect_Parent; } set { allFireEffect_Parent = value; } }
     #endregion
 
-    void Awake()
+    private void Awake()
     {
-        _transform = gameObject.GetComponent<Transform>();
-        _animator = gameObject.GetComponent<Animator>();
-
-        originPosition = _transform.localPosition;
-        originRotate = _transform.localRotation.eulerAngles;
-        aimPosition = new Vector3(-0.025f, -1.834f, 0.135f);
-        aimRotate = new Vector3(-0.67f, 1.31f, 1.4f);
-
-        env_Camera = GameObject.Find("EnvCamera").GetComponent<Camera>();
-
-        fireEffctPos = GameObject.Find("FireEffectPoint").GetComponent<Transform>();
-        shellEffctPos = GameObject.Find("ShellEffectPoint").GetComponent<Transform>();
-        sight_Transform = GameObject.Find("Canvas/MainPanel/Sight").GetComponent<Transform>();
+        base.Awake();
 
         bullet_Prefab = Resources.Load<GameObject>("Weapon/Bullet");
         fireEffct = Resources.Load<GameObject>("Effects/Weapon/AssaultRifle_GunPoint_Effect");
@@ -75,17 +35,19 @@ public class AssaultRifleView : MonoBehaviour
         allShell_Parent = GameObject.Find("TempManager/AllShell").GetComponent<Transform>();
         allFireEffect_Parent = GameObject.Find("TempManager/AllFireEffect").GetComponent<Transform>();
     }
-    //瞄准动画
-    public void AimAction()
+
+    public override void InitAimAnimationPos()
     {
-        env_Camera.DOFieldOfView(40, 0.2f);
-        _transform.DOLocalMove(aimPosition, 0.2f);
-        _transform.DOLocalRotate(aimRotate, 0.2f);
+        M_OriginPos = M_Transform.localPosition;
+        M_OriginRot = M_Transform.localRotation.eulerAngles;
+        M_AimPos = new Vector3(-0.025f, -1.834f, 0.135f);
+        M_AimRot = new Vector3(-0.67f, 1.31f, 1.4f);
     }
-    public void CancelAimAction()
+
+    public override void InitFind()
     {
-        env_Camera.DOFieldOfView(60, 0.2f);
-        _transform.DOLocalMove(originPosition, 0.2f);
-        _transform.DOLocalRotate(originRotate, 0.2f);
+        M_FireEffectPos = GameObject.Find("FireEffectPoint").GetComponent<Transform>();
+        M_ShellEffectPos = GameObject.Find("ShellEffectPoint").GetComponent<Transform>();
+        M_SightPos = GameObject.Find("Canvas/MainPanel/Sight").GetComponent<Transform>();
     }
 }
