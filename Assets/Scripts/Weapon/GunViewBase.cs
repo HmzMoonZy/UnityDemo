@@ -19,11 +19,16 @@ public abstract class GunViewBase : MonoBehaviour
     private Vector3 m_aimPos;           //瞄准坐标
     private Vector3 m_aimRot;           //瞄准旋转
 
-    //
+    //特效及准星坐标
     private Transform m_fireEffctPos;     //枪口特效坐标
     private Transform m_shellEffctPos;    //弹壳弹出特效坐标
     private Transform m_sightPos;         //准星坐标
 
+    //音效及特效资源
+    private GameObject m_fireEffct;       //射击枪口特效
+    private AudioClip m_fireAudioClip;   //射击音效
+
+    #region 属性
     //基础组件属性
     public Transform M_Transform { get { return m_transform; } }
     public Animator M_Animator { get { return m_animator; } }
@@ -35,12 +40,16 @@ public abstract class GunViewBase : MonoBehaviour
     public Vector3 M_AimPos { get { return m_aimPos; } set { m_aimPos = value; } }
     public Vector3 M_AimRot { get { return m_aimRot; } set { m_aimRot = value; } }
 
-    //
+    //特效及准星坐标属性
     public Transform M_FireEffectPos { get { return m_fireEffctPos; } set { m_fireEffctPos = value; } }
     public Transform M_ShellEffectPos { get { return m_shellEffctPos; } set { m_shellEffctPos = value; } }
     public Transform M_SightPos { get { return m_sightPos; } set { m_sightPos = value; } }
 
-    public void Awake()
+    //特效及音效
+    public GameObject M_FireEffect { get { return m_fireEffct; } set { m_fireEffct = value; } }
+    public AudioClip M_FireAudioClip { get { return m_fireAudioClip; } set { m_fireAudioClip = value; } }
+    #endregion
+    public virtual void Awake()
     {
         m_transform = gameObject.GetComponent<Transform>();
         m_animator = gameObject.GetComponent<Animator>();
@@ -48,6 +57,7 @@ public abstract class GunViewBase : MonoBehaviour
 
         InitAimAnimationPos();
         InitFind();
+        Init();
     }
     /// <summary>
     /// 瞄准动作
@@ -75,5 +85,9 @@ public abstract class GunViewBase : MonoBehaviour
     /// 初始化查找组件
     /// </summary>
     public abstract void InitFind();
+    /// <summary>
+    /// 初始化子类自身变量
+    /// </summary>
+    public abstract void Init();
 
 }

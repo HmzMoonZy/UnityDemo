@@ -1,177 +1,93 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-
-public class AssaultRifle : MonoBehaviour
+/// <summary>
+/// 步枪脚本
+/// </summary>
+public class AssaultRifle : GunControllerBase
 {
-    private AssaultRifleView _assaultRifleView;
+    private AssaultRifleView m_gunView; //视图层引用
+    private ObjectPool[] pools;         //对象池数组.0:枪口特效.1:弹壳模型
 
-    private Ray ray;        //射击射线
-    private RaycastHit hit; //射线碰撞点
-
-    private ObjectPool[] pools;  //对象池数组.0:枪口特效.1:弹壳模型
-
-    //武器类字段
-    [SerializeField] private int id;
-    [SerializeField] private int damage;
-    [SerializeField] private int durable;
-    [SerializeField] private WeaponType type;
-
-    #region 属性
-    public int ID { get { return id; } set { id = value; } }
-    public int Damege { get { return damage; } set { damage = value; } }
-    public int Durable
+    public override void Init()
     {
-        get { return durable; }
-        set
-        {
-            durable = value;
-            if (durable <= 0)
-            {
-                Destroy(gameObject);
-                Destroy(_assaultRifleView.M_SightPos.gameObject);
-            }
-        }
-    }
-    public WeaponType Type { get { return type; } set { type = value; } }
-    #endregion
-    void Start()
-    {
-        Init();
-    }
-    void Update()
-    {
-        ShootDetection();
-        MouseCtrl();
-    }
-
-    private void Init()
-    {
-        _assaultRifleView = gameObject.GetComponent<AssaultRifleView>();
+        m_gunView = (AssaultRifleView)M_GunViewBase;
         pools = gameObject.GetComponents<ObjectPool>();
-    }
-    /// <summary>
-    /// 射击检测
-    /// </summary>
-    private void ShootDetection()
-    {
-        //Debug.DrawRay(_assaultRifleView.FireEffectPos.position, _assaultRifleView.FireEffectPos.forward * 300, Color.red);
-        ray = new Ray(_assaultRifleView.M_FireEffectPos.position, _assaultRifleView.M_FireEffectPos.forward * 300);
-        if (Physics.Raycast(ray, out hit))
-        {
-            //准星定位(辅助瞄准?)
-            Vector2 sightPos = RectTransformUtility.WorldToScreenPoint(_assaultRifleView.M_EnvCamera, hit.point);
-            _assaultRifleView.M_SightPos.position = sightPos;
-        }
-        else
-        {
-            hit.point = Vector3.zero;
-        }
-    }
-    /// <summary>
-    /// 鼠标控制
-    /// </summary>
-    private void MouseCtrl()
-    {
-        //左键 -> 开火
-        if (Input.GetMouseButtonDown(0))
-        {
-            _assaultRifleView.M_Animator.SetTrigger("Fire");
-            PlayAudio();
-            PlayEffect();
-            Shoot();
-        }
-        //按住右键 -> 瞄准
-        if (Input.GetMouseButton(1))
-        {
-            _assaultRifleView.M_Animator.SetBool("HoldPose", true);
-            _assaultRifleView.AimAction();
-            _assaultRifleView.M_SightPos.gameObject.SetActive(false);  //准星显示
-        }
-        //松开右键 -> 取消瞄准
-        if (Input.GetMouseButtonUp(1))
-        {
-            _assaultRifleView.M_Animator.SetBool("HoldPose", false);
-            _assaultRifleView.CancelAimAction();
-            _assaultRifleView.M_SightPos.gameObject.SetActive(true);   //准星隐藏
-        }
     }
     /// <summary>
     /// 射击
     /// </summary>
-    private void Shoot()
+    public override void Shoot()
     {
-        if (hit.point != Vector3.zero)
+        if (Hit.point != Vector3.zero)
         {
-            if (hit.collider.GetComponent<BulletMark>() != null)
+            if (Hit.collider.GetComponent<BulletMark>() != null)
             {
-                hit.collider.GetComponent<BulletMark>().CreateBulletMark(hit);
-                hit.collider.GetComponent<BulletMark>().HP -= damage;
+                Hit.collider.GetComponent<BulletMark>().CreateBulletMark(Hit);
+                Hit.collider.GetComponent<BulletMark>().HP -= Damege;
             }
             else
             {
-                Instantiate<GameObject>(_assaultRifleView.Bullet_Prefab, hit.point, Quaternion.identity);
+                Instantiate<GameObject>(m_gunView.Bullet_Prefab, Hit.point, Quaternion.identity);
             }
         }
+        ShellAction();
         Durable--;
     }
     /// <summary>
-    /// 音效播放
+    /// 播放特效
     /// </summary>
-    private void PlayAudio()
+    public override void PlayEffect()
     {
-        //在某点播放音源片段
-        AudioSource.PlayClipAtPoint(_assaultRifleView.Fire_AudioClip, _assaultRifleView.M_FireEffectPos.position);
+        FireEffect();
+        ShellAction();
     }
     /// <summary>
-    /// 特效播放
+    /// 枪口火焰特效
     /// </summary>
-    private void PlayEffect()
+    private void FireEffect()
     {
         GameObject effect = null;
-        GameObject shell = null;
-        //枪口特效
-        if (pools[0].IsTemp())
+        if (pools[0].IsTemp())      //池空则实例化
         {
-            effect = Instantiate(_assaultRifleView.FireEffect, _assaultRifleView.M_FireEffectPos.position
-                , Quaternion.identity, _assaultRifleView.AllFireEffect_Parent);
+            effect = Instantiate(m_gunView.M_FireEffect, m_gunView.M_FireEffectPos.position
+                , Quaternion.identity, m_gunView.AllFireEffect_Parent);
         }
-        else
+        else        //重置池中对象
         {
             effect = pools[0].GetObject();
             effect.SetActive(true);
-            effect.GetComponent<Transform>().position = _assaultRifleView.M_FireEffectPos.position;
+            effect.GetComponent<Transform>().position = m_gunView.M_FireEffectPos.position;
         }
-        effect.GetComponent<ParticleSystem>().Play();
         effect.name = "FireEffect";
-
-
-        //弹壳出仓动画
-        if (pools[1].IsTemp())
-        {
-            shell = Instantiate(_assaultRifleView.Shell_Prefab, _assaultRifleView.M_ShellEffectPos.position
-                 , Quaternion.identity, _assaultRifleView.AllShell_Parent);
-        }
-        else
-        {
-            shell = pools[1].GetObject();
-            shell.SetActive(true);
-            shell.GetComponent<Rigidbody>().isKinematic = true;
-            shell.GetComponent<Transform>().position = _assaultRifleView.M_ShellEffectPos.position;
-            shell.GetComponent<Rigidbody>().isKinematic = false;
-        }
-        shell.name = "shell";
-        shell.GetComponent<Rigidbody>().AddForce(_assaultRifleView.M_ShellEffectPos.up * Random.Range(45f, 60f));
-
+        effect.GetComponent<ParticleSystem>().Play();
+        //延迟入池
         StartCoroutine(DelayIntoPool(effect, pools[0]));
-        StartCoroutine(DelayIntoPool(shell, pools[1]));
+    }
+    /// <summary>
+    /// 弹壳出仓动画
+    /// </summary>
+    private void ShellAction()
+    {
+        GameObject tempShell = null;
+
+        if (pools[1].IsTemp())      //池空则实例化
+        {
+            tempShell = Instantiate(m_gunView.Shell_Prefab, m_gunView.M_ShellEffectPos.position, Quaternion.identity
+                , m_gunView.AllShell_Parent);
+        }
+        else        //重置池中对象
+        {
+            tempShell = pools[1].GetObject();
+            tempShell.SetActive(true);
+            tempShell.GetComponent<Rigidbody>().isKinematic = true;     //力学模拟,开启后正常修改position.
+            tempShell.GetComponent<Transform>().position = m_gunView.M_ShellEffectPos.position;
+            tempShell.GetComponent<Rigidbody>().isKinematic = false;
+        }
+        tempShell.name = "shell";
+        //施加力产生弹出效果
+        tempShell.GetComponent<Rigidbody>().AddForce(m_gunView.M_ShellEffectPos.up * Random.Range(45f, 60f));
+        //延迟入池
+        StartCoroutine(DelayIntoPool(tempShell, pools[1]));
     }
 
-    private IEnumerator DelayIntoPool(GameObject go, ObjectPool pool)
-    {
-        yield return new WaitForSeconds(2);
-        go.SetActive(false);
-        pool.AddObject(go);
-    }
 }
