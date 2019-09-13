@@ -22,11 +22,14 @@ public abstract class GunViewBase : MonoBehaviour
 
     //特效
     private Transform m_fireEffctPos;     //枪口特效坐标
-    private Transform m_shellEffctPos;    //弹壳弹出特效坐标
 
     //音效及特效资源
     private GameObject m_fireEffct;      //射击枪口特效
     private AudioClip m_fireAudioClip;   //射击音效
+
+    //父物体管理
+    private Transform allShell_Parent;          //弹壳资源父物体
+    private Transform allFireEffect_Parent;     //开火特效父物体
 
     #region 属性
     //基础组件属性
@@ -40,14 +43,16 @@ public abstract class GunViewBase : MonoBehaviour
     public Vector3 M_AimPos { get { return m_aimPos; } set { m_aimPos = value; } }
     public Vector3 M_AimRot { get { return m_aimRot; } set { m_aimRot = value; } }
 
-    //特效及准星坐标属性
+    //特效/准星坐标属性
     public Transform M_FireEffectPos { get { return m_fireEffctPos; } set { m_fireEffctPos = value; } }
-    public Transform M_ShellEffectPos { get { return m_shellEffctPos; } set { m_shellEffctPos = value; } }
     public Transform M_SightPos { get { return m_sightPos; } set { m_sightPos = value; } }
 
     //特效及音效
     public GameObject M_FireEffect { get { return m_fireEffct; } set { m_fireEffct = value; } }
     public AudioClip M_FireAudioClip { get { return m_fireAudioClip; } set { m_fireAudioClip = value; } }
+
+    public Transform AllShell_Parent { get { return allShell_Parent; } set { allShell_Parent = value; } }
+    public Transform AllFireEffect_Parent { get { return allFireEffect_Parent; } set { allFireEffect_Parent = value; } }
     #endregion
     public virtual void Awake()
     {
@@ -55,6 +60,10 @@ public abstract class GunViewBase : MonoBehaviour
         m_animator = gameObject.GetComponent<Animator>();
         m_envCamera = GameObject.Find("EnvCamera").GetComponent<Camera>();
         m_sightPos = GameObject.Find("Canvas/MainPanel/Sight").GetComponent<Transform>();
+
+
+        allShell_Parent = GameObject.Find("TempManager/AllShell").GetComponent<Transform>();
+        allFireEffect_Parent = GameObject.Find("TempManager/AllFireEffect").GetComponent<Transform>();
 
         InitAimAnimationPos();
         InitFind();

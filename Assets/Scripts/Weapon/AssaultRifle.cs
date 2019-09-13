@@ -5,18 +5,18 @@ using UnityEngine;
 /// </summary>
 public class AssaultRifle : GunControllerBase
 {
-    private AssaultRifleView m_gunView; //视图层引用
+    private AssaultRifleView m_AssaultRifleView; //视图层引用
     private ObjectPool[] pools;         //对象池数组.0:枪口特效.1:弹壳模型
 
     public override void Init()
     {
-        m_gunView = (AssaultRifleView)M_GunViewBase;
+        m_AssaultRifleView = (AssaultRifleView)M_GunViewBase;
         pools = gameObject.GetComponents<ObjectPool>();
     }
     /// <summary>
     /// 射击
     /// </summary>
-    public override void Shoot()
+    public override void Shot()
     {
         if (Hit.point != Vector3.zero)
         {
@@ -27,10 +27,9 @@ public class AssaultRifle : GunControllerBase
             }
             else
             {
-                Instantiate<GameObject>(m_gunView.Bullet_Prefab, Hit.point, Quaternion.identity);
+                Instantiate(m_AssaultRifleView.Bullet_Prefab, Hit.point, Quaternion.identity);
             }
         }
-        ShellAction();
         Durable--;
     }
     /// <summary>
@@ -49,14 +48,14 @@ public class AssaultRifle : GunControllerBase
         GameObject effect = null;
         if (pools[0].IsTemp())      //池空则实例化
         {
-            effect = Instantiate(m_gunView.M_FireEffect, m_gunView.M_FireEffectPos.position
-                , Quaternion.identity, m_gunView.AllFireEffect_Parent);
+            effect = Instantiate(m_AssaultRifleView.M_FireEffect, m_AssaultRifleView.M_FireEffectPos.position
+                , Quaternion.identity, m_AssaultRifleView.AllFireEffect_Parent);
         }
         else        //重置池中对象
         {
             effect = pools[0].GetObject();
             effect.SetActive(true);
-            effect.GetComponent<Transform>().position = m_gunView.M_FireEffectPos.position;
+            effect.GetComponent<Transform>().position = m_AssaultRifleView.M_FireEffectPos.position;
         }
         effect.name = "FireEffect";
         effect.GetComponent<ParticleSystem>().Play();
@@ -72,20 +71,20 @@ public class AssaultRifle : GunControllerBase
 
         if (pools[1].IsTemp())      //池空则实例化
         {
-            tempShell = Instantiate(m_gunView.Shell_Prefab, m_gunView.M_ShellEffectPos.position, Quaternion.identity
-                , m_gunView.AllShell_Parent);
+            tempShell = Instantiate(m_AssaultRifleView.Shell_Prefab, m_AssaultRifleView.M_ShellEffectPos.position, Quaternion.identity
+                , m_AssaultRifleView.AllShell_Parent);
         }
         else        //重置池中对象
         {
             tempShell = pools[1].GetObject();
             tempShell.SetActive(true);
             tempShell.GetComponent<Rigidbody>().isKinematic = true;     //力学模拟,开启后正常修改position.
-            tempShell.GetComponent<Transform>().position = m_gunView.M_ShellEffectPos.position;
+            tempShell.GetComponent<Transform>().position = m_AssaultRifleView.M_ShellEffectPos.position;
             tempShell.GetComponent<Rigidbody>().isKinematic = false;
         }
         tempShell.name = "shell";
         //施加力产生弹出效果
-        tempShell.GetComponent<Rigidbody>().AddForce(m_gunView.M_ShellEffectPos.up * Random.Range(45f, 60f));
+        tempShell.GetComponent<Rigidbody>().AddForce(m_AssaultRifleView.M_ShellEffectPos.up * Random.Range(45f, 60f));
         //延迟入池
         StartCoroutine(DelayIntoPool(tempShell, pools[1]));
     }

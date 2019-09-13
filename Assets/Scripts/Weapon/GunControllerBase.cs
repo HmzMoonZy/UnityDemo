@@ -21,7 +21,6 @@ public abstract class GunControllerBase : MonoBehaviour
 
     private bool canShot = true;          //开火状态
 
-
     #region 属性
     public GunViewBase M_GunViewBase { get { return m_gunViewBase; } set { m_gunViewBase = value; } }
 
@@ -59,13 +58,7 @@ public abstract class GunControllerBase : MonoBehaviour
         ShootDetection();
         MouseCtrl();
     }
-    /// <summary>
-    /// 音效播放
-    /// </summary>
-    public void PlayAudio()
-    {
-        AudioSource.PlayClipAtPoint(M_GunViewBase.M_FireAudioClip, M_GunViewBase.M_FireEffectPos.position);
-    }
+
     /// <summary>
     /// 射击检测
     /// </summary>
@@ -106,7 +99,7 @@ public abstract class GunControllerBase : MonoBehaviour
     private void MouseButtonDown0()
     {
         m_gunViewBase.M_Animator.SetTrigger("Fire");
-        Shoot();
+        Shot();
         PlayEffect();
         PlayAudio();
     }
@@ -123,6 +116,13 @@ public abstract class GunControllerBase : MonoBehaviour
         m_gunViewBase.M_SightPos.gameObject.SetActive(true);   //准星隐藏
     }
     /// <summary>
+    /// 音效播放
+    /// </summary>
+    public void PlayAudio()
+    {
+        AudioSource.PlayClipAtPoint(M_GunViewBase.M_FireAudioClip, M_GunViewBase.M_FireEffectPos.position);
+    }
+    /// <summary>
     /// 延迟入池
     /// </summary>
     public IEnumerator DelayIntoPool(GameObject go, ObjectPool pool)
@@ -132,7 +132,7 @@ public abstract class GunControllerBase : MonoBehaviour
         pool.AddObject(go);
     }
     /// <summary>
-    /// 射击状态
+    /// 射击状态,动画Event调用
     /// </summary>
     public void ChangeCanShot(int state)
     {
@@ -148,7 +148,7 @@ public abstract class GunControllerBase : MonoBehaviour
     /// <summary>
     /// 枪械射击方法
     /// </summary>
-    public abstract void Shoot();
+    public abstract void Shot();
     /// <summary>
     /// 枪械特效
     /// </summary>

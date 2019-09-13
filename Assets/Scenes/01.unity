@@ -318,7 +318,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 67231204}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -4526,20 +4526,20 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1787898738}
-  m_LocalRotation: {x: -0.47489223, y: -0.06485989, z: 0.40586478, w: 0.77816737}
-  m_LocalPosition: {x: -0.55669385, y: 0.018994663, z: -0.05828766}
+  m_LocalRotation: {x: -0.258819, y: 0, z: 0, w: 0.9659259}
+  m_LocalPosition: {x: -0.5461, y: 0.0174, z: -0.0574}
   m_LocalScale: {x: 0.0160813, y: 0.016081342, z: 0.01608132}
   m_Children: []
   m_Father: {fileID: 195006750}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 1.3210001, y: 0.669, z: -43.847004}
+  m_LocalEulerAnglesHint: {x: -30, y: 0, z: 0}
 --- !u!23 &1787898740
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1787898738}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -4909,7 +4909,7 @@ RectTransform:
   - {fileID: 1818107114}
   - {fileID: 126947911}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5172,7 +5172,7 @@ Transform:
   - {fileID: 1573023030}
   - {fileID: 1916191698}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1935177334
 GameObject:
