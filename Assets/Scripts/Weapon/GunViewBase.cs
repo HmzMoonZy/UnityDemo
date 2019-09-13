@@ -12,6 +12,7 @@ public abstract class GunViewBase : MonoBehaviour
     private Transform m_transform;
     private Animator m_animator;
     private Camera m_envCamera;
+    private Transform m_sightPos;       //准星坐标
 
     //瞄准动画坐标变量
     private Vector3 m_originPos;        //初始坐标
@@ -19,13 +20,12 @@ public abstract class GunViewBase : MonoBehaviour
     private Vector3 m_aimPos;           //瞄准坐标
     private Vector3 m_aimRot;           //瞄准旋转
 
-    //特效及准星坐标
+    //特效
     private Transform m_fireEffctPos;     //枪口特效坐标
     private Transform m_shellEffctPos;    //弹壳弹出特效坐标
-    private Transform m_sightPos;         //准星坐标
 
     //音效及特效资源
-    private GameObject m_fireEffct;       //射击枪口特效
+    private GameObject m_fireEffct;      //射击枪口特效
     private AudioClip m_fireAudioClip;   //射击音效
 
     #region 属性
@@ -54,9 +54,11 @@ public abstract class GunViewBase : MonoBehaviour
         m_transform = gameObject.GetComponent<Transform>();
         m_animator = gameObject.GetComponent<Animator>();
         m_envCamera = GameObject.Find("EnvCamera").GetComponent<Camera>();
+        m_sightPos = GameObject.Find("Canvas/MainPanel/Sight").GetComponent<Transform>();
 
         InitAimAnimationPos();
         InitFind();
+        SetFireEffectPos();
         Init();
     }
     /// <summary>
@@ -82,7 +84,11 @@ public abstract class GunViewBase : MonoBehaviour
     /// </summary>
     public abstract void InitAimAnimationPos();
     /// <summary>
-    /// 初始化查找组件
+    /// 设置枪口特效坐标
+    /// </summary>
+    public abstract void SetFireEffectPos();
+    /// <summary>
+    /// 初始化查找特效文件.音效文件等
     /// </summary>
     public abstract void InitFind();
     /// <summary>

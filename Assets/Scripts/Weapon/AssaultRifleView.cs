@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class AssaultRifleView : GunViewBase
 {
-    private GameObject bullet_Prefab;   //子弹模型
-
+    private GameObject bullet_Prefab;   //临时子弹模型
     private GameObject shell_Prefab;    //射击弹壳弹出模型
 
     private Transform allShell_Parent;          //弹壳资源父物体
@@ -39,11 +38,13 @@ public class AssaultRifleView : GunViewBase
 
     public override void InitFind()
     {
-        M_FireEffectPos = GameObject.Find("FireEffectPoint").GetComponent<Transform>();
-        M_ShellEffectPos = GameObject.Find("ShellEffectPoint").GetComponent<Transform>();
-        M_SightPos = GameObject.Find("Canvas/MainPanel/Sight").GetComponent<Transform>();
-
         M_FireEffect = Resources.Load<GameObject>("Effects/Weapon/AssaultRifle_GunPoint_Effect");
         M_FireAudioClip = Resources.Load<AudioClip>("Audio/Weapon/AssaultRifle_Fire");
+    }
+
+    public override void SetFireEffectPos()
+    {
+        M_FireEffectPos = M_Transform.Find("Assault_Rifle/FireEffectPoint").GetComponent<Transform>();
+        M_ShellEffectPos = M_Transform.Find("Assault_Rifle/ShellEffectPoint").GetComponent<Transform>();
     }
 }

@@ -19,6 +19,8 @@ public abstract class GunControllerBase : MonoBehaviour
     private Ray ray;                      //射击射线
     private RaycastHit hit;               //射线碰撞点
 
+    private bool canShot = true;          //开火状态
+
 
     #region 属性
     public GunViewBase M_GunViewBase { get { return m_gunViewBase; } set { m_gunViewBase = value; } }
@@ -42,6 +44,8 @@ public abstract class GunControllerBase : MonoBehaviour
 
     public Ray MyRay { get { return ray; } set { ray = value; } }
     public RaycastHit Hit { get { return hit; } set { hit = value; } }
+
+    public bool CanShot { get { return canShot; } set { canShot = value; } }
     #endregion
 
     public virtual void Start()
@@ -67,17 +71,16 @@ public abstract class GunControllerBase : MonoBehaviour
     /// </summary>
     private void ShootDetection()
     {
-        ray = new Ray(m_gunViewBase.M_FireEffectPos.position, m_gunViewBase.M_FireEffectPos.forward * 300);
+        ray = new Ray(M_GunViewBase.M_FireEffectPos.position, M_GunViewBase.M_FireEffectPos.forward * 500);
+        //Debug.DrawRay(m_gunViewBase.M_FireEffectPos.position, m_gunViewBase.M_FireEffectPos.forward * 500, Color.red);
         if (Physics.Raycast(ray, out hit))
         {
             //准星定位(辅助瞄准?)
-            Vector2 sightPos = RectTransformUtility.WorldToScreenPoint(m_gunViewBase.M_EnvCamera, hit.point);
+            Vector2 sightPos = RectTransformUtility.WorldToScreenPoint(M_GunViewBase.M_EnvCamera, hit.point);
             m_gunViewBase.M_SightPos.position = sightPos;
         }
         else
-        {
             hit.point = Vector3.zero;
-        }
     }
     /// <summary>
     /// 鼠标控制
@@ -85,7 +88,7 @@ public abstract class GunControllerBase : MonoBehaviour
     private void MouseCtrl()
     {
         //左键 -> 开火
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canShot)
         {
             MouseButtonDown0();
         }
@@ -100,7 +103,6 @@ public abstract class GunControllerBase : MonoBehaviour
             MouseButtonUp1();
         }
     }
-
     private void MouseButtonDown0()
     {
         m_gunViewBase.M_Animator.SetTrigger("Fire");
@@ -130,6 +132,16 @@ public abstract class GunControllerBase : MonoBehaviour
         pool.AddObject(go);
     }
     /// <summary>
+    /// 射击状态
+    /// </summary>
+    public void ChangeCanShot(int state)
+    {
+        if (state == 1)
+            CanShot = true;
+        else
+            CanShot = false;
+    }
+    /// <summary>
     /// 初始化子类自身变量
     /// </summary>
     public abstract void Init();
@@ -141,7 +153,6 @@ public abstract class GunControllerBase : MonoBehaviour
     /// 枪械特效
     /// </summary>
     public abstract void PlayEffect();
-    //public abstract void PlayShellAction();
 
 
 }
