@@ -24,8 +24,6 @@ public class ShotgunBullet : MonoBehaviour
     /// <summary>
     /// 弹头射击方法
     /// </summary>
-    /// <param name="dir"></param>
-    /// <param name="force"></param>
     public void Flight(Vector3 dir, float force)
     {
         //散射偏移量
@@ -48,7 +46,6 @@ public class ShotgunBullet : MonoBehaviour
             m_rigidbody.Sleep();
             DestroySelf();
         }
-
     }
     private void DestroySelf()
     {

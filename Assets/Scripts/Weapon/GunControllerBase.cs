@@ -20,6 +20,7 @@ public abstract class GunControllerBase : MonoBehaviour
     private RaycastHit hit;               //射线碰撞点
 
     private bool canShot = true;          //开火状态
+    private bool sightState = true;         //准星状态
 
     #region 属性
     public GunViewBase M_GunViewBase { get { return m_gunViewBase; } set { m_gunViewBase = value; } }
@@ -64,8 +65,8 @@ public abstract class GunControllerBase : MonoBehaviour
     /// </summary>
     private void ShootDetection()
     {
-        ray = new Ray(M_GunViewBase.M_FireEffectPos.position, M_GunViewBase.M_FireEffectPos.forward * 500);
-        //Debug.DrawRay(m_gunViewBase.M_FireEffectPos.position, m_gunViewBase.M_FireEffectPos.forward * 500, Color.red);
+        ray = new Ray(M_GunViewBase.M_FireEffectPos.position, M_GunViewBase.M_FireEffectPos.forward * 1000);
+        Debug.DrawRay(m_gunViewBase.M_FireEffectPos.position, m_gunViewBase.M_FireEffectPos.forward * 500, Color.red);
         if (Physics.Raycast(ray, out hit, 1500, 1 << 11))       //11层:Env层
         {
             //准星定位(辅助瞄准?)
@@ -107,13 +108,13 @@ public abstract class GunControllerBase : MonoBehaviour
     {
         m_gunViewBase.M_Animator.SetBool("HoldPose", true);
         m_gunViewBase.AimAction();
-        m_gunViewBase.M_SightPos.gameObject.SetActive(false);  //准星显示
+        m_gunViewBase.M_SightPos.gameObject.SetActive(false);
     }
     private void MouseButtonUp1()
     {
         m_gunViewBase.M_Animator.SetBool("HoldPose", false);
         m_gunViewBase.CancelAimAction();
-        m_gunViewBase.M_SightPos.gameObject.SetActive(true);   //准星隐藏
+        m_gunViewBase.M_SightPos.gameObject.SetActive(true);
     }
     /// <summary>
     /// 音效播放
@@ -137,9 +138,15 @@ public abstract class GunControllerBase : MonoBehaviour
     public void ChangeCanShot(int state)
     {
         if (state == 1)
+        {
             CanShot = true;
+            //M_GunViewBase.M_SightPos.gameObject.SetActive(true);
+        }
         else
+        {
             CanShot = false;
+            //M_GunViewBase.M_SightPos.gameObject.SetActive(false);
+        }
     }
     /// <summary>
     /// 初始化子类自身变量

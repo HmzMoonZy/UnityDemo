@@ -10,6 +10,7 @@ public class ShotgunView : GunViewBase
     private Transform shellPos;     //弹壳生成坐标
     private GameObject shell;       //弹壳模型
     private GameObject bullet;      //临时子弹模型
+    
 
 
     public AudioClip ReLoad { get { return reLoad; } }
