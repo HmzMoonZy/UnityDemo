@@ -5,16 +5,18 @@ using UnityEngine;
 public class BulletMark : MonoBehaviour
 {
     private Transform parent;       //资源管理父物体
-    private ObjectPool pool;       //对象池,管理设计特效
+    private ObjectPool pool;        //对象池,管理特效
 
-    private Texture2D _texture;                                 //主贴图
-    private Texture2D backup_texture;                           //主贴图备份
-    private Texture2D mark_Texture;                             //弹痕贴图
+    private Texture2D mainTexture;                  //主贴图
+    private Texture2D fusionTexture;                //反融合
+    private Texture2D prefabIndTexture;             //预制体独立贴图
+
+    private Texture2D markTexture;                             //弹痕贴图
     private GameObject effect;                                  //特效
     private Queue<Vector2> markQueue = new Queue<Vector2>();    //弹痕队列
 
     [SerializeField] private TextureType textureType;            //[序列化字段]贴图属性
-    [SerializeField] private int hp;                        //临时测试hp
+    [SerializeField] private int hp;                             //临时测试hp
 
     public int HP
     {
@@ -51,15 +53,17 @@ public class BulletMark : MonoBehaviour
         }
 
         //主贴图备份通过实例化存储，不能直接赋值。
-        _texture = (Texture2D)gameObject.GetComponent<MeshRenderer>().material.mainTexture;
-        backup_texture = Instantiate<Texture2D>(_texture);
+        //预制体的贴图是地址值,须独立.
+        mainTexture = (Texture2D)gameObject.GetComponent<MeshRenderer>().material.mainTexture;
+        fusionTexture = Instantiate<Texture2D>(mainTexture);        //用于反融合
+        prefabIndTexture = Instantiate<Texture2D>(mainTexture);     //用于预制体主贴图赋值
+        gameObject.GetComponent<MeshRenderer>().material.mainTexture = prefabIndTexture;
 
         //添加对象池
         if (gameObject.GetComponent<ObjectPool>() != null)
             pool = gameObject.GetComponent<ObjectPool>();
         else
             pool = gameObject.AddComponent<ObjectPool>();
-
     }
 
     /// <summary>
@@ -67,7 +71,7 @@ public class BulletMark : MonoBehaviour
     /// </summary>
     private void InitTexture(string markFile, string effectFile, string parent)
     {
-        mark_Texture = Resources.Load<Texture2D>("Weapon/BulletMarks/" + markFile);
+        markTexture = Resources.Load<Texture2D>("Weapon/BulletMarks/" + markFile);
         effect = Resources.Load<GameObject>("Effects/Weapon/" + effectFile);
         this.parent = GameObject.Find("TempManager/" + parent).GetComponent<Transform>();
     }
@@ -81,24 +85,24 @@ public class BulletMark : MonoBehaviour
         //将uv信息添加进队列
         markQueue.Enqueue(uv);
         //遍历弹痕贴图的宽和高；
-        for (int i = 0; i < mark_Texture.width; i++)
+        for (int i = 0; i < markTexture.width; i++)
         {
-            for (int j = 0; j < mark_Texture.height; j++)
+            for (int j = 0; j < markTexture.height; j++)
             {
                 //uv.x * 主贴图宽度 - 弹痕贴图宽度 / 2 + i;
-                float x = uv.x * _texture.width - 0.5f * mark_Texture.width + i;
+                float x = uv.x * mainTexture.width - 0.5f * markTexture.width + i;
                 //uv.y * 主贴图高度 - 弹痕贴图高度 / 2 + j;
-                float y = uv.y * _texture.height - 0.5f * mark_Texture.height + j;
+                float y = uv.y * mainTexture.height - 0.5f * markTexture.height + j;
                 //通过循环索引获取弹痕像素点的颜色值；
-                Color color = mark_Texture.GetPixel(i, j);
+                Color color = markTexture.GetPixel(i, j);
                 //在主贴图的相应位置设置新的像素值；
                 if (color.a >= 0.35)
-                    _texture.SetPixel((int)x, (int)y, color);
+                    prefabIndTexture.SetPixel((int)x, (int)y, color);
             }
         }
 
         //最终要保存融合后的贴图
-        _texture.Apply();
+        prefabIndTexture.Apply();
         Invoke("RemoveBulletMark", 6f);
     }
     /// <summary>
@@ -120,9 +124,6 @@ public class BulletMark : MonoBehaviour
         }
         temp.name = "bulletMarkEffect";
         StartCoroutine("DelayIntoPool", temp);
-
-
-        //temp.GetComponent<ParticleSystem>().Play();
     }
     /// <summary>
     /// 特效延迟入池
@@ -141,18 +142,18 @@ public class BulletMark : MonoBehaviour
         Vector2 uv = new Vector2();
         if (markQueue.Count > 0)
             uv = markQueue.Dequeue();
-        for (int i = 0; i < mark_Texture.width; i++)
+        for (int i = 0; i < markTexture.width; i++)
         {
-            for (int j = 0; j < mark_Texture.height; j++)
+            for (int j = 0; j < markTexture.height; j++)
             {
-                float x = uv.x * _texture.width - 0.5f * mark_Texture.width + i;
-                float y = uv.y * _texture.height - 0.5f * mark_Texture.height + j;
+                float x = uv.x * mainTexture.width - 0.5f * markTexture.width + i;
+                float y = uv.y * mainTexture.height - 0.5f * markTexture.height + j;
 
-                Color color = backup_texture.GetPixel((int)x, (int)y);
-                _texture.SetPixel((int)x, (int)y, color);
+                Color color = fusionTexture.GetPixel((int)x, (int)y);
+                prefabIndTexture.SetPixel((int)x, (int)y, color);
             }
         }
-        _texture.Apply();
+        prefabIndTexture.Apply();
     }
 
 }

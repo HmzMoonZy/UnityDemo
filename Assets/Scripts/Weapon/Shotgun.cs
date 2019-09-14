@@ -23,9 +23,7 @@ public class Shotgun : GunControllerBase
 
     public override void Shot()
     {
-        GameObject bullet = Instantiate(m_ShotgunView.Bullet, m_ShotgunView.M_FireEffectPos.position, Quaternion.identity);
-        bullet.GetComponent<ShotgunBullet>().Flight(m_ShotgunView.M_FireEffectPos.forward, 3000);
-        for (int i = 0; i < bulletCount - 1; i++)
+        for (int i = 0; i < bulletCount; i++)
         {
             StartCoroutine(DelayShotBullet());
         }
@@ -47,20 +45,26 @@ public class Shotgun : GunControllerBase
         StartCoroutine(DelayDestroy(tempShell, 3f));
     }
     /// <summary>
+    /// 延迟霰弹枪发射子弹
+    /// </summary>
+    private IEnumerator DelayShotBullet()
+    {
+        yield return new WaitForSeconds(0.02f);
+        GameObject bullet = Instantiate(m_ShotgunView.Bullet, m_ShotgunView.M_FireEffectPos.position
+            , Quaternion.identity);
+        ShotgunBullet sbt = bullet.GetComponent<ShotgunBullet>();
+        sbt.Flight(m_ShotgunView.M_FireEffectPos.forward, 10000);
+        if (sbt.Hit.collider != null && sbt.Hit.collider.GetComponent<BulletMark>() != null)
+        {
+            sbt.Hit.collider.GetComponent<BulletMark>().HP -= Damege / bulletCount;
+        }
+    }
+    /// <summary>
     /// 延迟销毁目标
     /// </summary>
     private IEnumerator DelayDestroy(GameObject go, float time)
     {
         yield return new WaitForSeconds(time);
         Destroy(go);
-    }
-    /// <summary>
-    /// 延迟霰弹枪发射子弹
-    /// </summary>
-    private IEnumerator DelayShotBullet()
-    {
-        yield return new WaitForSeconds(0.02f);
-        GameObject bullet = Instantiate(m_ShotgunView.Bullet, m_ShotgunView.M_FireEffectPos.position, Quaternion.identity);
-        bullet.GetComponent<ShotgunBullet>().Flight(m_ShotgunView.M_FireEffectPos.forward, 5000);
     }
 }

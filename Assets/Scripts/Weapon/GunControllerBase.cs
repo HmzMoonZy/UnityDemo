@@ -66,7 +66,7 @@ public abstract class GunControllerBase : MonoBehaviour
     {
         ray = new Ray(M_GunViewBase.M_FireEffectPos.position, M_GunViewBase.M_FireEffectPos.forward * 500);
         //Debug.DrawRay(m_gunViewBase.M_FireEffectPos.position, m_gunViewBase.M_FireEffectPos.forward * 500, Color.red);
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, 1500, 1 << 11))       //11层:Env层
         {
             //准星定位(辅助瞄准?)
             Vector2 sightPos = RectTransformUtility.WorldToScreenPoint(M_GunViewBase.M_EnvCamera, hit.point);

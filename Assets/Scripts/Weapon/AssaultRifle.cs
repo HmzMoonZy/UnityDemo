@@ -71,8 +71,8 @@ public class AssaultRifle : GunControllerBase
 
         if (pools[1].IsTemp())      //池空则实例化
         {
-            tempShell = Instantiate(m_AssaultRifleView.Shell_Prefab, m_AssaultRifleView.M_ShellEffectPos.position, Quaternion.identity
-                , m_AssaultRifleView.AllShell_Parent);
+            tempShell = Instantiate(m_AssaultRifleView.Shell_Prefab, m_AssaultRifleView.M_ShellEffectPos.position
+                , Quaternion.identity, m_AssaultRifleView.AllShell_Parent);
         }
         else        //重置池中对象
         {
@@ -82,7 +82,6 @@ public class AssaultRifle : GunControllerBase
             tempShell.GetComponent<Transform>().position = m_AssaultRifleView.M_ShellEffectPos.position;
             tempShell.GetComponent<Rigidbody>().isKinematic = false;
         }
-        tempShell.name = "shell";
         //施加力产生弹出效果
         tempShell.GetComponent<Rigidbody>().AddForce(m_AssaultRifleView.M_ShellEffectPos.up * Random.Range(45f, 60f));
         //延迟入池
