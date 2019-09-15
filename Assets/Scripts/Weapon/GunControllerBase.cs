@@ -48,7 +48,7 @@ public abstract class GunControllerBase : MonoBehaviour
     public bool CanShot { get { return canShot; } set { canShot = value; } }
     #endregion
 
-    public virtual void Start()
+    private virtual void Start()
     {
         m_gunViewBase = gameObject.GetComponent<GunViewBase>();
 

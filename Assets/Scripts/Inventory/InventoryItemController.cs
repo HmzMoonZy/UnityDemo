@@ -64,7 +64,6 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
 
         m_Img = gameObject.GetComponent<Image>();
         m_Text = m_RectTransform.Find("Num").GetComponent<Text>();
-
     }
     /// <summary>
     /// 初始化Item预制体
