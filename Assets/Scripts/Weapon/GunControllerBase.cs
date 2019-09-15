@@ -48,7 +48,7 @@ public abstract class GunControllerBase : MonoBehaviour
     public bool CanShot { get { return canShot; } set { canShot = value; } }
     #endregion
 
-    public virtual void Start()
+    private virtual void Start()
     {
         m_gunViewBase = gameObject.GetComponent<GunViewBase>();
 
@@ -65,8 +65,8 @@ public abstract class GunControllerBase : MonoBehaviour
     /// </summary>
     private void ShootDetection()
     {
-        ray = new Ray(M_GunViewBase.M_FireEffectPos.position, M_GunViewBase.M_FireEffectPos.forward * 1000);
-        Debug.DrawRay(m_gunViewBase.M_FireEffectPos.position, m_gunViewBase.M_FireEffectPos.forward * 500, Color.red);
+        ray = new Ray(M_GunViewBase.M_MuzzlePos.position, M_GunViewBase.M_MuzzlePos.forward * 1000);
+        Debug.DrawRay(m_gunViewBase.M_MuzzlePos.position, m_gunViewBase.M_MuzzlePos.forward * 500, Color.red);
         if (Physics.Raycast(ray, out hit, 1500, 1 << 11))       //11层:Env层
         {
             //准星定位(辅助瞄准?)
@@ -97,11 +97,10 @@ public abstract class GunControllerBase : MonoBehaviour
             MouseButtonUp1();
         }
     }
-    private void MouseButtonDown0()
+    public virtual void MouseButtonDown0()
     {
         m_gunViewBase.M_Animator.SetTrigger("Fire");
         Shot();
-        PlayEffect();
         PlayAudio();
     }
     private void MouseButton1()
@@ -119,14 +118,14 @@ public abstract class GunControllerBase : MonoBehaviour
     /// <summary>
     /// 音效播放
     /// </summary>
-    public void PlayAudio()
+    protected void PlayAudio()
     {
-        AudioSource.PlayClipAtPoint(M_GunViewBase.M_FireAudioClip, M_GunViewBase.M_FireEffectPos.position);
+        AudioSource.PlayClipAtPoint(M_GunViewBase.M_FireAudioClip, M_GunViewBase.M_MuzzlePos.position);
     }
     /// <summary>
     /// 延迟入池
     /// </summary>
-    public IEnumerator DelayIntoPool(GameObject go, ObjectPool pool)
+    protected IEnumerator DelayIntoPool(GameObject go, ObjectPool pool)
     {
         yield return new WaitForSeconds(2);
         go.SetActive(false);
@@ -138,28 +137,16 @@ public abstract class GunControllerBase : MonoBehaviour
     public void ChangeCanShot(int state)
     {
         if (state == 1)
-        {
             CanShot = true;
-            //M_GunViewBase.M_SightPos.gameObject.SetActive(true);
-        }
         else
-        {
             CanShot = false;
-            //M_GunViewBase.M_SightPos.gameObject.SetActive(false);
-        }
     }
     /// <summary>
     /// 初始化子类自身变量
     /// </summary>
-    public abstract void Init();
+    protected abstract void Init();
     /// <summary>
     /// 枪械射击方法
     /// </summary>
-    public abstract void Shot();
-    /// <summary>
-    /// 枪械特效
-    /// </summary>
-    public abstract void PlayEffect();
-
-
+    protected abstract void Shot();
 }

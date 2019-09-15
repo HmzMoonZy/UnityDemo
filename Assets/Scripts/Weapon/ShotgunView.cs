@@ -17,7 +17,7 @@ public class ShotgunView : GunViewBase
     public Transform ShellPos { get { return shellPos; } }
     public GameObject Shell { get { return shell; } }
     public GameObject Bullet { get { return bullet; } }
-    public override void Init()
+    protected override void Init()
     {
         reLoad = Resources.Load<AudioClip>("Audio/Weapon/Shotgun_Pump");
         shell = Resources.Load<GameObject>("Weapon/Shotgun_Shell");
@@ -25,7 +25,7 @@ public class ShotgunView : GunViewBase
         shellPos = M_Transform.Find("Armature/Weapon/ShellEffectPoint").GetComponent<Transform>();
     }
 
-    public override void InitAimAnimationPos()
+    protected override void InitAimAnimationPos()
     {
         M_OriginPos = M_Transform.localPosition;
         M_OriginRot = M_Transform.localRotation.eulerAngles;
@@ -33,16 +33,16 @@ public class ShotgunView : GunViewBase
         M_AimRot = new Vector3(0.47f, -0.02f, 0.8f);
     }
 
-    public override void InitFind()
+    protected override void InitFind()
     {
         M_FireEffect = Resources.Load<GameObject>("Effects/Weapon/Shotgun_GunPoint_Effect");
         M_FireAudioClip = Resources.Load<AudioClip>("Audio/Weapon/Shotgun_Fire");
 
     }
 
-    public override void SetFireEffectPos()
+    protected override void SetMuzzlePos()
     {
-        M_FireEffectPos = M_Transform.Find("Armature/Weapon/FireEffectPoint").GetComponent<Transform>();
+        M_MuzzlePos = M_Transform.Find("Armature/Weapon/FireEffectPoint").GetComponent<Transform>();
 
     }
 }

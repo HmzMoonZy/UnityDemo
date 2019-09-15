@@ -5,17 +5,16 @@ using UnityEngine;
 public class WoodenSpear : GunControllerBase
 {
     private WoodenSpearView m_woodenSpearView;
-    public override void Init()
+    protected override void Init()
     {
         m_woodenSpearView = (WoodenSpearView)M_GunViewBase;
     }
-    public override void Shot()
+    protected override void Shot()
     {
-        GameObject spear = Instantiate(m_woodenSpearView.Spear, m_woodenSpearView.M_FireEffectPos.position
-            , m_woodenSpearView.M_FireEffectPos.rotation);
-        spear.GetComponent<Arrow>().Flight(m_woodenSpearView.M_FireEffectPos.forward, 5000, Damage);
+        GameObject spear = Instantiate(m_woodenSpearView.Spear, m_woodenSpearView.M_MuzzlePos.position
+            , m_woodenSpearView.M_MuzzlePos.rotation);
+        spear.GetComponent<Arrow>().Flight(m_woodenSpearView.M_MuzzlePos.forward, 5000, Damage);
 
         Durable--;
     }
-    public override void PlayEffect() { }
 }

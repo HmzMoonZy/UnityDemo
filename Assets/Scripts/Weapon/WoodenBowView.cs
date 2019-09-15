@@ -7,12 +7,12 @@ public class WoodenBowView : GunViewBase
     private GameObject arrow;       //箭模型
 
     public GameObject Arrow { get { return arrow; } }
-    public override void Init()
+    protected override void Init()
     {
         arrow = Resources.Load<GameObject>("Weapon/Arrow");
     }
 
-    public override void InitAimAnimationPos()
+    protected override void InitAimAnimationPos()
     {
         M_OriginPos = M_Transform.localPosition;
         M_OriginRot = M_Transform.localRotation.eulerAngles;
@@ -20,14 +20,14 @@ public class WoodenBowView : GunViewBase
         M_AimRot = new Vector3(-2.26f, 5.14f, 27.67f);
     }
 
-    public override void InitFind()
+    protected override void InitFind()
     {
         M_FireAudioClip = Resources.Load<AudioClip>("Audio/Weapon/Arrow Release");
     }
 
-    public override void SetFireEffectPos()
+    protected override void SetMuzzlePos()
     {
-        M_FireEffectPos = M_Transform.Find("Armature/Arm_L/Forearm_L/Wrist_L/Weapon/FireEffectPoint");
+        M_MuzzlePos = M_Transform.Find("Armature/Arm_L/Forearm_L/Wrist_L/Weapon/FireEffectPoint");
     }
     
 }

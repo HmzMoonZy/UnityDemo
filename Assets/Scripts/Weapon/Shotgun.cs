@@ -4,23 +4,23 @@ using UnityEngine;
 /// <summary>
 /// 霰弹枪控制层
 /// </summary>
-public class Shotgun : GunControllerBase
+public class Shotgun : LikeGunControllerBase
 {
     private ShotgunView m_ShotgunView;      //视图层引用
     private int bulletCount = 5;            //载弹量
 
-    public override void Init()
+    protected override void Init()
     {
         m_ShotgunView = (ShotgunView)M_GunViewBase;
     }
-    public override void PlayEffect()
+    protected override void PlayEffect()
     {
         //枪口火焰
-        GameObject temp = Instantiate(m_ShotgunView.M_FireEffect, m_ShotgunView.M_FireEffectPos);
+        GameObject temp = Instantiate(m_ShotgunView.M_FireEffect, m_ShotgunView.M_MuzzlePos);
         temp.GetComponent<ParticleSystem>().Play();
         StartCoroutine(DelayDestroy(temp, 2f));
     }
-    public override void Shot()
+    protected override void Shot()
     {
         for (int i = 0; i < bulletCount; i++)
         {
@@ -34,10 +34,10 @@ public class Shotgun : GunControllerBase
     private IEnumerator DelayShotBullet()
     {
         yield return new WaitForSeconds(0.02f);
-        GameObject bullet = Instantiate(m_ShotgunView.Bullet, m_ShotgunView.M_FireEffectPos.position
+        GameObject bullet = Instantiate(m_ShotgunView.Bullet, m_ShotgunView.M_MuzzlePos.position
             , Quaternion.identity);
         ShotgunBullet sbt = bullet.GetComponent<ShotgunBullet>();
-        sbt.Flight(m_ShotgunView.M_FireEffectPos.forward, 8000, Damage/bulletCount);
+        sbt.Flight(m_ShotgunView.M_MuzzlePos.forward, 8000, Damage/bulletCount);
     }
     /// <summary>
     /// 延迟销毁目标
@@ -52,7 +52,7 @@ public class Shotgun : GunControllerBase
     /// </summary>
     public void ReLoadAudio()
     {
-        AudioSource.PlayClipAtPoint(m_ShotgunView.ReLoad, m_ShotgunView.M_FireEffectPos.position);
+        AudioSource.PlayClipAtPoint(m_ShotgunView.ReLoad, m_ShotgunView.M_MuzzlePos.position);
     }
     /// <summary>
     /// 弹壳出仓动作

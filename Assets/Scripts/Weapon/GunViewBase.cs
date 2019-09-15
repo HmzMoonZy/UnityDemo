@@ -21,15 +21,11 @@ public abstract class GunViewBase : MonoBehaviour
     private Vector3 m_aimRot;           //瞄准旋转
 
     //特效
-    private Transform m_fireEffctPos;     //枪口特效坐标
+    private Transform m_muzzlePos;     //枪口特效坐标
 
     //音效及特效资源
     private GameObject m_fireEffct;      //射击枪口特效
     private AudioClip m_fireAudioClip;   //射击音效
-
-    //父物体管理
-    private Transform allShell_Parent;          //弹壳资源父物体
-    private Transform allFireEffect_Parent;     //开火特效父物体
 
     #region 属性
     //基础组件属性
@@ -44,15 +40,13 @@ public abstract class GunViewBase : MonoBehaviour
     public Vector3 M_AimRot { get { return m_aimRot; } set { m_aimRot = value; } }
 
     //特效/准星坐标属性
-    public Transform M_FireEffectPos { get { return m_fireEffctPos; } set { m_fireEffctPos = value; } }
+    public Transform M_MuzzlePos { get { return m_muzzlePos; } set { m_muzzlePos = value; } }
     public Transform M_SightPos { get { return m_sightPos; } set { m_sightPos = value; } }
 
     //特效及音效
     public GameObject M_FireEffect { get { return m_fireEffct; } set { m_fireEffct = value; } }
     public AudioClip M_FireAudioClip { get { return m_fireAudioClip; } set { m_fireAudioClip = value; } }
 
-    public Transform AllShell_Parent { get { return allShell_Parent; } set { allShell_Parent = value; } }
-    public Transform AllFireEffect_Parent { get { return allFireEffect_Parent; } set { allFireEffect_Parent = value; } }
     #endregion
     public virtual void Awake()
     {
@@ -61,19 +55,15 @@ public abstract class GunViewBase : MonoBehaviour
         m_envCamera = GameObject.Find("EnvCamera").GetComponent<Camera>();
         m_sightPos = GameObject.Find("Canvas/MainPanel/Sight").GetComponent<Transform>();
 
-
-        allShell_Parent = GameObject.Find("TempManager/AllShell").GetComponent<Transform>();
-        allFireEffect_Parent = GameObject.Find("TempManager/AllFireEffect").GetComponent<Transform>();
-
         InitAimAnimationPos();
         InitFind();
-        SetFireEffectPos();
+        SetMuzzlePos();
         Init();
     }
     /// <summary>
     /// 瞄准动作
     /// </summary>
-    public void AimAction(int fov = 40, float time = 0.2f)
+    public virtual void AimAction(int fov = 40, float time = 0.2f)
     {
         m_envCamera.DOFieldOfView(fov, time);
         m_transform.DOLocalMove(m_aimPos, time);
@@ -82,27 +72,28 @@ public abstract class GunViewBase : MonoBehaviour
     /// <summary>
     /// 瞄准取消动作
     /// </summary>
-    public void CancelAimAction(int fov = 60, float time = 0.2f)
+    public virtual void CancelAimAction(int fov = 60, float time = 0.2f)
     {
         m_envCamera.DOFieldOfView(fov, time);
         m_transform.DOLocalMove(m_originPos, time);
         m_transform.DOLocalRotate(m_originRot, time);
     }
     /// <summary>
+    /// 初始化子类自身变量
+    /// </summary>
+    protected abstract void Init();
+    /// <summary>
     /// 初始化瞄准动画相关坐标
     /// </summary>
-    public abstract void InitAimAnimationPos();
+    protected abstract void InitAimAnimationPos();
     /// <summary>
-    /// 设置枪口特效坐标
+    /// 设置枪口坐标
     /// </summary>
-    public abstract void SetFireEffectPos();
+    protected abstract void SetMuzzlePos();
     /// <summary>
     /// 初始化查找特效文件.音效文件等
     /// </summary>
-    public abstract void InitFind();
-    /// <summary>
-    /// 初始化子类自身变量
-    /// </summary>
-    public abstract void Init();
+    protected abstract void InitFind();
+
 
 }

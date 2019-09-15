@@ -3,12 +3,12 @@ using UnityEngine;
 /// <summary>
 /// 步枪脚本
 /// </summary>
-public class AssaultRifle : GunControllerBase
+public class AssaultRifle : LikeGunControllerBase
 {
     private AssaultRifleView m_AssaultRifleView; //视图层引用
     private ObjectPool[] pools;         //对象池数组.0:枪口特效.1:弹壳模型
 
-    public override void Init()
+    protected override void Init()
     {
         m_AssaultRifleView = (AssaultRifleView)M_GunViewBase;
         pools = gameObject.GetComponents<ObjectPool>();
@@ -16,7 +16,7 @@ public class AssaultRifle : GunControllerBase
     /// <summary>
     /// 射击
     /// </summary>
-    public override void Shot()
+    protected override void Shot()
     {
         if (Hit.point != Vector3.zero)
         {
@@ -35,7 +35,7 @@ public class AssaultRifle : GunControllerBase
     /// <summary>
     /// 播放特效
     /// </summary>
-    public override void PlayEffect()
+    protected override void PlayEffect()
     {
         FireEffect();
         ShellAction();
@@ -48,14 +48,14 @@ public class AssaultRifle : GunControllerBase
         GameObject effect = null;
         if (pools[0].IsTemp())      //池空则实例化
         {
-            effect = Instantiate(m_AssaultRifleView.M_FireEffect, m_AssaultRifleView.M_FireEffectPos.position
+            effect = Instantiate(m_AssaultRifleView.M_FireEffect, m_AssaultRifleView.M_MuzzlePos.position
                 , Quaternion.identity, m_AssaultRifleView.AllFireEffect_Parent);
         }
         else        //重置池中对象
         {
             effect = pools[0].GetObject();
             effect.SetActive(true);
-            effect.GetComponent<Transform>().position = m_AssaultRifleView.M_FireEffectPos.position;
+            effect.GetComponent<Transform>().position = m_AssaultRifleView.M_MuzzlePos.position;
         }
         effect.name = "FireEffect";
         effect.GetComponent<ParticleSystem>().Play();
