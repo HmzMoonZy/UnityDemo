@@ -9,13 +9,13 @@ public class WoodenBow : GunControllerBase
     {
         m_woodenBowView = (WoodenBowView)M_GunViewBase;
     }
-
-    public override void PlayEffect(){}
-
     public override void Shot()
     {
         GameObject arrow = Instantiate(m_woodenBowView.Arrow, m_woodenBowView.M_FireEffectPos.position
             , m_woodenBowView.M_FireEffectPos.rotation);
-        arrow.GetComponent<Arrow>().Flight(m_woodenBowView.M_FireEffectPos.forward, 3000);
+        arrow.GetComponent<Arrow>().Flight(m_woodenBowView.M_FireEffectPos.forward, 3000, Damage);
+
+        Durable--;
     }
+    public override void PlayEffect() { }
 }

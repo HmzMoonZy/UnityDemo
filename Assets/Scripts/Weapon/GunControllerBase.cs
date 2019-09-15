@@ -20,13 +20,13 @@ public abstract class GunControllerBase : MonoBehaviour
     private RaycastHit hit;               //射线碰撞点
 
     private bool canShot = true;          //开火状态
-    private bool sightState = true;         //准星状态
+    private bool sightState = true;       //准星状态
 
     #region 属性
     public GunViewBase M_GunViewBase { get { return m_gunViewBase; } set { m_gunViewBase = value; } }
 
     public int ID { get { return id; } set { id = value; } }
-    public int Damege { get { return damage; } set { damage = value; } }
+    public int Damage { get { return damage; } set { damage = value; } }
     public WeaponType Type { get { return type; } set { type = value; } }
     public int Durable
     {

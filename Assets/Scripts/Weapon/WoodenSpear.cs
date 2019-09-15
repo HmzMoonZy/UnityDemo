@@ -9,13 +9,13 @@ public class WoodenSpear : GunControllerBase
     {
         m_woodenSpearView = (WoodenSpearView)M_GunViewBase;
     }
-
-    public override void PlayEffect() { }
-
     public override void Shot()
     {
         GameObject spear = Instantiate(m_woodenSpearView.Spear, m_woodenSpearView.M_FireEffectPos.position
             , m_woodenSpearView.M_FireEffectPos.rotation);
-        spear.GetComponent<Arrow>().Flight(m_woodenSpearView.M_FireEffectPos.forward, 5000);
+        spear.GetComponent<Arrow>().Flight(m_woodenSpearView.M_FireEffectPos.forward, 5000, Damage);
+
+        Durable--;
     }
+    public override void PlayEffect() { }
 }

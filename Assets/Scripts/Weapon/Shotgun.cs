@@ -8,11 +8,11 @@ public class Shotgun : GunControllerBase
 {
     private ShotgunView m_ShotgunView;      //视图层引用
     private int bulletCount = 5;            //载弹量
+
     public override void Init()
     {
         m_ShotgunView = (ShotgunView)M_GunViewBase;
     }
-
     public override void PlayEffect()
     {
         //枪口火焰
@@ -20,15 +20,14 @@ public class Shotgun : GunControllerBase
         temp.GetComponent<ParticleSystem>().Play();
         StartCoroutine(DelayDestroy(temp, 2f));
     }
-
     public override void Shot()
     {
         for (int i = 0; i < bulletCount; i++)
         {
             StartCoroutine(DelayShotBullet());
         }
+        Durable--;
     }
-
     /// <summary>
     /// 延迟霰弹枪发射子弹
     /// </summary>
@@ -38,13 +37,7 @@ public class Shotgun : GunControllerBase
         GameObject bullet = Instantiate(m_ShotgunView.Bullet, m_ShotgunView.M_FireEffectPos.position
             , Quaternion.identity);
         ShotgunBullet sbt = bullet.GetComponent<ShotgunBullet>();
-        sbt.Flight(m_ShotgunView.M_FireEffectPos.forward, 10000);
-
-        //伤害判断
-        if (sbt.Hit.collider != null && sbt.Hit.collider.GetComponent<BulletMark>() != null)
-        {
-            sbt.Hit.collider.GetComponent<BulletMark>().HP -= Damege / bulletCount;
-        }
+        sbt.Flight(m_ShotgunView.M_FireEffectPos.forward, 8000, Damage/bulletCount);
     }
     /// <summary>
     /// 延迟销毁目标
