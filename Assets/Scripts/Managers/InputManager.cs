@@ -1,15 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 /// <summary>
 /// 按键输入管理器
 /// </summary>
 public class InputManager : MonoBehaviour
 {
-    private bool inventoryPanelShow = false;    //背包面板显示状态
+    private bool inventoryPanelShow = false;        //背包面板显示状态
+
+    private GunControllerBase gunctrl;              //枪械控制器
+    private FirstPersonController fpsctrl;          //第一人称控制器
+
+    private GameObject Sight_UI;                    //准星UI
     void Start()
     {
         InventoryPanelController._Instance.HidePanel();
+
+        gunctrl = GameObject.Find("FPSController/PlayerCamera/ShotGun").GetComponent<GunControllerBase>();
+        fpsctrl = GameObject.Find("FPSController").GetComponent<FirstPersonController>();
+
+        Sight_UI = GameObject.Find("Canvas/MainPanel/Sight");
     }
 
     void Update()
@@ -24,15 +35,27 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(GameConst.InventoryPanelKey))
         {
-            if (inventoryPanelShow)
+            if (inventoryPanelShow)     //关闭背包
             {
                 InventoryPanelController._Instance.HidePanel();
                 inventoryPanelShow = false;
+                //启用组件
+                gunctrl.enabled = true;
+                fpsctrl.enabled = true;
+                Sight_UI.SetActive(true);
             }
-            else
+            else                        //打开背包
             {
                 InventoryPanelController._Instance.ShowPanel();
                 inventoryPanelShow = true;
+                //禁用组件
+                gunctrl.enabled = false;
+                fpsctrl.enabled = false;
+                //鼠标解锁
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                //关闭准星
+                Sight_UI.SetActive(false);
             }
         }
     }

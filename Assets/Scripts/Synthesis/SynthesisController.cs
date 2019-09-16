@@ -64,7 +64,7 @@ public class SynthesisController : MonoBehaviour
         GameObject temp = Instantiate<GameObject>(inventoryItem_Prefab, bg_Transform);
         temp.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120);
         temp.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 120);
-        temp.GetComponent<InventoryItemController>().Init(tempID, tempName, 1);
+        temp.GetComponent<InventoryItemController>().Init(tempID, tempName, 1,1);
 
         SendMessageUpwards("MakeFinish");
         ButtonUnActive();

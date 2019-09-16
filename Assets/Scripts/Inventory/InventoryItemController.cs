@@ -14,11 +14,13 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     private Transform last_Transform;
 
     private Image m_Img;                //道具图标
+    private Image m_durabar_img;        //耐久度条
     private Text m_Text;                //道具数量文本
     private CanvasGroup m_CanvasGroup;  //用于控制射线检测
 
     private int id = -1;                //自身ID
     private int num;                    //道具数量
+    private int duraBar = -1;                //耐久度条标记
     private bool isDrag = false;        //拖拽状态
     private bool isInInventory = true;  //是否处于背包中
 
@@ -63,17 +65,21 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
         m_CanvasGroup = gameObject.GetComponent<CanvasGroup>();
 
         m_Img = gameObject.GetComponent<Image>();
+        m_durabar_img = m_RectTransform.Find("DuraBar").GetComponent<Image>();
         m_Text = m_RectTransform.Find("Num").GetComponent<Text>();
     }
     /// <summary>
     /// 初始化Item预制体
     /// </summary>
-    public void Init(int id, string fileName, int count)
+    public void Init(int id, string fileName, int count, int duraBar)
     {
         this.id = id;
         this.m_Img.sprite = Resources.Load<Sprite>("Item/" + fileName);
         this.m_Text.text = count.ToString();
         this.num = count;
+        this.duraBar = duraBar;
+
+        SetDuraBar();
     }
     /// <summary>
     /// 拆分道具
@@ -201,7 +207,20 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
         }
         else { m_RectTransform.SetParent(last_Transform); }
     }
-        #endregion
     #endregion
-
+    #endregion
+    /// <summary>
+    /// 判断物品是否拥有耐久度
+    /// </summary>
+    private void SetDuraBar()
+    {
+        if (duraBar == 1)
+        {
+            m_Text.gameObject.SetActive(false);
+        }
+        else
+        {
+            m_durabar_img.gameObject.SetActive(false);
+        }
+    }
 }

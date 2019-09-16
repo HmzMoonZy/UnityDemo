@@ -2,46 +2,115 @@
     {
 		"ItemID": 11,
 		"ItemName": "Arrow",
-		"ItemNum": 64
+		"ItemNum": 64,
+		"DuraBar": 0
     },
     {
 		"ItemID": 12,
 		"ItemName": "Torch",
-		"ItemNum": 1
+		"ItemNum": 1,
+		"DuraBar": 0
     },
     {
 		"ItemID": 13,
 		"ItemName": "Axe",
-		"ItemNum": 1
-    },
-    {
-		"ItemID": 14,
-		"ItemName": "Assault Rifle",
-		"ItemNum": 1
-    },
-    {
-		"ItemID": 15,
-		"ItemName": "Hunting Rifle",
-		"ItemNum": 1
-    },	
-    {
-		"ItemID": 16,
-		"ItemName": "Revolver",
-		"ItemNum": 1
-    },
-    {
-		"ItemID": 17,
-		"ItemName": "Shotgun",
-		"ItemNum": 1
+		"ItemNum": 1,
+		"DuraBar": 0
     },
     {
 		"ItemID": 1,
 		"ItemName": "1",
-		"ItemNum": 64
+		"ItemNum": 64,
+		"DuraBar": 0
     },
     {
 		"ItemID": 2,
 		"ItemName": "2",
-		"ItemNum": 64
-    }	
+		"ItemNum": 64,
+		"DuraBar": 0
+    },
+	{
+		"ItemID": 20,
+		"ItemName": "Assault Rifle",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },
+    {
+		"ItemID": 21,
+		"ItemName": "Assault Rifle",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },
+	{
+		"ItemID": 22,
+		"ItemName": "Assault Rifle",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },
+	    {
+		"ItemID": 23,
+		"ItemName": "Assault Rifle",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },
+    {
+		"ItemID": 24,
+		"ItemName": "Shotgun",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },
+    {
+		"ItemID": 25,
+		"ItemName": "Shotgun",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },	
+    {
+		"ItemID": 26,
+		"ItemName": "Shotgun",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },
+    {
+		"ItemID": 27,
+		"ItemName": "Shotgun",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },	
+    {
+		"ItemID": 28,
+		"ItemName": "Shotgun",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },	
+    {
+		"ItemID": 41,
+		"ItemName": "Wooden Bow",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },	
+    {
+		"ItemID": 42,
+		"ItemName": "Wooden Bow",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },	
+    {
+		"ItemID": 43,
+		"ItemName": "Wooden Spear",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },	
+    {
+		"ItemID": 44,
+		"ItemName": "Wooden Spear",
+		"ItemNum": 1,
+		"DuraBar": 1
+    },	
+    {
+		"ItemID": 45,
+		"ItemName": "Wooden Spear",
+		"ItemNum": 1,
+		"DuraBar": 1
+    }
 ]
