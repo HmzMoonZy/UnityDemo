@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
 {
     private bool inventoryPanelShow = false;        //背包面板显示状态
 
-    private GunControllerBase gunctrl;              //枪械控制器
+    //private GunControllerBase gunctrl;              //枪械控制器
     private FirstPersonController fpsctrl;          //第一人称控制器
 
     private GameObject Sight_UI;                    //准星UI
@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
     {
         InventoryPanelController._Instance.HidePanel();
 
-        gunctrl = GameObject.Find("FPSController/PlayerCamera/ShotGun").GetComponent<GunControllerBase>();
+        //gunctrl = GameObject.Find("FPSController/PlayerCamera/ShotGun").GetComponent<GunControllerBase>();
         fpsctrl = GameObject.Find("FPSController").GetComponent<FirstPersonController>();
 
         Sight_UI = GameObject.Find("Canvas/MainPanel/Sight");
@@ -40,7 +40,7 @@ public class InputManager : MonoBehaviour
                 InventoryPanelController._Instance.HidePanel();
                 inventoryPanelShow = false;
                 //启用组件
-                gunctrl.enabled = true;
+                //gunctrl.enabled = true;
                 fpsctrl.enabled = true;
                 Sight_UI.SetActive(true);
             }
@@ -49,7 +49,7 @@ public class InputManager : MonoBehaviour
                 InventoryPanelController._Instance.ShowPanel();
                 inventoryPanelShow = true;
                 //禁用组件
-                gunctrl.enabled = false;
+                //gunctrl.enabled = false;
                 fpsctrl.enabled = false;
                 //鼠标解锁
                 Cursor.lockState = CursorLockMode.None;

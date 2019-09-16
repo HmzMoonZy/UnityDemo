@@ -12,6 +12,8 @@ public class ToolBarSlotController : MonoBehaviour
     private Text key_text;
 
     private bool activeState = false;   //该槽的激活与否
+
+    public bool ActiveState { get { return activeState; } }
     void Awake()
     {
         _transform = gameObject.GetComponent<Transform>();

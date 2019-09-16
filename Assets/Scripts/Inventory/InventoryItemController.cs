@@ -20,7 +20,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
 
     private int id = -1;                //自身ID
     private int num;                    //道具数量
-    private int duraBar = -1;                //耐久度条标记
+    private int duraBar = -1;           //耐久度条标记
     private bool isDrag = false;        //拖拽状态
     private bool isInInventory = true;  //是否处于背包中
 
@@ -221,6 +221,18 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
         else
         {
             m_durabar_img.gameObject.SetActive(false);
+        }
+    }
+    public void UpdateBar(float per)
+    {
+        m_durabar_img.fillAmount = per;
+        if (per <= 0.5)
+        {
+            m_durabar_img.color = new Color(200f / 255f, 255f / 255f, 0f, 111f / 255f);
+        }
+        if (per <= 0.25)
+        {
+            m_durabar_img.color = new Color(255f / 255f, 55f / 255f, 58f / 255f, 111f / 255f);
         }
     }
 }
