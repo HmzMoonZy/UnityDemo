@@ -172,6 +172,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
         {
             m_RectTransform.SetParent(target.transform);
             SetSlefImageSize(100, 100);
+            m_Img.GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
             isInInventory = true;
         }
         #endregion
@@ -186,7 +187,6 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
             //禁止在合成面板中交换位置
             else if (isInInventory && iic.isInInventory)
             {
-                Debug.Log(isInInventory && iic.isInInventory);
                 //两个物品交换位置
                 Transform tempTransform = target.GetComponent<Transform>();
                 m_RectTransform.SetParent(tempTransform.parent);
@@ -203,6 +203,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
             //target.GetComponent<SynthesisSlotContorller>().IsTarget = false;
             m_RectTransform.SetParent(target.transform);
             SetSlefImageSize(120, 95);
+            m_Img.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             InventoryPanelController._Instance.SendAddItemToSynthesisPanel(gameObject);
         }
         else { m_RectTransform.SetParent(last_Transform); }
@@ -215,24 +216,30 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     private void SetDuraBar()
     {
         if (duraBar == 1)
-        {
             m_Text.gameObject.SetActive(false);
-        }
         else
-        {
             m_durabar_img.gameObject.SetActive(false);
-        }
     }
     public void UpdateBar(float per)
     {
-        m_durabar_img.fillAmount = per;
-        if (per <= 0.5)
+        Debug.Log(per);
+        if (per > 0)
         {
-            m_durabar_img.color = new Color(200f / 255f, 255f / 255f, 0f, 111f / 255f);
+            m_durabar_img.fillAmount = per;
+            if (per <= 0.5)
+            {
+                m_durabar_img.color = new Color(200f / 255f, 255f / 255f, 0f, 111f / 255f);
+            }
+            if (per <= 0.25)
+            {
+                m_durabar_img.color = new Color(255f / 255f, 55f / 255f, 58f / 255f, 111f / 255f);
+            }
         }
-        if (per <= 0.25)
+        else
         {
-            m_durabar_img.color = new Color(255f / 255f, 55f / 255f, 58f / 255f, 111f / 255f);
+            gameObject.GetComponent<Transform>().parent.GetComponent<ToolBarSlotController>().NormalButton();
+            Destroy(gameObject);
+
         }
     }
 }

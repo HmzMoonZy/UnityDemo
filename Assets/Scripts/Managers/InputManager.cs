@@ -7,26 +7,25 @@ using UnityStandardAssets.Characters.FirstPerson;
 /// </summary>
 public class InputManager : MonoBehaviour
 {
-    private bool inventoryPanelShow = false;        //背包面板显示状态
+    private bool m_inventoryPanelState = false;    //背包面板显示状态true:显示 fasle:隐藏
 
-    //private GunControllerBase gunctrl;              //枪械控制器
-    private FirstPersonController fpsctrl;          //第一人称控制器
+    private FirstPersonController m_fpsctrl;       //角色控制器
 
-    private GameObject Sight_UI;                    //准星UI
     void Start()
     {
         InventoryPanelController._Instance.HidePanel();
 
-        //gunctrl = GameObject.Find("FPSController/PlayerCamera/ShotGun").GetComponent<GunControllerBase>();
-        fpsctrl = GameObject.Find("FPSController").GetComponent<FirstPersonController>();
-
-        Sight_UI = GameObject.Find("Canvas/MainPanel/Sight");
+        m_fpsctrl = GameObject.Find("FPSController").GetComponent<FirstPersonController>();
     }
 
     void Update()
     {
         SwitchInventoryPanel();
-        GetToolBarKey();
+
+        //仅背包隐藏时接受快捷栏按键
+        if (!m_inventoryPanelState)
+            GetToolBarKey();
+
     }
     /// <summary>
     /// 切换背包面板显示状态
@@ -35,27 +34,31 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(GameConst.InventoryPanelKey))
         {
-            if (inventoryPanelShow)     //关闭背包
+            //关闭背包.
+            if (m_inventoryPanelState)
             {
                 InventoryPanelController._Instance.HidePanel();
-                inventoryPanelShow = false;
-                //启用组件
-                //gunctrl.enabled = true;
-                fpsctrl.enabled = true;
-                Sight_UI.SetActive(true);
+                m_inventoryPanelState = false;
+
+                //显示角色及控制器
+                m_fpsctrl.enabled = true;
+                if (ToolBarController._Instance.M_currentWeapon != null)
+                    ToolBarController._Instance.M_currentWeapon.gameObject.SetActive(true);
             }
-            else                        //打开背包
+            //打开背包.
+            else
             {
                 InventoryPanelController._Instance.ShowPanel();
-                inventoryPanelShow = true;
-                //禁用组件
-                //gunctrl.enabled = false;
-                fpsctrl.enabled = false;
+                m_inventoryPanelState = true;
+                //隐藏角色及控制器
+                m_fpsctrl.enabled = false;
+                if (ToolBarController._Instance.M_currentWeapon != null)
+                    ToolBarController._Instance.M_currentWeapon.gameObject.SetActive(false);
+
                 //鼠标解锁
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                //关闭准星
-                Sight_UI.SetActive(false);
+
             }
         }
     }

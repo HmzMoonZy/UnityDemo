@@ -16,6 +16,8 @@ public class ToolBarController : MonoBehaviour
     private List<GameObject> m_slotList;
     private Dictionary<GameObject, GameObject> m_weaponDic;
 
+    public GameObject M_currentWeapon { get { return m_currentWeapon; } }
+
     private void Awake()
     {
         _Instance = this;
@@ -66,19 +68,33 @@ public class ToolBarController : MonoBehaviour
         InstaniateSelected();
     }
     /// <summary>
-    /// 调用工厂,实例化激活物品槽中的物体.
+    /// 实例化选中物品槽的物品.
     /// </summary>
     public void InstaniateSelected()
     {
         Transform item = m_selected.GetComponent<Transform>().Find("InventoryItem");
-        GameObject temp = null;
-
+        StartCoroutine(CallWeaponFactory(item));   
+    }
+    /// <summary>
+    /// 调用工厂,实例化激活物品槽中的物体.
+    /// </summary>
+    private IEnumerator CallWeaponFactory(Transform item)
+    {
+        //若该物品槽中有物品.
         if (item != null)
         {
             //当前若持有武器则隐藏.
-            if (m_currentWeapon != null) m_currentWeapon.SetActive(false);
+            if (m_currentWeapon != null)
+            {
+                m_currentWeapon.GetComponent<GunControllerBase>().PlayHoslst();
+                yield return new WaitForSeconds(0.5f);
+                m_currentWeapon.SetActive(false);
+            }
+
             //查询字典.
+            GameObject temp = null;
             m_weaponDic.TryGetValue(item.gameObject, out temp);
+
             //若未持有过(字典未找到).
             if (temp == null)
             {
@@ -86,6 +102,7 @@ public class ToolBarController : MonoBehaviour
                 m_weaponDic.Add(item.gameObject, temp);
                 m_currentWeapon = temp;
             }
+
             //持有过.
             else
             {
@@ -97,7 +114,6 @@ public class ToolBarController : MonoBehaviour
                 }
                 else m_currentWeapon = null;
             }
-
         }
         else Debug.Log("该快捷栏没有设置物品!");
     }

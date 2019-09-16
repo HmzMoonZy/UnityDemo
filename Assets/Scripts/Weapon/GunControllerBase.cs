@@ -111,7 +111,7 @@ public abstract class GunControllerBase : MonoBehaviour
     {
         m_gunViewBase.M_Animator.SetTrigger("Fire");
         Shot();
-        item.GetComponent<InventoryItemController>().UpdateBar(durable/totalDurable);
+        item.GetComponent<InventoryItemController>().UpdateBar(durable / totalDurable);
         PlayAudio();
     }
 
@@ -135,6 +135,13 @@ public abstract class GunControllerBase : MonoBehaviour
     protected void PlayAudio()
     {
         AudioSource.PlayClipAtPoint(M_GunViewBase.M_FireAudioClip, M_GunViewBase.M_MuzzlePos.position);
+    }
+    /// <summary>
+    /// 执行装备回收动作
+    /// </summary>
+    public void PlayHoslst()
+    {
+        m_gunViewBase.M_Animator.SetTrigger("Holster");
     }
 
     /// <summary>

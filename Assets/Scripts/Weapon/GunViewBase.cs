@@ -12,7 +12,6 @@ public abstract class GunViewBase : MonoBehaviour
     private Transform m_transform;
     private Animator m_animator;
     private Camera m_envCamera;
-    private Transform m_sightPos;       //准星坐标
 
     //瞄准动画坐标变量
     private Vector3 m_originPos;        //初始坐标
@@ -26,6 +25,11 @@ public abstract class GunViewBase : MonoBehaviour
     //音效及特效资源
     private GameObject m_fireEffct;      //射击枪口特效
     private AudioClip m_fireAudioClip;   //射击音效
+
+    //准星
+    private Transform m_sightPos;       //准星坐标
+    private GameObject m_prefab_sight;  //准星预制体
+
 
     #region 属性
     //基础组件属性
@@ -53,12 +57,24 @@ public abstract class GunViewBase : MonoBehaviour
         m_transform = gameObject.GetComponent<Transform>();
         m_animator = gameObject.GetComponent<Animator>();
         m_envCamera = GameObject.Find("EnvCamera").GetComponent<Camera>();
-        m_sightPos = GameObject.Find("Canvas/MainPanel/Sight").GetComponent<Transform>();
+        m_prefab_sight = Instantiate(Resources.Load<GameObject>("Weapon/Sight")
+            , GameObject.Find("MainPanel").transform);
+        m_sightPos = m_prefab_sight.GetComponent<Transform>();
+
 
         InitAimAnimationPos();
         InitFind();
         SetMuzzlePos();
         Init();
+    }
+    private void OnEnable()
+    {
+        ActiveSight();
+    }
+    private void OnDisable()
+    {
+        if(m_prefab_sight != null)
+            HideSight();
     }
     /// <summary>
     /// 瞄准动作
@@ -77,6 +93,20 @@ public abstract class GunViewBase : MonoBehaviour
         m_envCamera.DOFieldOfView(fov, time);
         m_transform.DOLocalMove(m_originPos, time);
         m_transform.DOLocalRotate(m_originRot, time);
+    }
+    /// <summary>
+    /// 隐藏准星
+    /// </summary>
+    private void HideSight()
+    {
+        m_prefab_sight.SetActive(false);
+    }
+    /// <summary>
+    /// 显示准星
+    /// </summary>
+    private void ActiveSight()
+    {
+        m_prefab_sight.SetActive(true);
     }
     /// <summary>
     /// 初始化子类自身变量
