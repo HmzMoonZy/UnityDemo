@@ -29,9 +29,9 @@
 >### 耐久度UI示例:
 >![logic](https://github.com/HmzMoonZy/UnityDemo/blob/doc/document/%E8%80%90%E4%B9%85%E5%BA%A6%E6%9D%A1%E9%80%BB%E8%BE%91Demo.gif?raw=true)
 >### 冷兵器开火动画示例:
->![logic](https://github.com/HmzMoonZy/UnityDemo/blob/doc/document/%E5%B7%A5%E5%85%B7%E6%A0%8F%E5%8F%8A%E6%9E%AA%E6%A2%B0%E6%A8%A1%E5%9D%97%E9%80%BB%E8%BE%91%E5%9B%BE.png)
+>![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E5%86%B7%E5%85%B5%E5%99%A8%E5%BC%80%E7%81%AB%E5%8A%A8%E7%94%BBDemo.gif)
 >### 结构图
->![logic]()
+>![logic](https://github.com/HmzMoonZy/UnityDemo/blob/doc/document/%E5%B7%A5%E5%85%B7%E6%A0%8F%E5%8F%8A%E6%9E%AA%E6%A2%B0%E6%A8%A1%E5%9D%97%E9%80%BB%E8%BE%91%E5%9B%BE.png)
     
 
 
