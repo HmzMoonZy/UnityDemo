@@ -19,7 +19,7 @@ public abstract class ResourcesManager : MonoBehaviour
     public Transform M_Parent { get { return m_parent; } set { m_parent = value; } }
     public Transform[] M_Points { get { return m_points; } set { m_points = value; } }
 
-    void Start()
+    void Awake()
     {
         m_transform = gameObject.GetComponent<Transform>();
 

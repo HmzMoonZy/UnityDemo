@@ -37,7 +37,7 @@ public class ShotgunBullet : BulletBase
             M_Rigidbody.Sleep();
             DestroySelf();
 
-            collision.gameObject.GetComponent<BulletMark>().HP -= M_Demage;
+            collision.gameObject.GetComponent<BulletMark>().M_HP -= M_Demage;
         }
     }
 }

@@ -56,6 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4233856684602546}
   - component: {fileID: 54838214812182336}
+  - component: {fileID: 64712456065585568}
   m_Layer: 0
   m_Name: Broadleaf_Desktop
   m_TagString: Untagged
@@ -280,6 +281,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &64712456065585568
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1553502525917204}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!193 &193063833476810136
 Tree:
   m_ObjectHideFlags: 1

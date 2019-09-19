@@ -20,28 +20,29 @@ public class TreeManager : ResourcesManager
     }
     protected override void SetPoints()
     {
-        M_Points = M_Parent.GetComponentsInChildren<Transform>();
+        M_Points = M_Transform.Find("points").GetComponentsInChildren<Transform>();
     }
     protected override void CreateAllStone()
     {
-        GameObject temp = null;
+        //GameObject temp = null;
+        GameObject temp = m_prefab_conifer;
 
         for (int i = 1; i < M_Points.Length; i++)
         {
             M_Points[i].GetComponent<MeshRenderer>().enabled = false;
 
-            if (Random.Range(0, 3) == 0)
-                temp = m_prefab_broadleaf;
-            else if (Random.Range(0, 2) == 0)
-                temp = m_prefab_conifer;
-            else
-                temp = m_prefab_palm;
+            //if (Random.Range(0, 3) == 0)
+            //    temp = m_prefab_broadleaf;
+            //else if (Random.Range(0, 2) == 0)
+            //    temp = m_prefab_conifer;
+            //else
+            //    temp = m_prefab_palm;
 
             Quaternion tempRot = Quaternion.Euler(new Vector3(0, Random.Range(0f, 360f), 0));
-            GameObject stone = Instantiate(temp, M_Points[i].position, tempRot, M_Parent);
-            stone.GetComponent<Transform>().localScale = new Vector3(Random.Range(0.7f, 1)
+            GameObject tree = Instantiate(temp, M_Points[i].position, tempRot, M_Parent);
+            tree.GetComponent<Transform>().localScale = new Vector3(Random.Range(0.7f, 1)
                 , Random.Range(0.7f, 1), Random.Range(0.7f, 1));
-
+            tree.name = "conifer";
         }
     }
 }

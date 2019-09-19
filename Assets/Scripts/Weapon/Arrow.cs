@@ -29,7 +29,7 @@ public class Arrow : BulletBase
             Destroy(m_boxcollider);
             M_Transform.SetParent(collision.transform);
             StartCoroutine(ShakeAnimation());
-            collision.gameObject.GetComponent<BulletMark>().HP -= M_Demage;
+            collision.gameObject.GetComponent<BulletMark>().M_HP -= M_Demage;
         }
     }
     /// <summary>

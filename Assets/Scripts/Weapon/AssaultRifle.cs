@@ -23,7 +23,7 @@ public class AssaultRifle : LikeGunControllerBase
             if (Hit.collider.GetComponent<BulletMark>() != null)
             {
                 Hit.collider.GetComponent<BulletMark>().CreateBulletMark(Hit);
-                Hit.collider.GetComponent<BulletMark>().HP -= Damage;
+                Hit.collider.GetComponent<BulletMark>().M_HP -= Damage;
             }
             else
             {

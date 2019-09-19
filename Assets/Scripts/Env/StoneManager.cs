@@ -19,7 +19,7 @@ public class StoneManager : ResourcesManager
 
     protected override void SetPoints()
     {
-        M_Points = M_Parent.GetComponentsInChildren<Transform>();
+        M_Points = M_Transform.Find("points").GetComponentsInChildren<Transform>();
     }
     protected override void FindPrefab()
     {

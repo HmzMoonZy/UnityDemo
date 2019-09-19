@@ -38,6 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4719709262156808}
   - component: {fileID: 54678160508950170}
+  - component: {fileID: 64856805862631958}
   m_Layer: 0
   m_Name: Palm_Desktop
   m_TagString: Untagged
@@ -274,6 +275,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &64856805862631958
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1237843115951620}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!193 &193015730133994856
 Tree:
   m_ObjectHideFlags: 1
