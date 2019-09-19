@@ -21,7 +21,10 @@ GameObject:
   - component: {fileID: 4312237162592264}
   - component: {fileID: 33207381302775068}
   - component: {fileID: 23317684432034072}
-  m_Layer: 0
+  - component: {fileID: 114477797088468480}
+  - component: {fileID: 114381367780367160}
+  - component: {fileID: 64148601735049372}
+  m_Layer: 11
   m_Name: Rock_Metal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,3 +83,41 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1687061884877146}
   m_Mesh: {fileID: 4300002, guid: 19f50471c878ee14d94a4e5dd3bb49de, type: 3}
+--- !u!64 &64148601735049372
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1687061884877146}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300002, guid: 19f50471c878ee14d94a4e5dd3bb49de, type: 3}
+--- !u!114 &114381367780367160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1687061884877146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c52d48af5f9d11428c3818a74c7d91a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureType: 0
+  hp: 800
+--- !u!114 &114477797088468480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1687061884877146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd88fd30c14282840aa5b860f206ad69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

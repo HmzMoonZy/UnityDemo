@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 6400000}
-  m_Layer: 0
+  - component: {fileID: 114177966569118146}
+  - component: {fileID: 114859404724853420}
+  m_Layer: 11
   m_Name: Rock_Normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,3 +97,27 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
+--- !u!114 &114177966569118146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd88fd30c14282840aa5b860f206ad69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114859404724853420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c52d48af5f9d11428c3818a74c7d91a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureType: 1
+  hp: 600

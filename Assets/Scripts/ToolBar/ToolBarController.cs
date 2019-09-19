@@ -115,6 +115,10 @@ public class ToolBarController : MonoBehaviour
                 else m_currentWeapon = null;
             }
         }
-        else Debug.Log("该快捷栏没有设置物品!");
+        else
+        {
+            Debug.Log("该快捷栏没有设置物品!");
+            m_selected.GetComponent<ToolBarSlotController>().NormalButton();
+        }    
     }
 }
