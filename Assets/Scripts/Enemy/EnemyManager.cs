@@ -68,8 +68,8 @@ public class EnemyManager : MonoBehaviour
         {
             tempEnemy = Instantiate(prefab, m_transform.position, Quaternion.identity, m_transform);
             //敌人目标点
-            tempEnemy.GetComponent<EnemyAI>().Dir = m_list_navPos[i];
-            tempEnemy.GetComponent<EnemyAI>().DirList = m_list_navPos;
+            tempEnemy.GetComponent<EnemyAI>().M_NavDir = m_list_navPos[i];
+            tempEnemy.GetComponent<EnemyAI>().M_NavDirList = m_list_navPos;
             m_enemys.Add(tempEnemy);
         }
     }
@@ -100,8 +100,8 @@ public class EnemyManager : MonoBehaviour
         }
 
         //初始化巡逻点
-        tempEnemy.GetComponent<EnemyAI>().Dir = m_list_navPos[index];
-        tempEnemy.GetComponent<EnemyAI>().DirList = m_list_navPos;
+        tempEnemy.GetComponent<EnemyAI>().M_NavDir = m_list_navPos[index];
+        tempEnemy.GetComponent<EnemyAI>().M_NavDirList = m_list_navPos;
         index++;
         index  = index % m_list_navPos.Count;
         //入组
