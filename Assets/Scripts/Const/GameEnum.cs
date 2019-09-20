@@ -13,3 +13,9 @@ public enum TextureType
     Stone,
     Wood
 }
+public enum EnemyType
+{
+    NULL,
+    CANNIBAL,
+    BOAR
+}

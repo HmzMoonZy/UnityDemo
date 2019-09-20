@@ -55,10 +55,7 @@ public class BulletMark : MonoBehaviour
         //主贴图备份通过实例化存储，不能直接赋值。
         //预制体的贴图是地址值,须独立.
         if (gameObject.name == "conifer")
-        {
             m_mainTexture = (Texture2D)gameObject.GetComponent<MeshRenderer>().materials[2].mainTexture;
-            Debug.Log(m_mainTexture.name);
-        }
         else
             m_mainTexture = (Texture2D)gameObject.GetComponent<MeshRenderer>().material.mainTexture;
 
