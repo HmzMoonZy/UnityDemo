@@ -46,7 +46,6 @@ public class EnemyAI : MonoBehaviour
         set
         {
             m_helthPoint = value;
-            GetHitNormal();
             if (M_HP <= 0)
                 DeathState();
         }
@@ -241,14 +240,18 @@ public class EnemyAI : MonoBehaviour
 
         StartCoroutine(Death());
     }
-    private void GetHitNormal()
+    public void GetHitNormal(int damage)
     {
         m_animator.SetTrigger("GetHitNormal");
+        M_HP -= damage;
         m_navMeshAgrnt.enabled = false;
+        Debug.Log("命中! 造成了" + damage + "的伤害" );
     }
-    private void GetHitHard()
+    public void GetHitHard(int damage)
     {
         m_animator.SetTrigger("GetHitHard");
+        M_HP -= damage;
+        Debug.Log("命中头部! 造成了" + damage + "的伤害");
         m_navMeshAgrnt.enabled = false;
     }
 

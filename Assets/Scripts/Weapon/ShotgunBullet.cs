@@ -13,16 +13,14 @@ public class ShotgunBullet : BulletBase
 
     public override void Flight(Vector3 dir, float force, int damage, RaycastHit hit)
     {
-        this.M_Demage = damage;
-        //散射偏移量
-        Vector3 offset = new Vector3(Random.Range(-0.08f, 0.08f), Random.Range(-0.06f, 0.06f), 0);
+        Vector3 offset = new Vector3(Random.Range(-0.08f, 0.08f), Random.Range(-0.06f, 0.06f), 0);  //散射偏移量
         M_Rigidbody.AddForce((dir + offset) * force);
         ray = new Ray(M_Transform.position, dir + offset);
+        this.M_Demage = damage;
     }
 
     public override void CollisionEnter(Collision collision)
     {
-
         if (collision.gameObject.layer == LayerMask.NameToLayer("Env"))
         {
             Physics.Raycast(ray, out hit, 1000, 1 << 11);   //Env
@@ -37,9 +35,14 @@ public class ShotgunBullet : BulletBase
             M_Rigidbody.Sleep();
             collision.gameObject.GetComponentInParent<EnemyAI>().PlayEffect(hit);
             if (collision.gameObject.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
-                collision.gameObject.GetComponentInParent<EnemyAI>().M_HP -= M_Demage;
+            {
+                if (collision.gameObject.name == "collider_head")
+                    collision.gameObject.GetComponentInParent<EnemyAI>().GetHitHard(M_Demage * 2);
+                else
+                    collision.gameObject.GetComponentInParent<EnemyAI>().GetHitNormal(M_Demage);
+            }
+
             DestroySelf();
         }
-
     }
 }

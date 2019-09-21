@@ -30,9 +30,13 @@ public class AssaultRifle : LikeGunControllerBase
                 Hit.collider.GetComponentInParent<EnemyAI>().PlayEffect(Hit);
                 if (Hit.collider.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
                 {
-                    Hit.collider.GetComponentInParent<EnemyAI>().M_HP -= M_Damage;
+                    if (Hit.collider.gameObject.name == "collider_head")
+                        Hit.collider.gameObject.GetComponentInParent<EnemyAI>().GetHitHard(M_Damage * 2);
+                    else
+                        Hit.collider.gameObject.GetComponentInParent<EnemyAI>().GetHitNormal(M_Damage);
                 }
             }
+
             if (Hit.collider.GetComponent<BulletMark>() == null && Hit.collider.GetComponentInParent<EnemyAI>() == null)
             {
                 Instantiate(m_AssaultRifleView.Bullet_Prefab, Hit.point, Quaternion.identity);

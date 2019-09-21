@@ -222,7 +222,7 @@ public class InventoryItemController : MonoBehaviour, IBeginDragHandler, IDragHa
     }
     public void UpdateBar(float per)
     {
-        Debug.Log(per);
+        //Debug.Log(per);
         if (per > 0)
         {
             m_durabar_img.fillAmount = per;

@@ -55,7 +55,7 @@ public class EnemyManager : MonoBehaviour
         }
         if (type == EnemyType.CANNIBAL)
         {
-            CreateEnemy(m_prefab_cannibal, 250, 10);
+            CreateEnemy(m_prefab_cannibal, 200, 10);
         }
     }
     /// <summary>
@@ -99,7 +99,7 @@ public class EnemyManager : MonoBehaviour
         if (type == EnemyType.BOAR)
         {
             tempEnemy = Instantiate(m_prefab_boar, m_transform.position, Quaternion.identity, m_transform);
-            tempEnemy.GetComponentInParent<EnemyAI>().M_HP = 300;
+            tempEnemy.GetComponentInParent<EnemyAI>().M_HP = 400;
             tempEnemy.GetComponentInParent<EnemyAI>().M_AP = 20;
         }
         if (type == EnemyType.CANNIBAL)

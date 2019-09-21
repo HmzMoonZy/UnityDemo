@@ -55,15 +55,15 @@ public class WeaponFactory : MonoBehaviour
                 break;
             case "Shotgun":
                 temp = Instantiate(m_shotgun, m_transform);
-                SetProperty(temp, index, 350, WeaponType.Shotgun, 30, item);
+                SetProperty(temp, index, 250, WeaponType.Shotgun, 30, item);
                 break;
             case "Wooden Bow":
                 temp = Instantiate(m_woodenBow, m_transform);
-                SetProperty(temp, index, 70, WeaponType.AssaultRifle, 50, item);
+                SetProperty(temp, index, 120, WeaponType.AssaultRifle, 50, item);
                 break;
             case "Wooden Spear":
                 temp = Instantiate(m_woodenSpear, m_transform);
-                SetProperty(temp, index, 70, WeaponType.AssaultRifle, 50, item);
+                SetProperty(temp, index, 120, WeaponType.AssaultRifle, 50, item);
                 break;
         }
         index++;
