@@ -51,17 +51,17 @@ public class EnemyManager : MonoBehaviour
     {
         if (type == EnemyType.BOAR)
         {
-            CreateEnemy(m_prefab_boar);
+            CreateEnemy(m_prefab_boar, 400, 20);
         }
         if (type == EnemyType.CANNIBAL)
         {
-            CreateEnemy(m_prefab_cannibal);
+            CreateEnemy(m_prefab_cannibal, 250, 10);
         }
     }
     /// <summary>
     /// 创建三个敌人预制体
     /// </summary>
-    private void CreateEnemy(GameObject prefab)
+    private void CreateEnemy(GameObject prefab, int hp, int attack)
     {
         GameObject tempEnemy = null;
         for (int i = 0; i < 3; i++)
@@ -70,7 +70,13 @@ public class EnemyManager : MonoBehaviour
             //敌人目标点
             tempEnemy.GetComponent<EnemyAI>().M_NavDir = m_list_navPos[i];
             tempEnemy.GetComponent<EnemyAI>().M_NavDirList = m_list_navPos;
+
+            tempEnemy.GetComponentInParent<EnemyAI>().M_HP = hp;
+            tempEnemy.GetComponentInParent<EnemyAI>().M_AP = attack;
+
             m_enemys.Add(tempEnemy);
+
+
         }
     }
     /// <summary>
@@ -93,10 +99,14 @@ public class EnemyManager : MonoBehaviour
         if (type == EnemyType.BOAR)
         {
             tempEnemy = Instantiate(m_prefab_boar, m_transform.position, Quaternion.identity, m_transform);
+            tempEnemy.GetComponentInParent<EnemyAI>().M_HP = 300;
+            tempEnemy.GetComponentInParent<EnemyAI>().M_AP = 20;
         }
         if (type == EnemyType.CANNIBAL)
         {
             tempEnemy = Instantiate(m_prefab_cannibal, m_transform.position, Quaternion.identity, m_transform);
+            tempEnemy.GetComponentInParent<EnemyAI>().M_HP = 200;
+            tempEnemy.GetComponentInParent<EnemyAI>().M_AP = 10;
         }
 
         //初始化巡逻点

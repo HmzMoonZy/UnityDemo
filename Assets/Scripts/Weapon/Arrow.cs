@@ -31,9 +31,19 @@ public class Arrow : BulletBase
             StartCoroutine(ShakeAnimation());
             collision.gameObject.GetComponent<BulletMark>().M_HP -= M_Demage;
         }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            M_Rigidbody.Sleep();
+            Destroy(M_Rigidbody);
+            Destroy(m_boxcollider);
+            M_Transform.SetParent(collision.transform);
+            StartCoroutine(ShakeAnimation());
+            if (collision.gameObject.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
+                collision.gameObject.GetComponentInParent<EnemyAI>().M_HP -= M_Demage;
+        }
     }
     /// <summary>
-    /// 摇晃动画*
+    /// 摇晃动画;
     /// </summary>
     private IEnumerator ShakeAnimation()
     {

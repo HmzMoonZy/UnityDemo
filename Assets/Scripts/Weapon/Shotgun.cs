@@ -37,7 +37,7 @@ public class Shotgun : LikeGunControllerBase
         GameObject bullet = Instantiate(m_ShotgunView.Bullet, m_ShotgunView.M_MuzzlePos.position
             , Quaternion.identity);
         ShotgunBullet sbt = bullet.GetComponent<ShotgunBullet>();
-        sbt.Flight(m_ShotgunView.M_MuzzlePos.forward, 8000, Damage / bulletCount);
+        sbt.Flight(m_ShotgunView.M_MuzzlePos.forward, 6000, M_Damage / bulletCount);
     }
     /// <summary>
     /// 延迟销毁目标

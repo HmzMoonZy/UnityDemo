@@ -21,7 +21,7 @@ public abstract class BulletBase : MonoBehaviour
         m_rigidbody = gameObject.GetComponent<Rigidbody>();
 
         Init();
-        Invoke("DestroySelf", 3f);
+        Invoke("DestroySelf", 8f);
     }
     private void OnCollisionEnter(Collision collision)
     {

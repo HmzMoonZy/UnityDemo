@@ -28,7 +28,7 @@ public abstract class GunControllerBase : MonoBehaviour
     public GunViewBase M_GunViewBase { get { return m_gunViewBase; } set { m_gunViewBase = value; } }
 
     public int ID { get { return id; } set { id = value; } }
-    public int Damage { get { return damage; } set { damage = value; } }
+    public int M_Damage { get { return damage; } set { damage = value; } }
     public WeaponType Type { get { return type; } set { type = value; } }
 
 
@@ -75,7 +75,7 @@ public abstract class GunControllerBase : MonoBehaviour
     {
         ray = new Ray(M_GunViewBase.M_MuzzlePos.position, M_GunViewBase.M_MuzzlePos.forward * 1000);
         Debug.DrawRay(m_gunViewBase.M_MuzzlePos.position, m_gunViewBase.M_MuzzlePos.forward * 500, Color.red);
-        if (Physics.Raycast(ray, out hit, 1500, 1 << 11))       //11层:Env层
+        if (Physics.Raycast(ray, out hit))       //11层:Env层
         {
             //准星定位(辅助瞄准?).
             Vector2 sightPos = RectTransformUtility.WorldToScreenPoint(M_GunViewBase.M_EnvCamera, hit.point);

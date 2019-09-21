@@ -12,7 +12,6 @@ public enum AnimationState
     ENTERATTACK,
     EXITATTACK,
     DEATH
-
 }
 
 /// <summary>
@@ -21,21 +20,38 @@ public enum AnimationState
 public class EnemyAI : MonoBehaviour
 {
     private Transform m_transform;
-    private Transform m_player;
+    private Transform m_player;             //玩家Transform       
     private NavMeshAgent m_navMeshAgrnt;
     private Animator m_animator;
-    private Vector3 m_navDir;                    //导航目标点
-    private List<Vector3> m_navDirList;          //导航目标点列表
+    private Vector3 m_navDir;               //导航目标点
+    private List<Vector3> m_navDirList;     //导航目标点列表
 
     private AnimationState m_state = AnimationState.IDLE;
 
+    //游戏数值
+    private int m_helthPoint;
+    private int m_attackPoint;
 
     //属性
     public Vector3 M_NavDir { get { return m_navDir; } set { m_navDir = value; } }
     public List<Vector3> M_NavDirList { get { return m_navDirList; } set { m_navDirList = value; } }
     public AnimationState M_State { get { return m_state; } set { m_state = value; } }
 
-    private void Start()
+    public int M_HP
+    {
+        get { return m_helthPoint; }
+        set
+        {
+            m_helthPoint = value;
+            GetHitNormal();
+            if (M_HP <= 0)
+                DeathState();
+        }
+
+    }
+    public int M_AP { get { return m_attackPoint; } set { m_attackPoint = value; } }
+
+    private void Awake()
     {
         m_transform = gameObject.GetComponent<Transform>();
         m_navMeshAgrnt = gameObject.GetComponent<NavMeshAgent>();
@@ -46,9 +62,12 @@ public class EnemyAI : MonoBehaviour
     }
     void Update()
     {
-        Patrol();
-        TrackingPlayer();
-        AttackPlayer();
+        if (m_state != AnimationState.DEATH)
+        {
+            Patrol();
+            TrackingPlayer();
+            AttackPlayer();
+        }
 
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -57,10 +76,12 @@ public class EnemyAI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N))
         {
             m_animator.SetTrigger("GetHitNormal");
+            m_navMeshAgrnt.speed = 0;
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
             m_animator.SetTrigger("GetHitHard");
+            m_navMeshAgrnt.speed = 0;
         }
 
     }
@@ -93,6 +114,12 @@ public class EnemyAI : MonoBehaviour
                 DeathState();
                 break;
         }
+    }
+    private IEnumerator KillSelf()
+    {
+        yield return new WaitForSeconds(5);
+        Destroy(gameObject);
+        SendMessageUpwards("Death", gameObject);
     }
 
     /// <summary>
@@ -141,6 +168,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// 等待状态;
     /// </summary>
@@ -164,7 +192,8 @@ public class EnemyAI : MonoBehaviour
     {
         m_animator.SetBool("Run", true);
         m_state = AnimationState.ENTERRUN;
-        m_navMeshAgrnt.speed = 8;
+        m_navMeshAgrnt.speed = 6.5f;
+        m_navMeshAgrnt.enabled = true;
         m_navMeshAgrnt.SetDestination(m_player.position);
     }
     /// <summary>
@@ -175,6 +204,7 @@ public class EnemyAI : MonoBehaviour
         m_animator.SetBool("Run", false);
         SwitchState(AnimationState.WALK);
         m_navMeshAgrnt.speed = 0.8f;
+        m_navMeshAgrnt.enabled = true;
         m_navMeshAgrnt.SetDestination(m_navDir);
     }
     /// <summary>
@@ -203,10 +233,9 @@ public class EnemyAI : MonoBehaviour
 
         StartCoroutine(KillSelf());
     }
-    private IEnumerator KillSelf()
+    private void GetHitNormal()
     {
-        yield return new WaitForSeconds(5);
-        Destroy(gameObject);
-        SendMessageUpwards("Death", gameObject);
+        m_animator.SetTrigger("GetHitNormal");
+        m_navMeshAgrnt.enabled = false;
     }
 }

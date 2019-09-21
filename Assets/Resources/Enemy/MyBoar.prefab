@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4384978426985704}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4741204695135038}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Middle_Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4922825512648334}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Foot_Pole_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4331389732681870}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Tail_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4782519084058846}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Shin_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4238172927612510}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Foot_Pole_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4434051103914440}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Snout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4046921792118790}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Foot_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4696939840020836}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4039636075893148}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Foot_Pole_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4671769903371394}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Thigh_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4091171297038396}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Thigh_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4284874516174552}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Shin_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 33997655746486620}
   - component: {fileID: 136000535840812178}
   - component: {fileID: 23031774855140500}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_rb_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 33412564633385514}
   - component: {fileID: 136402356280473660}
   - component: {fileID: 23735946987219754}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_lb_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4831424389301240}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Foot_IK_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 95624264713791900}
   - component: {fileID: 114093399752551784}
   - component: {fileID: 195024019499135496}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: MyBoar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4569788460363680}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Foot_Pole_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 33258680509475502}
   - component: {fileID: 136102532818240034}
   - component: {fileID: 23086877548800360}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_rf_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 33607300360668778}
   - component: {fileID: 136074048681091786}
   - component: {fileID: 23887573336713458}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_rb_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,7 +334,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4118239031397764}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Shin_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 33334941496709146}
   - component: {fileID: 65450590282857188}
   - component: {fileID: 23154989289773382}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4598755924528380}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Foot_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 33103245939597806}
   - component: {fileID: 136713844940989676}
   - component: {fileID: 23862071606255578}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_rf_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,7 +400,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4013930745052998}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Foot_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,7 +415,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4509958517152700}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Shin_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,7 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4283586489467934}
   - component: {fileID: 137518497386203286}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Boar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +446,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4807445142274084}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Foot_IK_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4135197834586992}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Thigh_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +476,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4300827353993006}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Thigh_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4039980248453046}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 33191213605824260}
   - component: {fileID: 136410793683254038}
   - component: {fileID: 23591030826709692}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_lf_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,7 +524,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4832289946544904}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Back_Foot_IK_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -539,7 +539,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4042471378904208}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Foot_IK_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +554,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4238364215636016}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Front_Foot_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -569,7 +569,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4301071967022852}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Tail_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -587,7 +587,7 @@ GameObject:
   - component: {fileID: 33887601922085608}
   - component: {fileID: 65822262732938738}
   - component: {fileID: 23813904468978114}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -602,7 +602,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4084603527398858}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -620,7 +620,7 @@ GameObject:
   - component: {fileID: 33088575439643244}
   - component: {fileID: 136638938545458272}
   - component: {fileID: 23288936111101928}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_lb_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -635,7 +635,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4348612508058034}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -650,7 +650,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4287753485827530}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Tail_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 33761989993386028}
   - component: {fileID: 136768735142089520}
   - component: {fileID: 23095910627279732}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: collider_lf_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -683,7 +683,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4172139063795506}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Tail_IK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -876,7 +876,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1388225703240716}
-  m_LocalRotation: {x: 0.2975741, y: -0.2975741, z: -0.64144343, w: 0.6414434}
+  m_LocalRotation: {x: 0.29757413, y: -0.29757413, z: -0.6414435, w: 0.64144343}
   m_LocalPosition: {x: -0.54985297, y: 0.006999913, z: 0.29030365}
   m_LocalScale: {x: 0.51250005, y: 0.73654664, z: 1.0469512}
   m_Children: []

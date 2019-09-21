@@ -23,12 +23,22 @@ public class AssaultRifle : LikeGunControllerBase
             if (Hit.collider.GetComponent<BulletMark>() != null)
             {
                 Hit.collider.GetComponent<BulletMark>().CreateBulletMark(Hit);
-                Hit.collider.GetComponent<BulletMark>().M_HP -= Damage;
+                Hit.collider.GetComponent<BulletMark>().M_HP -= M_Damage;
             }
-            else
+            if (Hit.collider.GetComponentInParent<EnemyAI>() != null
+                && Hit.collider.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
+            {
+                GameObject temp = Instantiate(m_AssaultRifleView.Bullet_Prefab, Hit.point, Quaternion.identity);
+                temp.GetComponent<Transform>().SetParent(Hit.collider.gameObject.GetComponent<Transform>());
+                Hit.collider.GetComponentInParent<EnemyAI>().M_HP -= M_Damage;
+            }
+            if (Hit.collider.GetComponent<BulletMark>() == null && Hit.collider.GetComponentInParent<EnemyAI>() == null)
             {
                 Instantiate(m_AssaultRifleView.Bullet_Prefab, Hit.point, Quaternion.identity);
             }
+
+
+
         }
         Durable--;
     }
