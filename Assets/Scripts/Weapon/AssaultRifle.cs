@@ -25,20 +25,18 @@ public class AssaultRifle : LikeGunControllerBase
                 Hit.collider.GetComponent<BulletMark>().CreateBulletMark(Hit);
                 Hit.collider.GetComponent<BulletMark>().M_HP -= M_Damage;
             }
-            if (Hit.collider.GetComponentInParent<EnemyAI>() != null
-                && Hit.collider.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
+            if (Hit.collider.GetComponentInParent<EnemyAI>() != null)
             {
-                GameObject temp = Instantiate(m_AssaultRifleView.Bullet_Prefab, Hit.point, Quaternion.identity);
-                temp.GetComponent<Transform>().SetParent(Hit.collider.gameObject.GetComponent<Transform>());
-                Hit.collider.GetComponentInParent<EnemyAI>().M_HP -= M_Damage;
+                Hit.collider.GetComponentInParent<EnemyAI>().PlayEffect(Hit);
+                if (Hit.collider.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
+                {
+                    Hit.collider.GetComponentInParent<EnemyAI>().M_HP -= M_Damage;
+                }
             }
             if (Hit.collider.GetComponent<BulletMark>() == null && Hit.collider.GetComponentInParent<EnemyAI>() == null)
             {
                 Instantiate(m_AssaultRifleView.Bullet_Prefab, Hit.point, Quaternion.identity);
             }
-
-
-
         }
         Durable--;
     }
@@ -78,13 +76,14 @@ public class AssaultRifle : LikeGunControllerBase
     private void ShellAction()
     {
         GameObject tempShell = null;
-
-        if (pools[1].IsTemp())      //池空则实例化
+        //池空则实例化
+        if (pools[1].IsTemp())
         {
             tempShell = Instantiate(m_AssaultRifleView.Shell_Prefab, m_AssaultRifleView.M_ShellEffectPos.position
                 , Quaternion.identity, m_AssaultRifleView.AllShell_Parent);
         }
-        else        //重置池中对象
+        //重置池中对象
+        else
         {
             tempShell = pools[1].GetObject();
             tempShell.SetActive(true);

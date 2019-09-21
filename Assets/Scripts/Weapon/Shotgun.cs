@@ -37,10 +37,10 @@ public class Shotgun : LikeGunControllerBase
         GameObject bullet = Instantiate(m_ShotgunView.Bullet, m_ShotgunView.M_MuzzlePos.position
             , Quaternion.identity);
         ShotgunBullet sbt = bullet.GetComponent<ShotgunBullet>();
-        sbt.Flight(m_ShotgunView.M_MuzzlePos.forward, 6000, M_Damage / bulletCount);
+        sbt.Flight(m_ShotgunView.M_MuzzlePos.forward, 3000, M_Damage / bulletCount, Hit);
     }
     /// <summary>
-    /// 延迟销毁目标
+    /// 延迟销毁目标;
     /// </summary>
     private IEnumerator DelayDestroy(GameObject go, float time)
     {
@@ -48,14 +48,14 @@ public class Shotgun : LikeGunControllerBase
         Destroy(go);
     }
     /// <summary>
-    /// 拉栓音效
+    /// 拉栓音效,Event调用;
     /// </summary>
     public void ReLoadAudio()
     {
         AudioSource.PlayClipAtPoint(m_ShotgunView.ReLoad, m_ShotgunView.M_MuzzlePos.position);
     }
     /// <summary>
-    /// 弹壳出仓动作
+    /// 弹壳出仓动作,Event调用;
     /// </summary>
     public void ThrowShell()
     {

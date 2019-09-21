@@ -13,7 +13,7 @@ public class WoodenBow : GunControllerBase
     {
         GameObject arrow = Instantiate(m_woodenBowView.Arrow, m_woodenBowView.M_MuzzlePos.position
             , m_woodenBowView.M_MuzzlePos.rotation);
-        arrow.GetComponent<Arrow>().Flight(m_woodenBowView.M_MuzzlePos.forward, 3000, M_Damage);
+        arrow.GetComponent<Arrow>().Flight(m_woodenBowView.M_MuzzlePos.forward, 1500, M_Damage, Hit);
 
         Durable--;
     }

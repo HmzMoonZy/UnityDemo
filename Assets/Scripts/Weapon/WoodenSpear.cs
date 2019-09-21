@@ -13,7 +13,7 @@ public class WoodenSpear : GunControllerBase
     {
         GameObject spear = Instantiate(m_woodenSpearView.Spear, m_woodenSpearView.M_MuzzlePos.position
             , m_woodenSpearView.M_MuzzlePos.rotation);
-        spear.GetComponent<Arrow>().Flight(m_woodenSpearView.M_MuzzlePos.forward, 5000, M_Damage);
+        spear.GetComponent<Arrow>().Flight(m_woodenSpearView.M_MuzzlePos.forward, 3000, M_Damage, Hit);
 
         Durable--;
     }

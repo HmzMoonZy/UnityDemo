@@ -73,7 +73,7 @@ public abstract class GunControllerBase : MonoBehaviour
     /// </summary>
     private void ShootDetection()
     {
-        ray = new Ray(M_GunViewBase.M_MuzzlePos.position, M_GunViewBase.M_MuzzlePos.forward * 1000);
+        ray = new Ray(M_GunViewBase.M_MuzzlePos.position, M_GunViewBase.M_MuzzlePos.forward * 500);
         Debug.DrawRay(m_gunViewBase.M_MuzzlePos.position, m_gunViewBase.M_MuzzlePos.forward * 500, Color.red);
         if (Physics.Raycast(ray, out hit))       //11层:Env层
         {
@@ -109,8 +109,8 @@ public abstract class GunControllerBase : MonoBehaviour
 
     public virtual void MouseButtonDown0()
     {
-        m_gunViewBase.M_Animator.SetTrigger("Fire");
         Shot();
+        m_gunViewBase.M_Animator.SetTrigger("Fire");
         item.GetComponent<InventoryItemController>().UpdateBar(durable / totalDurable);
         PlayAudio();
     }

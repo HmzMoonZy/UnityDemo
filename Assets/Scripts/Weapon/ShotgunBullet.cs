@@ -9,39 +9,37 @@ public class ShotgunBullet : BulletBase
     private Ray ray;
     private RaycastHit hit;
 
-    public override void Init()
-    {
-    }
+    public override void Init() { }
 
-    public override void Flight(Vector3 dir, float force, int damage)
+    public override void Flight(Vector3 dir, float force, int damage, RaycastHit hit)
     {
-        //散射偏移量
-        Vector3 offset = new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), 0);
-        M_Rigidbody.AddForce((dir + offset) * force);
-
-        //生成贴图
-        ray = new Ray(M_Transform.position, dir + offset);
-        Physics.Raycast(ray, out hit, 1500, 1 << 11);
-        if (hit.collider != null && hit.collider.GetComponent<BulletMark>() != null)
-        {
-            hit.collider.GetComponent<BulletMark>().CreateBulletMark(hit);
-        }
         this.M_Demage = damage;
+        //散射偏移量
+        Vector3 offset = new Vector3(Random.Range(-0.08f, 0.08f), Random.Range(-0.06f, 0.06f), 0);
+        M_Rigidbody.AddForce((dir + offset) * force);
+        ray = new Ray(M_Transform.position, dir + offset);
     }
 
     public override void CollisionEnter(Collision collision)
     {
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Env"))
         {
+            Physics.Raycast(ray, out hit, 1000, 1 << 11);   //Env
             M_Rigidbody.Sleep();
-            DestroySelf();
-
+            hit.collider.GetComponent<BulletMark>().CreateBulletMark(hit);
             collision.gameObject.GetComponent<BulletMark>().M_HP -= M_Demage;
+            DestroySelf();
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
+            Physics.Raycast(ray, out hit, 1000, 1 << 12);    //Enemy
+            M_Rigidbody.Sleep();
+            collision.gameObject.GetComponentInParent<EnemyAI>().PlayEffect(hit);
             if (collision.gameObject.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
                 collision.gameObject.GetComponentInParent<EnemyAI>().M_HP -= M_Demage;
+            DestroySelf();
         }
+
     }
 }

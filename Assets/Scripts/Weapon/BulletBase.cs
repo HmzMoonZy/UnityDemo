@@ -41,7 +41,7 @@ public abstract class BulletBase : MonoBehaviour
     /// <summary>
     /// 子弹飞行
     /// </summary>
-    public abstract void Flight(Vector3 dir, float force, int damage);
+    public abstract void Flight(Vector3 dir, float force, int damage, RaycastHit hit);
     /// <summary>
     /// 碰撞方法
     /// </summary>

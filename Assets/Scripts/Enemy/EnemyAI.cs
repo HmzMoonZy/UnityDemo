@@ -20,11 +20,14 @@ public enum AnimationState
 public class EnemyAI : MonoBehaviour
 {
     private Transform m_transform;
-    private Transform m_player;             //玩家Transform       
     private NavMeshAgent m_navMeshAgrnt;
     private Animator m_animator;
+
+    private Transform m_player;             //玩家Transform       
     private Vector3 m_navDir;               //导航目标点
     private List<Vector3> m_navDirList;     //导航目标点列表
+
+    private GameObject m_bloodEffect;       //血液特效
 
     private AnimationState m_state = AnimationState.IDLE;
 
@@ -58,6 +61,8 @@ public class EnemyAI : MonoBehaviour
         m_animator = gameObject.GetComponent<Animator>();
         m_player = GameObject.Find("FPSController").GetComponent<Transform>();
 
+        m_bloodEffect = Resources.Load<GameObject>("Effects/Weapon/Bullet Impact FX_Flesh");
+
         m_navMeshAgrnt.SetDestination(m_navDir);
     }
     void Update()
@@ -69,20 +74,20 @@ public class EnemyAI : MonoBehaviour
             AttackPlayer();
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            DeathState();
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            m_animator.SetTrigger("GetHitNormal");
-            m_navMeshAgrnt.speed = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            m_animator.SetTrigger("GetHitHard");
-            m_navMeshAgrnt.speed = 0;
-        }
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    DeathState();
+        //}
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    m_animator.SetTrigger("GetHitNormal");
+        //    m_navMeshAgrnt.speed = 0;
+        //}
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    m_animator.SetTrigger("GetHitHard");
+        //    m_navMeshAgrnt.speed = 0;
+        //}
 
     }
     /// <summary>
@@ -115,7 +120,7 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
     }
-    private IEnumerator KillSelf()
+    private IEnumerator Death()
     {
         yield return new WaitForSeconds(5);
         Destroy(gameObject);
@@ -225,17 +230,31 @@ public class EnemyAI : MonoBehaviour
         m_navMeshAgrnt.enabled = true;
         SwitchState(AnimationState.ENTERRUN);
     }
+    /// <summary>
+    /// 死亡状态
+    /// </summary>
     private void DeathState()
     {
         m_state = AnimationState.DEATH;
         m_animator.SetTrigger("Death");
         m_navMeshAgrnt.enabled = false;
 
-        StartCoroutine(KillSelf());
+        StartCoroutine(Death());
     }
     private void GetHitNormal()
     {
         m_animator.SetTrigger("GetHitNormal");
         m_navMeshAgrnt.enabled = false;
+    }
+    private void GetHitHard()
+    {
+        m_animator.SetTrigger("GetHitHard");
+        m_navMeshAgrnt.enabled = false;
+    }
+
+    public void PlayEffect(RaycastHit hit)
+    {
+        GameObject effect = Instantiate<GameObject>(m_bloodEffect, hit.point, Quaternion.LookRotation(hit.normal));
+        Destroy(effect, 3);
     }
 }

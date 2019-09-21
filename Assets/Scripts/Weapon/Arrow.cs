@@ -15,10 +15,11 @@ public class Arrow : BulletBase
         pivot = M_Transform.Find("Pivot");
     }
 
-    public override void Flight(Vector3 dir, float force, int damage)
+    public override void Flight(Vector3 dir, float force, int damage, RaycastHit hit)
     {
         M_Rigidbody.AddForce(dir * force);
         this.M_Demage = damage;
+        this.hit = hit;
     }
     public override void CollisionEnter(Collision collision)
     {
@@ -37,6 +38,7 @@ public class Arrow : BulletBase
             Destroy(M_Rigidbody);
             Destroy(m_boxcollider);
             M_Transform.SetParent(collision.transform);
+            collision.gameObject.GetComponentInParent<EnemyAI>().PlayEffect(hit);
             StartCoroutine(ShakeAnimation());
             if (collision.gameObject.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
                 collision.gameObject.GetComponentInParent<EnemyAI>().M_HP -= M_Demage;
