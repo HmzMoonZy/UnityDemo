@@ -133,15 +133,18 @@ public class EnemyAI : MonoBehaviour
     {
         if (m_state == AnimationState.IDLE || m_state == AnimationState.WALK)
         {
-            if (Vector3.Distance(m_transform.position, m_navDir) < 1)
+            if (Vector3.Distance(m_transform.position, m_navDir) <= 1)
             {
-                SwitchState(AnimationState.IDLE);
                 int index = UnityEngine.Random.Range(0, m_navDirList.Count);
                 m_navDir = m_navDirList[index];
                 m_navMeshAgrnt.SetDestination(m_navDir);
+
+                SwitchState(AnimationState.IDLE);
             }
             else
+            {
                 SwitchState(AnimationState.WALK);
+            }
         }
     }
     /// <summary>
@@ -153,7 +156,10 @@ public class EnemyAI : MonoBehaviour
         {
             SwitchState(AnimationState.ENTERRUN);
         }
-        else SwitchState(AnimationState.EXITRUN);
+        else
+        {
+            SwitchState(AnimationState.EXITRUN);
+        }
     }
     /// <summary>
     /// 攻击玩家
@@ -196,7 +202,7 @@ public class EnemyAI : MonoBehaviour
     {
         m_animator.SetBool("Run", true);
         m_state = AnimationState.ENTERRUN;
-        m_navMeshAgrnt.speed = 6.5f;
+        m_navMeshAgrnt.speed = 5f;
         m_navMeshAgrnt.enabled = true;
         m_navMeshAgrnt.SetDestination(m_player.position);
     }
@@ -208,7 +214,7 @@ public class EnemyAI : MonoBehaviour
         m_animator.SetBool("Run", false);
         SwitchState(AnimationState.WALK);
         m_navMeshAgrnt.speed = 0.8f;
-        m_navMeshAgrnt.enabled = true;
+        //m_navMeshAgrnt.enabled = true;
         m_navMeshAgrnt.SetDestination(m_navDir);
     }
     /// <summary>
