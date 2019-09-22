@@ -84,6 +84,7 @@ public class BulletMark : MonoBehaviour
     {
         //生成特效
         CreateEffect(hit);
+        PlayAudio(hit);
         //获取碰撞点在主贴图上的纹理坐标(uv)；
         Vector2 uv = hit.textureCoord;
         //将uv信息添加进队列
@@ -126,6 +127,7 @@ public class BulletMark : MonoBehaviour
             temp.GetComponent<Transform>().position = hit.point;
             temp.GetComponent<Transform>().rotation = Quaternion.LookRotation(hit.normal);
         }
+
         temp.name = "bulletMarkEffect";
         StartCoroutine("DelayIntoPool", temp);
     }
@@ -160,4 +162,20 @@ public class BulletMark : MonoBehaviour
         m_prefab_indTexture.Apply();
     }
 
+    private void PlayAudio(RaycastHit hit)
+    {
+        switch (m_textureType)
+        {
+            case TextureType.Metal:
+                AudioManager._Instance.PlayAudioFormComponent(hit.collider.gameObject, ClipName.BulletImpactMetal);
+                break;
+            case TextureType.Stone:
+                AudioManager._Instance.PlayAudioFormComponent(hit.collider.gameObject, ClipName.BulletImpactStone);
+                break;
+            case TextureType.Wood:
+                AudioManager._Instance.PlayAudioFormComponent(hit.collider.gameObject, ClipName.BulletImpactWood);
+                break;
+        }
+
+    }
 }

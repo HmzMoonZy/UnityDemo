@@ -7,10 +7,17 @@ using UnityStandardAssets.Characters.FirstPerson;
 /// </summary>
 public class InputManager : MonoBehaviour
 {
+    public static InputManager _Instance;
+
     private bool m_inventoryPanelState = false;    //背包面板显示状态true:显示 fasle:隐藏
 
     private FirstPersonController m_fpsctrl;       //角色控制器
 
+
+    private void Awake()
+    {
+        _Instance = this;
+    }
     void Start()
     {
         InventoryPanelController._Instance.HidePanel();
@@ -21,10 +28,13 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         SwitchInventoryPanel();
-
         //仅背包隐藏时接受快捷栏按键
         if (!m_inventoryPanelState)
+        {
             GetToolBarKey();
+        }
+
+
 
     }
     /// <summary>

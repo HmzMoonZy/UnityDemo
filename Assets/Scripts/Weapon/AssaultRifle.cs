@@ -28,7 +28,7 @@ public class AssaultRifle : LikeGunControllerBase
             if (Hit.collider.GetComponentInParent<EnemyAI>() != null)
             {
                 Hit.collider.GetComponentInParent<EnemyAI>().PlayEffect(Hit);
-                if (Hit.collider.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
+                if (Hit.collider.GetComponentInParent<EnemyAI>().M_State != ActionState.DEATH)
                 {
                     if (Hit.collider.gameObject.name == "collider_head")
                         Hit.collider.gameObject.GetComponentInParent<EnemyAI>().GetHitHard(M_Damage * 2);

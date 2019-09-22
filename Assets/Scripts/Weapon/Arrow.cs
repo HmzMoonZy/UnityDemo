@@ -40,7 +40,7 @@ public class Arrow : BulletBase
             M_Transform.SetParent(collision.transform);
             collision.gameObject.GetComponentInParent<EnemyAI>().PlayEffect(hit);
             StartCoroutine(ShakeAnimation());
-            if (collision.gameObject.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
+            if (collision.gameObject.GetComponentInParent<EnemyAI>().M_State != ActionState.DEATH)
             {
                 if (collision.gameObject.name == "collider_head")
                     collision.gameObject.GetComponentInParent<EnemyAI>().GetHitHard(M_Demage * 2);
