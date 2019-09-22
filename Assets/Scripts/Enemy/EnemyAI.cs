@@ -63,9 +63,9 @@ public class EnemyAI : MonoBehaviour
         m_animator = gameObject.GetComponent<Animator>();
         m_player = GameObject.Find("FPSController").GetComponent<Transform>();
         m_playerCtrl = m_player.GetComponent<PlayerController>();
+        m_playerCtrl.GameOverDel += Homing;
 
         m_bloodEffect = Resources.Load<GameObject>("Effects/Weapon/Bullet Impact FX_Flesh");
-
         m_navMeshAgrnt.SetDestination(m_navDir);
     }
     void Update()
@@ -172,7 +172,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (m_state == ActionState.ENTERRUN)
         {
-            if (Vector3.Distance(m_transform.position, m_player.position) <= 2.1f)
+            if (Vector3.Distance(m_transform.position, m_player.position) <= 2.3f)
             {
                 SwitchState(ActionState.ENTERATTACK);
             }
@@ -218,7 +218,7 @@ public class EnemyAI : MonoBehaviour
         m_animator.SetBool("Run", false);
         SwitchState(ActionState.WALK);
         m_navMeshAgrnt.speed = 0.8f;
-        //m_navMeshAgrnt.enabled = true;
+        m_navMeshAgrnt.enabled = true;
         m_navMeshAgrnt.SetDestination(m_navDir);
     }
     /// <summary>
@@ -309,5 +309,18 @@ public class EnemyAI : MonoBehaviour
         {
             AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.ZombieAttack);
         }
+    }
+    /// <summary>
+    /// 玩家死亡后归位
+    /// </summary>
+    private void Homing()
+    {
+        SwitchState(ActionState.WALK);
+        m_state = ActionState.DEATH;
+        m_animator.SetBool("Attack", false);
+        m_animator.SetBool("Run", false);
+        m_navMeshAgrnt.enabled = true;
+        m_navMeshAgrnt.speed = 0.8f;
+        m_navMeshAgrnt.SetDestination(m_navDir);
     }
 }

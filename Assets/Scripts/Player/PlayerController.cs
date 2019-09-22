@@ -2,24 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
-
+using UnityEngine.SceneManagement;
+/// <summary>
+/// 游戏结束委托
+/// </summary>
+public delegate void GameOverDelegate();
 /// <summary>
 /// 角色控制器
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
     private Transform m_transform;
-    private FirstPersonController m_fpsCtrl;  //第一人称角色控制器
-    private PlayerInfoPanel m_infoPanel;      //UI管理器
-    private BloodScreen m_bloodScreen;        //屏幕血液效果管理器
+    private FirstPersonController m_fpsCtrl;    //第一人称角色控制器
+    private PlayerInfoPanel m_infoPanel;        //玩家UI管理器
+    private BloodScreen m_bloodScreen;          //屏幕血液效果管理器
 
-    private bool m_isBrethPlay = false;       //呼吸声是否正在播放
+    private bool m_isBrethPlay = false;         //呼吸声是否正在播放
     private AudioSource m_audioSource;
 
     private int m_hp = 1000;
     private int m_vit = 100;
-
-    private float vitTimecount = 0;         //vit削减计时器
+    private float vitTimecount = 0;             //vit计时器
+    private bool isDeath = false;               //玩家死亡标识位
+    public event GameOverDelegate GameOverDel;  //游戏结束事件
     void Start()
     {
         //组件查找
@@ -46,7 +51,16 @@ public class PlayerController : MonoBehaviour
         m_hp -= damage;
         AudioManager._Instance.PlayAudioAtPos(ClipName.PlayerHurt, m_transform.position);
         m_infoPanel.FixUI(m_hp, m_vit);
-        m_bloodScreen.SetBloodScreen(m_hp / 1000f);
+        if (m_hp > 0)
+        {
+            AudioManager._Instance.PlayAudioAtPos(ClipName.PlayerHurt, m_transform.position);
+            m_infoPanel.FixUI(m_hp, m_vit);
+            m_bloodScreen.SetBloodScreen(m_hp / 1000f);
+        }
+        else
+        {
+            GameOver();
+        }
 
     }
     /// <summary>
@@ -94,6 +108,7 @@ public class PlayerController : MonoBehaviour
                 vitTimecount = 0;
             }
         }
+        //触发播放呼吸声;
         if (m_vit < 50 && !m_isBrethPlay)
         {
             m_isBrethPlay = true;
@@ -104,7 +119,9 @@ public class PlayerController : MonoBehaviour
             m_isBrethPlay = false;
             m_audioSource.Stop();
         }
+        //更新UI;
         m_infoPanel.FixUI(m_hp, m_vit);
+        //更新玩家速度;
         FixSpeed();
     }
     /// <summary>
@@ -133,10 +150,24 @@ public class PlayerController : MonoBehaviour
         m_fpsCtrl.M_RunSpeed = 10 * (0.01f * m_vit);
         m_fpsCtrl.M_WalkSpeed = 5 * (0.01f * m_vit);
     }
-
+    /// <summary>
+    /// 游戏结束(玩家死亡);
+    /// </summary>
     private void GameOver()
     {
-
+        if (isDeath)
+        {
+            AudioSource temp = AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.PlayerDeath, true, false);
+        }
+        m_fpsCtrl.enabled = false;
+        InputManager._Instance.MainSwitch = false;
+        GameOverDel();
+        //Destroy(gameObject);
+        StartCoroutine(ResetScene());
     }
-
+    private IEnumerator ResetScene()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("ResetScene");
+    }
 }
