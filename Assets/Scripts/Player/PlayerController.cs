@@ -160,7 +160,6 @@ public class PlayerController : MonoBehaviour
             AudioSource temp = AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.PlayerDeath, true, false);
         }
         m_fpsCtrl.enabled = false;
-        InputManager._Instance.MainSwitch = false;
         GameOverDel();
         //Destroy(gameObject);
         StartCoroutine(ResetScene());

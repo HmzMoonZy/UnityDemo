@@ -8,7 +8,6 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class InputManager : MonoBehaviour
 {
     public static InputManager _Instance;
-    public bool MainSwitch { get; set; }
 
     private bool m_inventoryPanelState = false;    //背包面板显示状态true:显示 fasle:隐藏
 
@@ -29,15 +28,12 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         SwitchInventoryPanel();
-
-        if (MainSwitch)
+        //仅背包隐藏时接受快捷栏按键
+        if (!m_inventoryPanelState)
         {
-            //仅背包隐藏时接受快捷栏按键
-            if (!m_inventoryPanelState)
-            {
-                GetToolBarKey();
-            }
+            GetToolBarKey();
         }
+
 
 
     }
