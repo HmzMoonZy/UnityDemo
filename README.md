@@ -30,8 +30,6 @@
 >![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E5%87%BB%E6%9D%80%E6%95%8C%E4%BA%BADEMO.gif?raw=true)
 >### 玩家受到伤害演示
 >![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E4%B8%BB%E8%A7%92%E5%8F%97%E4%BC%A4DEMO.gif?raw=true)
->### 玩家受到伤害演示
->![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E4%B8%BB%E8%A7%92%E5%8F%97%E4%BC%A4DEMO.gif?raw=true)
 >### 游戏结束敌人归位演示
 >![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E6%B8%B8%E6%88%8F%E7%BB%93%E6%9D%9F%E5%8F%8A%E9%87%8D%E6%96%B0%E5%BC%80%E5%A7%8BDEMO.gif?raw=true)
 
