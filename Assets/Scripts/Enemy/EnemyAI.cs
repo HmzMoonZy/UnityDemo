@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public enum AnimationState
+public enum ActionState
 {
     IDLE,
     WALK,
@@ -24,12 +24,13 @@ public class EnemyAI : MonoBehaviour
     private Animator m_animator;
 
     private Transform m_player;             //玩家Transform       
+    private PlayerController m_playerCtrl;  //玩家控制器
     private Vector3 m_navDir;               //导航目标点
     private List<Vector3> m_navDirList;     //导航目标点列表
 
     private GameObject m_bloodEffect;       //血液特效
 
-    private AnimationState m_state = AnimationState.IDLE;
+    private ActionState m_state = ActionState.IDLE;
 
     //游戏数值
     private int m_helthPoint;
@@ -38,7 +39,7 @@ public class EnemyAI : MonoBehaviour
     //属性
     public Vector3 M_NavDir { get { return m_navDir; } set { m_navDir = value; } }
     public List<Vector3> M_NavDirList { get { return m_navDirList; } set { m_navDirList = value; } }
-    public AnimationState M_State { get { return m_state; } set { m_state = value; } }
+    public ActionState M_State { get { return m_state; } set { m_state = value; } }
 
     public int M_HP
     {
@@ -59,6 +60,7 @@ public class EnemyAI : MonoBehaviour
         m_navMeshAgrnt = gameObject.GetComponent<NavMeshAgent>();
         m_animator = gameObject.GetComponent<Animator>();
         m_player = GameObject.Find("FPSController").GetComponent<Transform>();
+        m_playerCtrl = m_player.GetComponent<PlayerController>();
 
         m_bloodEffect = Resources.Load<GameObject>("Effects/Weapon/Bullet Impact FX_Flesh");
 
@@ -66,7 +68,7 @@ public class EnemyAI : MonoBehaviour
     }
     void Update()
     {
-        if (m_state != AnimationState.DEATH)
+        if (m_state != ActionState.DEATH)
         {
             Patrol();
             TrackingPlayer();
@@ -92,29 +94,29 @@ public class EnemyAI : MonoBehaviour
     /// <summary>
     /// 切换状态
     /// </summary>
-    private void SwitchState(AnimationState state)
+    private void SwitchState(ActionState state)
     {
         switch (state)
         {
-            case AnimationState.IDLE:
+            case ActionState.IDLE:
                 IdleState();
                 break;
-            case AnimationState.WALK:
+            case ActionState.WALK:
                 WalkState();
                 break;
-            case AnimationState.ENTERRUN:
+            case ActionState.ENTERRUN:
                 EnterRunState();
                 break;
-            case AnimationState.EXITRUN:
+            case ActionState.EXITRUN:
                 ExitRunState();
                 break;
-            case AnimationState.ENTERATTACK:
+            case ActionState.ENTERATTACK:
                 EnterAttackState();
                 break;
-            case AnimationState.EXITATTACK:
+            case ActionState.EXITATTACK:
                 ExitAttackState();
                 break;
-            case AnimationState.DEATH:
+            case ActionState.DEATH:
                 DeathState();
                 break;
         }
@@ -131,7 +133,7 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     private void Patrol()
     {
-        if (m_state == AnimationState.IDLE || m_state == AnimationState.WALK)
+        if (m_state == ActionState.IDLE || m_state == ActionState.WALK)
         {
             if (Vector3.Distance(m_transform.position, m_navDir) <= 1)
             {
@@ -139,11 +141,11 @@ public class EnemyAI : MonoBehaviour
                 m_navDir = m_navDirList[index];
                 m_navMeshAgrnt.SetDestination(m_navDir);
 
-                SwitchState(AnimationState.IDLE);
+                SwitchState(ActionState.IDLE);
             }
             else
             {
-                SwitchState(AnimationState.WALK);
+                SwitchState(ActionState.WALK);
             }
         }
     }
@@ -154,11 +156,11 @@ public class EnemyAI : MonoBehaviour
     {
         if (Vector3.Distance(m_transform.position, m_player.position) <= 20)
         {
-            SwitchState(AnimationState.ENTERRUN);
+            SwitchState(ActionState.ENTERRUN);
         }
         else
         {
-            SwitchState(AnimationState.EXITRUN);
+            SwitchState(ActionState.EXITRUN);
         }
     }
     /// <summary>
@@ -166,15 +168,15 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     private void AttackPlayer()
     {
-        if (m_state == AnimationState.ENTERRUN)
+        if (m_state == ActionState.ENTERRUN)
         {
-            if (Vector3.Distance(m_transform.position, m_player.position) <= 2.5f)
+            if (Vector3.Distance(m_transform.position, m_player.position) <= 2.1f)
             {
-                SwitchState(AnimationState.ENTERATTACK);
+                SwitchState(ActionState.ENTERATTACK);
             }
             else
             {
-                SwitchState(AnimationState.EXITATTACK);
+                SwitchState(ActionState.EXITATTACK);
             }
         }
     }
@@ -185,7 +187,7 @@ public class EnemyAI : MonoBehaviour
     private void IdleState()
     {
         m_animator.SetBool("walk", false);
-        m_state = AnimationState.IDLE;
+        m_state = ActionState.IDLE;
     }
     /// <summary>
     /// 行走状态;
@@ -193,7 +195,7 @@ public class EnemyAI : MonoBehaviour
     private void WalkState()
     {
         m_animator.SetBool("Walk", true);
-        m_state = AnimationState.WALK;
+        m_state = ActionState.WALK;
     }
     /// <summary>
     /// 进入奔跑状态;
@@ -201,7 +203,7 @@ public class EnemyAI : MonoBehaviour
     private void EnterRunState()
     {
         m_animator.SetBool("Run", true);
-        m_state = AnimationState.ENTERRUN;
+        m_state = ActionState.ENTERRUN;
         m_navMeshAgrnt.speed = 5f;
         m_navMeshAgrnt.enabled = true;
         m_navMeshAgrnt.SetDestination(m_player.position);
@@ -212,7 +214,7 @@ public class EnemyAI : MonoBehaviour
     private void ExitRunState()
     {
         m_animator.SetBool("Run", false);
-        SwitchState(AnimationState.WALK);
+        SwitchState(ActionState.WALK);
         m_navMeshAgrnt.speed = 0.8f;
         //m_navMeshAgrnt.enabled = true;
         m_navMeshAgrnt.SetDestination(m_navDir);
@@ -224,7 +226,7 @@ public class EnemyAI : MonoBehaviour
     {
         m_animator.SetBool("Attack", true);
         m_navMeshAgrnt.enabled = false;
-        m_state = AnimationState.ENTERATTACK;
+        m_state = ActionState.ENTERATTACK;
     }
     /// <summary>
     /// 退出攻击状态;
@@ -233,14 +235,14 @@ public class EnemyAI : MonoBehaviour
     {
         m_animator.SetBool("Attack", false);
         m_navMeshAgrnt.enabled = true;
-        SwitchState(AnimationState.ENTERRUN);
+        SwitchState(ActionState.ENTERRUN);
     }
     /// <summary>
     /// 死亡状态
     /// </summary>
     private void DeathState()
     {
-        m_state = AnimationState.DEATH;
+        m_state = ActionState.DEATH;
         m_animator.SetTrigger("Death");
         m_navMeshAgrnt.enabled = false;
 
@@ -251,7 +253,7 @@ public class EnemyAI : MonoBehaviour
         m_animator.SetTrigger("GetHitNormal");
         M_HP -= damage;
         m_navMeshAgrnt.enabled = false;
-        Debug.Log("命中! 造成了" + damage + "的伤害" );
+        Debug.Log("命中! 造成了" + damage + "的伤害");
     }
     public void GetHitHard(int damage)
     {
@@ -265,5 +267,10 @@ public class EnemyAI : MonoBehaviour
     {
         GameObject effect = Instantiate<GameObject>(m_bloodEffect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(effect, 3);
+    }
+
+    public void AttackPleyer()
+    {
+        m_playerCtrl.CutPlayerHp(m_attackPoint);
     }
 }

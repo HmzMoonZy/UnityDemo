@@ -34,7 +34,7 @@ public class ShotgunBullet : BulletBase
             Physics.Raycast(ray, out hit, 1000, 1 << 12);    //Enemy
             M_Rigidbody.Sleep();
             collision.gameObject.GetComponentInParent<EnemyAI>().PlayEffect(hit);
-            if (collision.gameObject.GetComponentInParent<EnemyAI>().M_State != AnimationState.DEATH)
+            if (collision.gameObject.GetComponentInParent<EnemyAI>().M_State != ActionState.DEATH)
             {
                 if (collision.gameObject.name == "collider_head")
                     collision.gameObject.GetComponentInParent<EnemyAI>().GetHitHard(M_Demage * 2);

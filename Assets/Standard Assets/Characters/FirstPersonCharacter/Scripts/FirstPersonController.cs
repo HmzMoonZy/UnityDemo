@@ -3,7 +3,12 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
-
+public enum PlayerState
+{
+    WALK,
+    RUN,
+    IDLE
+}
 namespace UnityStandardAssets.Characters.FirstPerson
 {
     [RequireComponent(typeof (CharacterController))]
@@ -41,6 +46,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+
+        //当前角色行动状态
+        private PlayerState m_state;
+        public PlayerState M_State { get { return m_state; } set { m_state = value; } }
+
+        //速度属性
+        public float M_WalkSpeed { get { return m_WalkSpeed; } set { m_WalkSpeed = value; } }
+        public float M_RunSpeed { get { return m_RunSpeed; } set { m_RunSpeed = value; } }
 
         // Use this for initialization
         private void Start()
@@ -231,6 +244,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 StopAllCoroutines();
                 StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
             }
+
+            //Debug.Log("iswalk:" + m_IsWalking + "||h:" + horizontal+ "||v:" + vertical );
+            if (horizontal == 0 && vertical == 0)
+            {
+                m_state = PlayerState.IDLE;
+            }
+            else if (m_IsWalking == true)
+            {
+                m_state = PlayerState.WALK;
+            }
+            else
+            {
+                m_state = PlayerState.RUN;
+            }
+            //Debug.Log(m_state);
+
         }
 
 
