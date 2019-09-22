@@ -47,15 +47,15 @@
 >+ 命中目标后对目标贴图进行贴图融合及反融合，同一预制体独立贴图。
 >+ 武器耐久度UI的更新。
 >### 武器切换动画演示:
->![logic](https://github.com/HmzMoonZy/UnityDemo/blob/doc/document/%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2Demo.gif?raw=true)
+>![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E6%AD%A6%E5%99%A8%E5%88%87%E6%8D%A2Demo.gif?raw=true)
 >### 武器开火及弹痕生成演示:
->![logic](https://github.com/HmzMoonZy/UnityDemo/blob/doc/document/%E6%9E%AA%E6%A2%B0%E5%BC%80%E7%81%AB%E5%BC%B9%E7%97%95Demo.gif?raw=true)
+>![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E6%9E%AA%E6%A2%B0%E5%BC%80%E7%81%AB%E5%BC%B9%E7%97%95Demo.gif?raw=true)
 >### 耐久度UI演示:
->![logic](https://github.com/HmzMoonZy/UnityDemo/blob/doc/document/%E8%80%90%E4%B9%85%E5%BA%A6%E6%9D%A1%E9%80%BB%E8%BE%91Demo.gif?raw=true)
+>![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E8%80%90%E4%B9%85%E5%BA%A6%E6%9D%A1%E9%80%BB%E8%BE%91Demo.gif?raw=true)
 >### 冷兵器开火动画演示:
->![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E5%86%B7%E5%85%B5%E5%99%A8%E5%BC%80%E7%81%AB%E5%8A%A8%E7%94%BBDemo.gif)
+>![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E5%86%B7%E5%85%B5%E5%99%A8%E5%BC%80%E7%81%AB%E5%8A%A8%E7%94%BBDemo.gif?raw=true)
 >### 结构图
->![logic](https://github.com/HmzMoonZy/UnityDemo/blob/doc/document/%E5%B7%A5%E5%85%B7%E6%A0%8F%E5%8F%8A%E6%9E%AA%E6%A2%B0%E6%A8%A1%E5%9D%97%E9%80%BB%E8%BE%91%E5%9B%BE.png)
+>![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E5%B7%A5%E5%85%B7%E6%A0%8F%E5%8F%8A%E6%9E%AA%E6%A2%B0%E6%A8%A1%E5%9D%97%E9%80%BB%E8%BE%91%E5%9B%BE.png?raw=true)
     
 
 
@@ -67,9 +67,9 @@
 >+ 物体的拖拽功能及拖拽目标的判定逻辑。
 >+ 合成物品后的数值计算。
 >### 合成模块演示:
->![logic](https://github.com/HmzMoonZy/UnityDemo/blob/doc/document/%E5%90%88%E6%88%90%E6%A8%A1%E5%9D%97Demo.gif?raw=true)
+>![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E5%90%88%E6%88%90%E6%A8%A1%E5%9D%97Demo.gif?raw=true)
 >### 结构图
->![logic](https://github.com/HmzMoonZy/UnityDemo/blob/doc/document/%E8%83%8C%E5%8C%85%E9%9D%A2%E6%9D%BF%E5%90%88%E6%88%90%E9%9D%A2%E6%9D%BF%E9%80%BB%E8%BE%91%E5%9B%BE.png)
+>![logic](https://github.com/HmzMoonZy/UnityDemo/blob/master/document/%E8%83%8C%E5%8C%85%E9%9D%A2%E6%9D%BF%E5%90%88%E6%88%90%E9%9D%A2%E6%9D%BF%E9%80%BB%E8%BE%91%E5%9B%BE.png?raw=true)
  # **已知BUG**
 >+ 背包面板内的ItemUI覆盖不完整，导致背包内图片有可能添加在同一物品槽内。
 >+ 拆分物品的数值重置不完整,导致合成时在背包内对物体的拆分操作无法正常判断数值。
