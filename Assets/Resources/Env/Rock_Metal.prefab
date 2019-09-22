@@ -108,8 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c52d48af5f9d11428c3818a74c7d91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textureType: 0
-  hp: 800
+  m_textureType: 0
+  m_hp: 1000
 --- !u!114 &114477797088468480
 MonoBehaviour:
   m_ObjectHideFlags: 1

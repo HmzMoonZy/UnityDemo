@@ -13,10 +13,13 @@ public class PlayerController : MonoBehaviour
     private PlayerInfoPanel m_infoPanel;      //UI管理器
     private BloodScreen m_bloodScreen;        //屏幕血液效果管理器
 
+    private bool m_isBrethPlay = false;       //呼吸声是否正在播放
+    private AudioSource m_audioSource;
+
     private int m_hp = 1000;
     private int m_vit = 100;
 
-    private float vitTimecount = 0;        //vit削减计时器
+    private float vitTimecount = 0;         //vit削减计时器
     void Start()
     {
         //组件查找
@@ -24,6 +27,8 @@ public class PlayerController : MonoBehaviour
         m_fpsCtrl = gameObject.GetComponent<FirstPersonController>();
         m_infoPanel = GameObject.Find("Canvas/PlayerInfoPanel").GetComponent<PlayerInfoPanel>();
         m_bloodScreen = GameObject.Find("Canvas/BloodScreen").GetComponent<BloodScreen>();
+        m_audioSource = AudioManager._Instance.PlayAudioFormComponent(gameObject
+            , ClipName.PlayerBreathingHeavy, false, true);
 
         StartCoroutine(AutoRegainVit());
         StartCoroutine(AutoRegainHp());
@@ -39,8 +44,32 @@ public class PlayerController : MonoBehaviour
     public void CutPlayerHp(int damage)
     {
         m_hp -= damage;
+        AudioManager._Instance.PlayAudioAtPos(ClipName.PlayerHurt, m_transform.position);
         m_infoPanel.FixUI(m_hp, m_vit);
         m_bloodScreen.SetBloodScreen(m_hp / 1000f);
+
+    }
+    /// <summary>
+    /// 自动恢复生命
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator AutoRegainHp()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            if (m_hp < 1000 && m_fpsCtrl.M_State == PlayerState.IDLE)
+            {
+                m_hp += 10;
+                m_infoPanel.FixUI(m_hp, m_vit);
+                m_bloodScreen.SetBloodScreen(m_hp / 1000f);
+                if (m_hp >= 1000)
+                {
+                    m_hp = 1000;
+                    m_bloodScreen.SetBloodScreen(m_hp / 1000f);
+                }
+            }
+        }
     }
     /// <summary>
     /// 削减体力值;
@@ -65,6 +94,16 @@ public class PlayerController : MonoBehaviour
                 vitTimecount = 0;
             }
         }
+        if (m_vit < 50 && !m_isBrethPlay)
+        {
+            m_isBrethPlay = true;
+            m_audioSource.Play();
+        }
+        if (m_vit >= 50)
+        {
+            m_isBrethPlay = false;
+            m_audioSource.Stop();
+        }
         m_infoPanel.FixUI(m_hp, m_vit);
         FixSpeed();
     }
@@ -85,24 +124,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    private IEnumerator AutoRegainHp()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(2);
-            if (m_hp < 1000 && m_fpsCtrl.M_State == PlayerState.IDLE)
-            {
-                m_hp += 100;
-                m_infoPanel.FixUI(m_hp, m_vit);
-                m_bloodScreen.SetBloodScreen(m_hp / 1000f);
-                if (m_hp >= 1000)
-                {
-                    m_hp = 1000;
-                    m_bloodScreen.SetBloodScreen(m_hp / 1000f);
-                }
-            }
-        }
-    }
+
     /// <summary>
     /// 速度修正;
     /// </summary>
@@ -111,4 +133,10 @@ public class PlayerController : MonoBehaviour
         m_fpsCtrl.M_RunSpeed = 10 * (0.01f * m_vit);
         m_fpsCtrl.M_WalkSpeed = 5 * (0.01f * m_vit);
     }
+
+    private void GameOver()
+    {
+
+    }
+
 }

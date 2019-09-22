@@ -22,14 +22,15 @@ public class EnemyAI : MonoBehaviour
     private Transform m_transform;
     private NavMeshAgent m_navMeshAgrnt;
     private Animator m_animator;
-
     private Transform m_player;             //玩家Transform       
     private PlayerController m_playerCtrl;  //玩家控制器
+
     private Vector3 m_navDir;               //导航目标点
     private List<Vector3> m_navDirList;     //导航目标点列表
 
     private GameObject m_bloodEffect;       //血液特效
 
+    private EnemyType m_type;
     private ActionState m_state = ActionState.IDLE;
 
     //游戏数值
@@ -40,6 +41,7 @@ public class EnemyAI : MonoBehaviour
     public Vector3 M_NavDir { get { return m_navDir; } set { m_navDir = value; } }
     public List<Vector3> M_NavDirList { get { return m_navDirList; } set { m_navDirList = value; } }
     public ActionState M_State { get { return m_state; } set { m_state = value; } }
+    public EnemyType M_Type { get { return m_type; } set { m_type = value; } }
 
     public int M_HP
     {
@@ -246,6 +248,15 @@ public class EnemyAI : MonoBehaviour
         m_animator.SetTrigger("Death");
         m_navMeshAgrnt.enabled = false;
 
+        if (m_type == EnemyType.BOAR)
+        {
+            AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.BoarDeath);
+        }
+        if (m_type == EnemyType.CANNIBAL)
+        {
+            AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.ZombieDeath);
+        }
+
         StartCoroutine(Death());
     }
     public void GetHitNormal(int damage)
@@ -253,14 +264,32 @@ public class EnemyAI : MonoBehaviour
         m_animator.SetTrigger("GetHitNormal");
         M_HP -= damage;
         m_navMeshAgrnt.enabled = false;
-        Debug.Log("命中! 造成了" + damage + "的伤害");
+        //Debug.Log("命中! 造成了" + damage + "的伤害");
+
+        if (m_type == EnemyType.BOAR)
+        {
+            AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.BoarInjured);
+        }
+        if (m_type == EnemyType.CANNIBAL)
+        {
+            AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.ZombieInjured);
+        }
     }
     public void GetHitHard(int damage)
     {
         m_animator.SetTrigger("GetHitHard");
         M_HP -= damage;
-        Debug.Log("命中头部! 造成了" + damage + "的伤害");
         m_navMeshAgrnt.enabled = false;
+        //Debug.Log("命中头部! 造成了" + damage + "的伤害");
+
+        if (m_type == EnemyType.BOAR)
+        {
+            AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.BoarInjured);
+        }
+        if (m_type == EnemyType.CANNIBAL)
+        {
+            AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.ZombieInjured);
+        }
     }
 
     public void PlayEffect(RaycastHit hit)
@@ -272,5 +301,13 @@ public class EnemyAI : MonoBehaviour
     public void AttackPleyer()
     {
         m_playerCtrl.CutPlayerHp(m_attackPoint);
+        if (m_type == EnemyType.BOAR)
+        {
+            AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.BoarAttack);
+        }
+        if (m_type == EnemyType.CANNIBAL)
+        {
+            AudioManager._Instance.PlayAudioFormComponent(gameObject, ClipName.ZombieAttack);
+        }
     }
 }

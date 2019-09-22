@@ -74,6 +74,8 @@ public class EnemyManager : MonoBehaviour
             tempEnemy.GetComponentInParent<EnemyAI>().M_HP = hp;
             tempEnemy.GetComponentInParent<EnemyAI>().M_AP = attack;
 
+            tempEnemy.GetComponentInParent<EnemyAI>().M_Type = type;
+
             m_enemys.Add(tempEnemy);
 
 
@@ -108,6 +110,7 @@ public class EnemyManager : MonoBehaviour
             tempEnemy.GetComponentInParent<EnemyAI>().M_HP = 200;
             tempEnemy.GetComponentInParent<EnemyAI>().M_AP = 10;
         }
+        tempEnemy.GetComponentInParent<EnemyAI>().M_Type = type;
 
         //初始化巡逻点
         tempEnemy.GetComponent<EnemyAI>().M_NavDir = m_list_navPos[index];
